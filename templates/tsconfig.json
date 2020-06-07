@@ -1,3 +1,0 @@
-{
-  "extends": "@jakzo/project/dist/config/tsconfig.json"
-}

@@ -1,6 +1,6 @@
 {
   "name": "@jakzo/project",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Javascript project boilerplate in a box.",
   "main": "./dist/index.js",
   "keywords": [
@@ -10,16 +10,21 @@
   "author": "Jack Field <jack@jf.id.au>",
   "license": "MIT",
   "scripts": {
+    "=== Generated Scripts (do not modify) ===": "",
     "build": "tsc",
+    "build:watch": "yarn build -w",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:fix": "yarn lint:eslint --fix && yarn lint:prettier --write",
     "lint:eslint": "eslint --ext js,jsx,ts,tsx ./",
     "lint:prettier": "prettier -c \"./**/*{.json,.md}\"",
     "test": "yarn lint && yarn test:jest",
     "test:jest": "jest",
+    "=== (end generated scripts) ===": "",
+    "": "",
     "example": "cd ./__example__ && ts-node -P ../tsconfig.json ../src/bin/project.ts",
     "postinstall": "node ./dist/bin/project.js",
-    "setup": "node ./scripts/setup.js"
+    "setup": "node ./scripts/setup.js",
+    "regenerate-config": "yarn build && yarn postinstall"
   },
   "dependencies": {
     "@jest/types": "^26.0.1",
@@ -45,7 +50,8 @@
     "@types/eslint": "^6.8.1",
     "@types/fs-extra": "^9.0.1",
     "@types/prettier": "^2.0.1",
-    "ts-node": "^8.10.2"
+    "ts-node": "^8.10.2",
+    "type-fest": "^0.15.0"
   },
   "repository": "git@bitbucket.org:atlassian/incredible-monorepo.git",
   "homepage": "https://bitbucket.org/atlassian/incredible-monorepo/src/master/src/packages/standalone/ts-dev"
