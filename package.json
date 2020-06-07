@@ -10,13 +10,16 @@
   "author": "Jack Field <jack@jf.id.au>",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:fix": "yarn lint:eslint --fix && yarn lint:prettier --write",
     "lint:eslint": "eslint --ext js,jsx,ts,tsx ./",
     "lint:prettier": "prettier -c \"./**/*{.json,.md}\"",
     "test": "yarn lint && yarn test:jest",
     "test:jest": "jest",
-    "example": "cd ./__example__ && ts-node -P ../tsconfig.json ../src/bin/project.ts"
+    "example": "cd ./__example__ && ts-node -P ../tsconfig.json ../src/bin/project.ts",
+    "postinstall": "node ./dist/bin/project.js",
+    "setup": "node ./scripts/setup.js"
   },
   "dependencies": {
     "@jest/types": "^26.0.1",
