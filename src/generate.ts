@@ -2,9 +2,9 @@ import path from 'path';
 
 import fse from 'fs-extra';
 import * as prettier from 'prettier';
-import { PackageJson } from 'type-fest';
 
 import tsconfig from './config/tsconfig.json';
+import { PackageJson, ProjectInfo } from './types';
 
 interface IgnoreCategory {
   heading: string;
@@ -64,6 +64,7 @@ export const generateIgnored = () =>
         'tsconfig.json',
         'tsconfig.eslint.json',
         '.nvmrc',
+        '.vscode',
       ],
       overrides: ['.gitignore'],
     },
@@ -75,6 +76,14 @@ export const generateIgnored = () =>
   });
 
 export type IgnoredFiles = ReturnType<typeof generateIgnored>;
+
+export const getProjectInfo = (packageJson: PackageJson): ProjectInfo => {
+  const { project: { srcDirs = ['./src/'], testFilePatterns = ['__*__'] } = {} } = packageJson;
+  return {
+    srcDirs,
+    testFilePatterns,
+  };
+};
 
 export const getIgnoredFromGitignore = async (gitignorePath: string) => {
   const contents = await fse.readFile(gitignorePath, 'utf8');
@@ -169,6 +178,7 @@ ${patterns.join('\n')}`,
 // TODO: How could we get source, test and other runtime file patterns from .gitignore?
 export const generateNpmignore = (
   ignoredFiles: IgnoredFiles,
+  projectInfo: ProjectInfo,
 ) => `# Ignore all files and make exceptions only for necessary files
 **
 
@@ -180,10 +190,10 @@ export const generateNpmignore = (
 ${ignoredFiles.build.patterns.map(pattern => '!' + pattern).join('\n')}
 
 # Include source files (so that source maps work)
-!src
+${projectInfo.srcDirs.map(srcPath => '!' + srcPath).join('\n')}
 
 # Remove test files from source
-__*__
+${projectInfo.testFilePatterns.map(testPattern => '!' + testPattern).join('\n')}
 `;
 
 export const generateBaseTsconfig = (sourceDirs: string[], ignored: IgnoredFiles) =>
@@ -202,7 +212,7 @@ ${JSON.stringify({
     { filepath: 'tsconfig.json' },
   );
 
-export const addGeneratedScripts = async (packageJsonPath: string) => {
+export const addGeneratedScripts = async (packageJsonPath: string, packageJson: PackageJson) => {
   const generatedScripts = {
     '=== Generated Scripts (do not modify) ===': '',
     build: 'tsc',
@@ -217,7 +227,6 @@ export const addGeneratedScripts = async (packageJsonPath: string) => {
     '': '',
   };
 
-  const packageJson = (await fse.readJson(packageJsonPath)) as PackageJson;
   packageJson.scripts = Object.assign(
     generatedScripts,
     ...Object.entries(packageJson.scripts || {}).map(([key, value]) =>
@@ -231,17 +240,23 @@ export const addGeneratedScripts = async (packageJsonPath: string) => {
 };
 
 export const initProject = async (projectDir: string, recreateGitignore: boolean) => {
+  const packageJsonPath = path.join(projectDir, 'package.json');
+  const packageJson = (await fse.readJson(packageJsonPath)) as PackageJson;
+  const projectInfo = getProjectInfo(packageJson);
+
   const templateDir = path.join(__dirname, '..', 'templates');
   await fse.copy(templateDir, projectDir, { overwrite: true });
 
   const ignored = await getIgnoredOrCreate(path.join(projectDir, '.gitignore'), recreateGitignore);
-  await fse.writeFile(
-    path.join(projectDir, 'tsconfig.json'),
-    generateBaseTsconfig(['src'], ignored),
-  );
-  await fse.writeFile(path.join(projectDir, '.prettierignore'), generateIgnoreFile(ignored));
-  await fse.writeFile(path.join(projectDir, '.eslintignore'), generateIgnoreFile(ignored));
-  await fse.writeFile(path.join(projectDir, '.npmignore'), generateNpmignore(ignored));
+  await Promise.all([
+    fse.writeFile(
+      path.join(projectDir, 'tsconfig.json'),
+      generateBaseTsconfig(projectInfo.srcDirs, ignored),
+    ),
+    fse.writeFile(path.join(projectDir, '.prettierignore'), generateIgnoreFile(ignored)),
+    fse.writeFile(path.join(projectDir, '.eslintignore'), generateIgnoreFile(ignored)),
+    fse.writeFile(path.join(projectDir, '.npmignore'), generateNpmignore(ignored, projectInfo)),
+  ]);
 
-  await addGeneratedScripts(path.join(projectDir, 'package.json'));
+  await addGeneratedScripts(packageJsonPath, packageJson);
 };
