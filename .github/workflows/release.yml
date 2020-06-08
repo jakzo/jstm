@@ -14,20 +14,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with:
           # Fetch all Git history so that Changesets can generate changelogs with correct commits
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v1
         with:
           node-version: 14.x
 
       - name: Install dependencies
         run: yarn
 
-      - name: Create release pull request which publishes to npm
+      - name: Create release pull request which will publish to npm
         id: changesets
         uses: changesets/action@master
         with:
