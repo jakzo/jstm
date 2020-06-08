@@ -24,7 +24,7 @@ export const config: Linter.Config = {
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2018,
-    project: './tsconfig.eslint.json',
+    project: './tsconfig.json',
     tsconfigRootDir: process.cwd(),
   },
   rules: {

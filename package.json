@@ -20,20 +20,20 @@
   },
   "scripts": {
     "=== Generated Scripts (do not modify) ===": "",
-    "build": "tsc",
+    "build": "tsc -p ./tsconfig.build.json",
     "build:watch": "yarn build -w",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:fix": "yarn lint:eslint --fix && yarn lint:prettier --write",
     "lint:eslint": "eslint --ext js,jsx,ts,tsx ./",
     "lint:prettier": "prettier -c \"./**/*{.json,.md}\"",
-    "test": "yarn lint && yarn test:jest",
-    "test:jest": "jest",
+    "test": "jest",
+    "test:watch": "yarn test --watch",
     "=== (end generated scripts) ===": "",
     "": "",
-    "example": "cd ./__example__ && ts-node -P ../tsconfig.json ../src/bin/project.ts",
+    "dev": "yarn test:watch",
     "postinstall": "node ./dist/bin/project.js",
     "setup": "node ./scripts/setup.js",
-    "regenerate-config": "yarn build && yarn postinstall --recreate-gitignore"
+    "regenerate-config": "yarn build && yarn postinstall"
   },
   "dependencies": {
     "@jest/types": "^26.0.1",

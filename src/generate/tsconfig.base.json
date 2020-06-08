@@ -1,9 +1,9 @@
 {
-  "include": ["src", "src/**/*.json"],
-  "exclude": ["node_modules", "dist"],
+  "include": ["./", "./**/*.json", "**/.*"],
+  "exclude": ["./dist/"],
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
+    "outDir": "./dist/",
+    "rootDir": "./",
     "baseUrl": "./",
     "target": "es2018",
     "module": "commonjs",
