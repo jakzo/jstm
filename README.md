@@ -4,7 +4,7 @@ _Javascript project tooling in a box._
 
 ## Usage
 
-Start with a blank project (no `.gitignore` file, no tooling installed) then run:
+Run `yarn init` to create a blank project (no `.gitignore` file, no tooling installed, just a `package.json`) then run:
 
 ```sh
 yarn add -D @jakzo/project

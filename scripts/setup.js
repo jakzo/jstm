@@ -6,7 +6,9 @@ try {
   try {
     execSync('yarn', { stdio: 'inherit' });
   } catch {
-    console.log('^ a "MODULE_NOT_FOUND" error for project.js is expected');
+    console.log(
+      require('chalk').blueBright('^ a "MODULE_NOT_FOUND" error for project.js is expected'),
+    );
   }
 
   // Symlink the project directory into node_modules/@jakzo/project
@@ -14,9 +16,18 @@ try {
   execSync('yarn link "@jakzo/project"', { stdio: 'inherit' });
 
   // Build to dist
-  fs.copyFileSync(
-    path.join(__dirname, '..', 'src', 'config', 'tsconfig.json'),
+  fs.writeFileSync(
     path.join(__dirname, '..', 'tsconfig.json'),
+    JSON.stringify({
+      extends: './src/generate/tsconfig.base.json',
+      include: ['src', 'src/**/*.json'],
+      exclude: ['**/__*__'],
+      compilerOptions: {
+        baseUrl: '.',
+        rootDir: 'src',
+        outDir: 'dist',
+      },
+    }),
   );
   execSync('yarn tsc', { stdio: 'inherit' });
 
