@@ -115,6 +115,7 @@ export const generateIgnored = () =>
         '/tsconfig.build.json',
         '/.nvmrc',
         '/.vscode',
+        '/.changeset/README.md',
       ],
       overrides: ['/.gitignore'],
     },

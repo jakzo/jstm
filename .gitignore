@@ -39,8 +39,8 @@ coverage
 /tsconfig.build.json
 /.nvmrc
 /.vscode
+/.changeset/README.md
 !/.gitignore
-/tsconfig.eslint.json
 
 # === Other Files ===
 # Any other ignored files

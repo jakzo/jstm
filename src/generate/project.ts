@@ -22,17 +22,23 @@ export const getProjectInfo = (packageJson: PackageJson): ProjectInfo => {
   };
 };
 
-export const addGeneratedScripts = async (packageJsonPath: string, packageJson: PackageJson) => {
+export const addGeneratedScripts = async (
+  projectInfo: ProjectInfo,
+  packageJsonPath: string,
+  packageJson: PackageJson,
+) => {
   const generatedScripts = {
     '=== Generated Scripts (do not modify) ===': '',
     build: 'tsc -p ./tsconfig.build.json',
     'build:watch': 'yarn build -w',
+    'build:clean': `rimraf "${projectInfo.buildDirectory}" *.tsbuildinfo`,
     lint: 'yarn lint:eslint && yarn lint:prettier',
     'lint:fix': 'yarn lint:eslint --fix && yarn lint:prettier --write',
     'lint:eslint': 'eslint --ext js,jsx,ts,tsx ./',
     'lint:prettier': 'prettier -c "./**/*{.json,.md}"',
     test: 'jest',
     'test:watch': 'yarn test --watch',
+    release: 'yarn build:clean && yarn build && changeset publish',
     '=== (end generated scripts) ===': '',
     '': '',
   };
@@ -67,5 +73,5 @@ export const initProject = async (projectDir: string, recreateGitignore: boolean
     fse.writeFile(path.join(projectDir, '.npmignore'), generateNpmignore(ignored, projectInfo)),
   ]);
 
-  await addGeneratedScripts(packageJsonPath, packageJson);
+  await addGeneratedScripts(projectInfo, packageJsonPath, packageJson);
 };

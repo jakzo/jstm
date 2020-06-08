@@ -3,6 +3,9 @@ import fse from 'fs-extra';
 import { ProjectInfo } from '../types';
 import { IgnoredFiles, generateIgnored } from './ignored-files';
 
+export const suffixPatternWithDescendents = (pattern: string) =>
+  pattern.endsWith('*') ? pattern : pattern.endsWith('/') ? pattern + '**' : pattern + '/**';
+
 export const generateGitignore = (
   ignoredFiles: IgnoredFiles,
 ) => `# DO NOT CHANGE THE STRUCTURE OF THIS FILE
@@ -71,13 +74,18 @@ export const generateNpmignore = (
 # Include package files
 !/package.json
 !/README.md
+!/CHANGELOG.md
 
 # Include build files
-${ignoredFiles.build.patterns.map(pattern => '!' + pattern).join('\n')}
+${ignoredFiles.build.patterns
+  .map(pattern => '!' + suffixPatternWithDescendents(pattern))
+  .join('\n')}
 
 # Include source files (so that source maps work)
-${projectInfo.srcFilePatterns.map(pattern => '!' + pattern).join('\n')}
+${projectInfo.srcFilePatterns
+  .map(pattern => '!' + suffixPatternWithDescendents(pattern))
+  .join('\n')}
 
 # Remove test files from source
-${projectInfo.testFilePatterns.map(testPattern => '!' + testPattern).join('\n')}
+${projectInfo.testFilePatterns.join('\n')}
 `;

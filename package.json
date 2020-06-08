@@ -22,20 +22,23 @@
     "=== Generated Scripts (do not modify) ===": "",
     "build": "tsc -p ./tsconfig.build.json",
     "build:watch": "yarn build -w",
+    "build:clean": "rimraf \"./dist\" *.tsbuildinfo",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:fix": "yarn lint:eslint --fix && yarn lint:prettier --write",
     "lint:eslint": "eslint --ext js,jsx,ts,tsx ./",
     "lint:prettier": "prettier -c \"./**/*{.json,.md}\"",
     "test": "jest",
     "test:watch": "yarn test --watch",
+    "release": "yarn build:clean && yarn build && changeset publish",
     "=== (end generated scripts) ===": "",
     "": "",
     "dev": "yarn test:watch",
     "postinstall": "node ./dist/bin/project.js",
     "setup": "node ./scripts/setup.js",
-    "regenerate-config": "yarn build && yarn postinstall"
+    "regenerate-config": "yarn build:clean && yarn build && yarn postinstall"
   },
   "dependencies": {
+    "@changesets/cli": "^2.8.0",
     "@jest/types": "^26.0.1",
     "@types/jest": "^25.2.3",
     "@types/node": "^14.0.11",
@@ -51,6 +54,7 @@
     "fs-extra": "^9.0.1",
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
     "ts-jest": "^26.1.0",
     "ttypescript": "^1.5.10",
     "typescript": "^3.9.5"
