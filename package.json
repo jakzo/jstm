@@ -1,6 +1,6 @@
 {
   "name": "@jakzo/project",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Javascript project tooling in a box.",
   "main": "./dist/index.js",
   "keywords": [
