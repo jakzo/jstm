@@ -2,38 +2,38 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-try {
+const main = async () => {
   try {
-    execSync('yarn', { stdio: 'inherit' });
-  } catch {
-    console.log(
-      require('chalk').blueBright('^ a "MODULE_NOT_FOUND" error for project.js is expected'),
+    // Symlink the project directory into node_modules/@jakzo/project
+    execSync('yarn link', { stdio: 'inherit' });
+    execSync('yarn link "@jakzo/project"', { stdio: 'inherit' });
+
+    // Build to dist
+    fs.writeFileSync(
+      path.join(__dirname, '..', 'tsconfig.json'),
+      JSON.stringify({
+        extends: './src/generate/tsconfig.base.json',
+        include: ['src', 'src/**/*.json'],
+        exclude: ['**/__*__'],
+        compilerOptions: {
+          baseUrl: '.',
+          rootDir: 'src',
+          // TODO: Compile to temporary directory? There may be subtle differences in the builds...
+          outDir: 'dist',
+        },
+      }),
     );
+    execSync('yarn tsc', { stdio: 'inherit' });
+
+    // Run `yarn install` again and the postinstall script should run like normal
+    // TODO: Add protection against infinite loop of running this file
+    execSync('yarn', { stdio: 'inherit' });
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
   }
+};
 
-  // Symlink the project directory into node_modules/@jakzo/project
-  execSync('yarn link', { stdio: 'inherit' });
-  execSync('yarn link "@jakzo/project"', { stdio: 'inherit' });
+if (require.main === module) void main();
 
-  // Build to dist
-  fs.writeFileSync(
-    path.join(__dirname, '..', 'tsconfig.json'),
-    JSON.stringify({
-      extends: './src/generate/tsconfig.base.json',
-      include: ['src', 'src/**/*.json'],
-      exclude: ['**/__*__'],
-      compilerOptions: {
-        baseUrl: '.',
-        rootDir: 'src',
-        outDir: 'dist',
-      },
-    }),
-  );
-  execSync('yarn tsc', { stdio: 'inherit' });
-
-  // Run `yarn install` again and the postinstall script should succeed
-  execSync('yarn', { stdio: 'inherit' });
-} catch (err) {
-  console.error(err);
-  process.exit(1);
-}
+module.exports = { main };

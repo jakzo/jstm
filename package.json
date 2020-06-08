@@ -33,8 +33,7 @@
     "=== (end generated scripts) ===": "",
     "": "",
     "dev": "yarn test:watch",
-    "postinstall": "node ./dist/bin/project.js",
-    "setup": "node ./scripts/setup.js",
+    "postinstall": "node ./src/scripts/postinstall.js",
     "regenerate-config": "yarn build:clean && yarn build && yarn postinstall"
   },
   "dependencies": {

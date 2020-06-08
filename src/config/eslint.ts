@@ -115,7 +115,13 @@ export const config: Linter.Config = {
       // JS files
       files: ['./**/*.js'],
       rules: {
+        // Justification: JS files are only used when there is no compilation so we must use require
         '@typescript-eslint/no-var-requires': 'off',
+        // Justification: There are no types in JS files so no way to fix these errors
+        '@typescript-eslint/no-unsafe-call': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-return': 'off',
       },
     },
   ],
