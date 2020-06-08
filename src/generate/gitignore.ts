@@ -61,7 +61,11 @@ export const generateIgnoreFile = (
 
 ${Object.entries(ignoredFiles)
   .filter(([name]) => !(excludedCategories as string[]).includes(name))
-  .map(([_name, { rawLines }]) => rawLines.join('\n').trim())
+  .map(
+    ([_name, { heading, description, patterns }]) => `# === ${heading} ===
+${description.map(line => '# ' + line).join('\n')}
+${patterns.join('\n').trim()}`,
+  )
   .join('\n\n')}
 `;
 

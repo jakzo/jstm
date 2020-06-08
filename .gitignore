@@ -40,7 +40,9 @@ coverage
 /.nvmrc
 /.vscode
 /.changeset/README.md
+/CHANGELOG.md
 !/.gitignore
+!/CHANGELOG.md
 
 # === Other Files ===
 # Any other ignored files

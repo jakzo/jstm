@@ -116,8 +116,9 @@ export const generateIgnored = () =>
         '/.nvmrc',
         '/.vscode',
         '/.changeset/README.md',
+        '/CHANGELOG.md',
       ],
-      overrides: ['/.gitignore'],
+      overrides: ['/.gitignore', '/CHANGELOG.md'],
     },
     other: {
       heading: 'Other Files',
