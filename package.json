@@ -1,10 +1,11 @@
 {
   "name": "@jakzo/project",
   "version": "1.0.0",
-  "description": "Javascript project boilerplate in a box.",
+  "description": "Javascript project tooling in a box.",
   "main": "./dist/index.js",
   "keywords": [
     "project",
+    "tooling",
     "boilerplate"
   ],
   "author": "Jack Field <jack@jf.id.au>",

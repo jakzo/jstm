@@ -8,6 +8,6 @@ export interface ProjectInfo {
 }
 
 export interface PackageJson extends tf.PackageJson {
-  /** Information about project for generating boilerplate. */
+  /** Information about project for generating tooling. */
   project?: Partial<ProjectInfo>;
 }
