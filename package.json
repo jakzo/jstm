@@ -38,7 +38,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "echo \"Enter changeset information or press escape to skip...\" && yarn changeset"
+      "pre-push": "echo \"Enter changeset information or press escape to skip...\" && yarn changeset < /dev/tty"
     }
   },
   "dependencies": {
