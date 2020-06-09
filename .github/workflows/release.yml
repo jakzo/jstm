@@ -25,13 +25,23 @@ jobs:
           node-version: 14.x
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
 
-      - name: Create release pull request which will publish to npm
-        id: changesets
-        uses: changesets/action@master
-        with:
-          publish: yarn release
+      # TODO: Allow this with config
+      # - name: Create release pull request which will publish to npm
+      #   id: changesets
+      #   uses: changesets/action@master
+      #   with:
+      #     publish: yarn release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Bump versions according to changeset
+        run: yarn changeset version
+
+      - name: Publish to npm
+        run: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
