@@ -66,6 +66,6 @@
     "ts-node": "^8.10.2",
     "type-fest": "^0.15.0"
   },
-  "repository": "git@bitbucket.org:atlassian/incredible-monorepo.git",
-  "homepage": "https://bitbucket.org/atlassian/incredible-monorepo/src/master/src/packages/standalone/ts-dev"
+  "repository": "git@github.com:jakzo/project.git",
+  "homepage": "https://github.com/jakzo/project"
 }
