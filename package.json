@@ -38,7 +38,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "echo \"Enter changeset information or press escape to skip...\" && yarn changeset --commit < /dev/tty"
+      "pre-push": "echo \"Enter changeset information or press escape to skip...\" && yarn changeset < /dev/tty && git add .changeset/* && git commit -m \"add changeset\""
     }
   },
   "dependencies": {
