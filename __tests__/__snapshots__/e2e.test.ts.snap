@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic 1`] = `
+Object {
+  ".eslintrc.js": "module.exports = require('@jstm/tech-eslint/dist/config').config;
+",
+  "package.json": "{}
+",
+}
+`;

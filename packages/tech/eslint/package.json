@@ -1,0 +1,13 @@
+{
+  "name": "@jstm/tech-eslint",
+  "version": "0.0.1",
+  "description": "Linter.",
+  "main": "./src/index.ts",
+  "author": "Jack Field <jack@jf.id.au>",
+  "license": "MIT",
+  "dependencies": {
+    "@jstm/core": "0.0.1"
+  },
+  "repository": "git@github.com:jakzo/jstm.git",
+  "homepage": "https://github.com/jakzo/jstm"
+}

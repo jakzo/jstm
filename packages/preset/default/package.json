@@ -1,0 +1,24 @@
+{
+  "name": "@jstm/preset-default",
+  "version": "0.0.1",
+  "description": "Default stack for robust JS applications.",
+  "main": "./src/index.ts",
+  "keywords": [
+    "project",
+    "tech stack",
+    "tooling",
+    "configuration",
+    "automation",
+    "boilerplate"
+  ],
+  "author": "Jack Field <jack@jf.id.au>",
+  "license": "MIT",
+  "scripts": {
+    "// postinstall": "jstm @jstm/preset-default"
+  },
+  "dependencies": {
+    "@jstm/core": "0.0.1"
+  },
+  "repository": "git@github.com:jakzo/jstm.git",
+  "homepage": "https://github.com/jakzo/jstm"
+}

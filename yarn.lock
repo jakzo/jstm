@@ -2435,6 +2435,11 @@ globby@^11.0.0:
     merge2 "^1.3.0"
     slash "^3.0.0"
 
+golden-fleece@^1.0.9:
+  version "1.0.9"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/golden-fleece/-/golden-fleece-1.0.9.tgz#0c4cbba8b493c8ab4cd4023404317a97785306f3"
+  integrity sha1-DEy7qLSTyKtM1AI0BDF6l3hTBvM=
+
 graceful-fs@^4.1.2, graceful-fs@^4.1.5, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
