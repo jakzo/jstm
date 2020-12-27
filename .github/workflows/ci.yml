@@ -54,7 +54,7 @@ jobs:
         run: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       # TODO: Enable this alternative with config
       # - name: Create release pull request which will publish to npm
       #   id: changesets
