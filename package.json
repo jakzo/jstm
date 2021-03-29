@@ -42,5 +42,8 @@
     "./packages/*/*"
   ],
   "repository": "git@github.com:jakzo/project.git",
-  "homepage": "https://github.com/jakzo/project"
+  "homepage": "https://github.com/jakzo/project",
+  "devDependencies": {
+    "eslint-plugin-prettier": "^3.3.1"
+  }
 }

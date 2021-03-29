@@ -1,20 +1,17 @@
 import path from 'path';
-import { Technology, d } from '@jstm/core';
+import { Technology } from '@jstm/core';
 import { npm } from '../../npm/src';
 
 export const eslint = new Technology({
   id: 'eslint',
   name: 'ESLint',
-  templatesDir: path.join(__dirname, '..', 'templates'),
-  dependencies: [
-    d({
-      tech: npm,
-      data: {
-        devDependencies: {
-          eslint: '*',
-        },
-      },
-    }),
-  ],
-  applyDependencyData() {},
+  dependencies: [npm],
+  async changesToSync(projectInfo) {
+    if (isNpmStyleProject(projectInfo)) {
+      return {
+        commands: [projectInfo.techData.addNpmDeps(['eslint'], true)],
+      };
+    }
+    throw new Error('npm style package manager is required');
+  },
 });

@@ -45,6 +45,7 @@
     "@typescript-eslint/eslint-plugin": "^3.1.0",
     "@typescript-eslint/experimental-utils": "^3.1.0",
     "@typescript-eslint/parser": "^3.1.0",
+    "diff": "^5.0.0",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
@@ -57,11 +58,13 @@
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
+    "runtypes": "^5.0.1",
     "ts-jest": "^26.1.0",
     "ttypescript": "^1.5.10",
     "typescript": "^3.9.5"
   },
   "devDependencies": {
+    "@types/diff": "^5.0.0",
     "@types/eslint": "^6.8.1",
     "@types/fs-extra": "^9.0.1",
     "@types/prettier": "^2.0.1",
