@@ -46,7 +46,11 @@ const main = async () => {
   process.chdir(cwd);
   const binName = await getBinName();
 
-  require("ts-node").register({ transpileOnly: true });
+  require("ts-node").register({
+    transpileOnly: true,
+    skipProject: true,
+    compilerOptions: { esModuleInterop: true },
+  });
   require("tsconfig-paths").register();
 
   const binPaths = [
