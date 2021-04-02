@@ -364,7 +364,7 @@ try {
       }),
     },
     {
-      path: [".github", "workflow", "ci.yml"],
+      path: [".github", "workflows", "ci.yml"],
       isCheckedIn: true,
       contents: `
 # DO NOT MODIFY

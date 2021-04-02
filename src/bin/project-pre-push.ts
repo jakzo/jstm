@@ -8,7 +8,6 @@ const forkPromise = (modulePath: string, args: string[]): Promise<void> =>
     const proc = fork(modulePath, args, { stdio: "inherit" });
     proc.on("exit", (code) => {
       if (code === 0) resolve();
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       else reject(new Error(`Exited with code: ${code}`));
     });
   });
