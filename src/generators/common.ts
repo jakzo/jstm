@@ -395,7 +395,9 @@ jobs:
         with:
           node-version: \${{ env.node_version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: |
+          yarn install --frozen-lockfile
+          yarn project
       - name: Test
         run: |
           yarn run-if-script-exists test:ci:before
@@ -421,7 +423,9 @@ jobs:
         with:
           node-version: \${{ env.node_version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: |
+          yarn install --frozen-lockfile
+          yarn project
       - name: Bump versions according to changeset
         run: |
           git config --global user.name "github-actions[bot]"
