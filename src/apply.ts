@@ -75,6 +75,7 @@ const getVars = async (
   nodeMinVersion: 12,
   srcDir: "src",
   distDir: "dist",
+  mainBranch: "main",
 });
 
 const getContentsVars = (files: TemplateFile[]): ContentsVars => ({

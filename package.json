@@ -45,7 +45,7 @@
     "test": "project && jest --passWithNoTests && run-if-script-exists test:custom",
     "test:typecheck": "project && tsc -p ./tsconfig.json --noEmit && tsc -p ./tsconfig.build.json --noEmit",
     "test:all": "project && tsc -p ./tsconfig.json --noEmit && tsc -p ./tsconfig.build.json --noEmit && eslint --cache --ext js,jsx,ts,tsx ./ && prettier -c \"./**/*{.json,.md}\" && run-if-script-exists lint:custom && jest --passWithNoTests && run-if-script-exists test:custom",
-    "release": "project && rimraf \"./dist\" *.tsbuildinfo && run-if-script-exists build:clean:custom && run-if-script-exists build:custom-before && tsc -p ./tsconfig.build.json && run-if-script-exists build:custom && run-if-script-exists release:custom && changeset publish",
+    "release": "project && rimraf \"./dist\" *.tsbuildinfo && run-if-script-exists build:clean:custom && run-if-script-exists build:custom-before && tsc -p ./tsconfig.build.json && run-if-script-exists build:custom && changeset publish && run-if-script-exists release:custom",
     "=== (end generated scripts) ===": "",
     "": "",
     "build:clean:custom": "rimraf ./presets/packages",

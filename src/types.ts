@@ -31,6 +31,7 @@ export interface Vars {
   nodeMinVersion: number;
   srcDir: string;
   distDir: string;
+  mainBranch: string;
 }
 export interface ContentsVars {
   gitignorePatterns: string[];

@@ -21,6 +21,7 @@ export const common: TemplateGenerator = {
     srcDir,
     distDir,
     presetPackageJson,
+    mainBranch,
   }) => [
     {
       path: ["package.json"],
@@ -374,7 +375,7 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - ${mainBranch}
   pull_request:
     branches:
       - "*"
@@ -405,7 +406,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     needs: test
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/${mainBranch}'
     environment: Release
     outputs:
       release_upload_url: \${{ steps.create_release.outputs.upload_url }}
