@@ -13,7 +13,10 @@ const scriptExists = (filePath) => {
   }
 };
 
-const main = async () => {
+const getBinName = async () => {
+  const binName = path.basename(process.argv[1]);
+  if (binName === "bin.js") return "project";
+
   const nodeModulesBinContents = await fse.readFile(process.argv[1], "utf8");
   const commandsStubBinContents = await fse.readFile(
     path.join(process.cwd(), "commands-stub", "bin.js"),
@@ -32,11 +35,15 @@ const main = async () => {
       "Reinstall complete. Will attempt to continue current command using old binary but may fail."
     );
   }
+  return binName;
+};
+
+const main = async () => {
+  const binName = await getBinName();
 
   require("ts-node").register();
   require("tsconfig-paths").register();
 
-  const binName = path.basename(process.argv[1]);
   const binPaths = [
     `${process.cwd()}/presets/template/${binName}`,
     `${process.cwd()}/src/bin/${binName}`,

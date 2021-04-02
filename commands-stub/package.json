@@ -9,7 +9,7 @@
     "project-pre-push": "bin.js"
   },
   "scripts": {
-    "postinstall": "project"
+    "postinstall": "node bin.js"
   },
   "peerDependencies": {
     "fs-extra": "*",
