@@ -40,22 +40,25 @@ const getBinName = async () => {
 };
 
 const main = async () => {
-  let cwd = process.cwd();
-  while (cwd.includes("node_modules") || cwd.includes("commands-stub"))
-    cwd = path.join(cwd, "..");
-  process.chdir(cwd);
+  let rootDir = process.cwd();
+  while (rootDir.includes("node_modules") || rootDir.includes("commands-stub"))
+    rootDir = path.join(rootDir, "..");
+  process.chdir(rootDir);
   const binName = await getBinName();
 
   require("ts-node").register({
     transpileOnly: true,
     skipProject: true,
-    compilerOptions: { esModuleInterop: true },
+    compilerOptions: { esModuleInterop: true, downlevelIteration: true },
   });
-  require("tsconfig-paths").register();
+  require("tsconfig-paths").register({
+    baseUrl: rootDir,
+    paths: { "@jstm/core": ["./src"] },
+  });
 
   const binPaths = [
-    `${process.cwd()}/presets/template/${binName}`,
-    `${process.cwd()}/src/bin/${binName}`,
+    `${rootDir}/presets/template/${binName}`,
+    `${rootDir}/src/bin/${binName}`,
   ];
   for (const binPath of binPaths) {
     if (scriptExists(binPath)) {
