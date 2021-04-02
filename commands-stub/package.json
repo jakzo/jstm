@@ -1,0 +1,16 @@
+{
+  "name": "@jstm/commands-stub",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "bin": {
+    "project": "bin.js",
+    "run-if-script-exists": "bin.js",
+    "project-pre-push": "bin.js"
+  },
+  "peerDependencies": {
+    "fs-extra": "*",
+    "tsconfig-paths": "*",
+    "ts-node": "*"
+  }
+}

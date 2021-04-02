@@ -1,0 +1,8 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["./packages/**/*", "./packages/**/*.json"],
+  "references": [{ "path": "../tsconfig.build.json" }],
+  "compilerOptions": {
+    "noEmit": false
+  }
+}

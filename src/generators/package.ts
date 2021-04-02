@@ -1,14 +1,15 @@
-const path = require("path");
+import path from "path";
 
-const { mergeJson } = require("../utils");
+import type { TemplateGenerator } from "../types";
+import { mergeJson } from "../utils";
 
-exports.default = {
+export const packageGen: TemplateGenerator = {
   devDependencies: [
     "@changesets/cli",
     "@changesets/get-release-plan",
     "@changesets/release-utils",
   ],
-  files: async ({}) => [
+  files: async () => [
     {
       path: [".changeset", "config.json"],
       isCheckedIn: true,

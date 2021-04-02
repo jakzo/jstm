@@ -1,6 +1,7 @@
-const { mergeJson } = require("../utils");
+import type { TemplateGenerator } from "../types";
+import { mergeJson } from "../utils";
 
-exports.default = {
+export const typescript: TemplateGenerator = {
   devDependencies: ["typescript", "ts-node", "ts-node-dev"],
   files: async ({ nodeMinVersion, srcDir, distDir }) => {
     const targetEsVersion =

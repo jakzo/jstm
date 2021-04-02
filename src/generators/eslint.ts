@@ -1,8 +1,9 @@
-const path = require("path");
+import path from "path";
 
-const { readFileOr } = require("../utils");
+import type { TemplateFile, TemplateGenerator } from "../types";
+import { readFileOr } from "../utils";
 
-exports.default = {
+export const eslint: TemplateGenerator = {
   devDependencies: [
     "eslint",
     "prettier",
@@ -10,11 +11,13 @@ exports.default = {
     "@typescript-eslint/parser",
     "eslint-config-prettier",
     "eslint-plugin-import",
+    "eslint-import-resolver-typescript",
     "eslint-plugin-jest",
     "eslint-plugin-only-warn",
     "eslint-plugin-prettier",
     "husky",
     "lint-staged",
+    "chalk",
   ],
   files: async ({ distDir }) => [
     {
@@ -28,18 +31,22 @@ module.exports = {
     node: true,
     commonjs: true,
     es2020: true,
-    jest: true,
   },
+  settings: {
+    "import/resolver": {
+      typescript: {},
+    },
+  },
+  parser: "@typescript-eslint/parser",
   extends: [
     "eslint:recommended",
     "plugin:prettier/recommended",
+    "plugin:import/errors",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:import/typescript",
-    "plugin:import/errors",
   ],
-  parser: "@typescript-eslint/parser",
   plugins: [
     "@typescript-eslint/eslint-plugin",
     ...(process.env.VSCODE_PID ? ["only-warn"] : []),
@@ -52,7 +59,21 @@ module.exports = {
   },
   overrides: [
     {
+      files: ["**/*.{js,jsx}"],
+      rules: {
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+      },
+    },
+    {
       files: ["**/__*__/"],
+      env: {
+        jest: true,
+      },
       rules: {
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
@@ -62,7 +83,6 @@ module.exports = {
   ],
   rules: {
     // Disabled rules
-
     // Justification: Required for cases like \`try { ... } catch (err) {}\` and doesn't do much harm
     "no-empty": "off",
     // Justification: Sometimes you just need a no-op and empty functions aren't a huge problem anyway
@@ -77,7 +97,6 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
 
     // Modified rules
-
     // Justification: Allow intentionally infinite loops for cases like polling
     "no-constant-condition": ["error", { checkLoops: false }],
     // Justification: Ignore pattern for cases like \`const cb = (_a, b) => b + 1\`
@@ -98,9 +117,6 @@ module.exports = {
     ],
 
     // Enabled rules
-
-    // Justification: Forgetting to await a promise is a common mistake
-    "@typescript-eslint/no-floating-promises": ["error", { ignoreVoid: true }],
     // Justification: Cyclic dependencies are confusing and cause bugs
     "import/no-cycle": "error",
     // Justification: You should only use dependencies that exist in your package.
@@ -137,6 +153,8 @@ module.exports = {
     "import/no-useless-path-segments": "error",
     // Justification: Why would you ever want to do this?
     "import/no-self-import": "error",
+    // Justification: Forgetting to await a promise is a common mistake
+    "@typescript-eslint/no-floating-promises": ["error", { ignoreVoid: true }],
   },
 };
 
@@ -172,6 +190,7 @@ try {
       
 module.exports = {
   "pre-commit": "lint-staged",
+  "pre-push": "project-pre-push"
 };
 
 try {
@@ -182,7 +201,7 @@ try {
   ],
 };
 
-const ignorefileEntry = (filename, distDir) => ({
+const ignorefileEntry = (filename: string, distDir: string): TemplateFile => ({
   path: [filename],
   contents: async ({ gitignorePatterns }) => `
 # DO NOT MODIFY

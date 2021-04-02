@@ -1,3 +1,34 @@
+# === Generated Ignore Patterns (do not modify) ===
+/dist/
 node_modules/
-/packages/
+.*cache
+.jest
+.yarn
+*.tsbuildinfo
+*.log
+.coverage/
+.DS_Store
+CVS
+.svn
+.hg
+.lock-wscript
+.wafpickle-N
+.*.swp
+._*
+.npmrc
+config.gypi
+/.npmignore
+/.nvmrc
+/.ymvrc
+/jest.config.js
+/.eslintrc.js
+/.eslintignore
+/.prettierignore
+/.lintstagedrc.js
+/.huskyrc.js
+/tsconfig.build.json
+/tsconfig.base.json
+# === (end generated patterns) ===
+
+/presets/packages/
 /__fixtures__/

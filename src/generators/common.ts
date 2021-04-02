@@ -1,8 +1,16 @@
-const path = require("path");
+import path from "path";
 
-const { mergeJson, readFileOr } = require("../utils");
+import type { TemplateGenerator } from "../types";
+import { mergeJson, readFileOr } from "../utils";
 
-exports.default = {
+interface PackageScriptBuilder<C extends string> {
+  add: <K extends string>(
+    func: (commands: Record<C, string>) => [K, string]
+  ) => PackageScriptBuilder<C | K>;
+  entries: () => [string, string][];
+}
+
+export const common: TemplateGenerator = {
   devDependencies: ["jest", "ts-jest", "@types/jest", "rimraf"],
   files: async ({
     packageJson,
@@ -17,9 +25,9 @@ exports.default = {
     {
       path: ["package.json"],
       isCheckedIn: true,
-      contents: ({}) => {
+      contents: () => {
         const scriptEntries = Object.entries(packageJson.scripts || {});
-        const getGeneratedScriptIndexes = () => {
+        const getGeneratedScriptIndexes = (): [number, number] => {
           const generatedScriptStart = scriptEntries.findIndex(([key]) =>
             /^\s*=== Generated Scripts/i.test(key)
           );
@@ -41,13 +49,13 @@ exports.default = {
           generatedScriptEnd,
         ] = getGeneratedScriptIndexes();
 
-        const packageScriptBuilder = () => {
-          const scripts = {};
-          const builder = {
+        const packageScriptBuilder = (): PackageScriptBuilder<never> => {
+          const scripts: Record<string, string> = {};
+          const builder: PackageScriptBuilder<never> = {
             add: (func) => {
               const [name, command] = func(scripts);
               scripts[name] = command;
-              return builder;
+              return builder as PackageScriptBuilder<string>;
             },
             entries: () =>
               Object.entries(scripts).map(([name, command]) => [
@@ -72,7 +80,10 @@ exports.default = {
               "lint",
               `${c["lint:eslint"]} && ${c["lint:prettier"]} && run-if-script-exists lint:custom`,
             ])
-            .add(() => ["build:clean", `rimraf "./${distDir}" *.tsbuildinfo`])
+            .add(() => [
+              "build:clean",
+              `rimraf "./${distDir}" *.tsbuildinfo && run-if-script-exists build:clean:custom`,
+            ])
             .add(() => ["build:typescript", "tsc -p ./tsconfig.build.json"])
             .add((c) => ["build:watch", `${c["build:typescript"]} -w`])
             .add((c) => [
@@ -95,14 +106,14 @@ exports.default = {
             ])
             .add((c) => [
               "release",
-              `${c["build:clean"]} && ${c.build} && run-if-script-exists release:custom && changeset publish`,
+              `${c["build:clean"]} && ${c.build} && changeset publish && run-if-script-exists release:custom`,
             ])
             .entries(),
           ["=== (end generated scripts) ===", ""],
           ["", ""],
           ...scriptEntries.slice(0, generateScriptStart),
           ...scriptEntries.slice(generatedScriptEnd),
-        ]);
+        ]) as Record<string, string>;
 
         const entriesAfter = [
           ["scripts", packageJson.scripts],
@@ -112,7 +123,7 @@ exports.default = {
           [
             "devDependencies",
             packageJson.devDependencies || {
-              [presetPackageJson.name]: `^${presetPackageJson.version}`,
+              [presetPackageJson.name as string]: `^${presetPackageJson.version}`,
             },
           ],
         ];
@@ -142,7 +153,7 @@ exports.default = {
                 "bugs",
                 packageJson.bugs || {
                   url: `https://github.com/jakzo/${repoName}/issues`,
-                  email: "github@jf.id.au",
+                  email: "jack@jf.id.au",
                 },
               ],
               // TODO: Prompt these default values from the user
@@ -174,6 +185,8 @@ exports.default = {
     },
     {
       path: ["README.md"],
+      isCheckedIn: true,
+      doNotOverwrite: true,
       contents: `
 # ${packageName}
 ${description ? `\n_${description}_\n` : ""}
@@ -181,7 +194,6 @@ ${description ? `\n_${description}_\n` : ""}
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for instructions how to develop locally and make changes.
 `,
-      isCheckedIn: true,
     },
     {
       path: ["CONTRIBUTING.md"],
@@ -283,6 +295,10 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
       contents: `${nodeTargetVersion}\n`,
     },
     {
+      path: [".ymvrc"],
+      contents: "1.9.2\n",
+    },
+    {
       path: ["jest.config.js"],
       contents: `
 // DO NOT MODIFY
@@ -336,7 +352,7 @@ try {
             "editor.formatOnSave": true,
             "editor.defaultFormatter": "esbenp.prettier-vscode",
             "eslint.format.enable": true,
-          }
+          } as Record<string, unknown>
         )
       ),
     },
