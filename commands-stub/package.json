@@ -8,6 +8,9 @@
     "run-if-script-exists": "bin.js",
     "project-pre-push": "bin.js"
   },
+  "scripts": {
+    "postinstall": "project"
+  },
   "peerDependencies": {
     "fs-extra": "*",
     "tsconfig-paths": "*",
