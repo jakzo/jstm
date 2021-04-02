@@ -35,13 +35,18 @@ const getBinName = async () => {
       "Reinstall complete. Will attempt to continue current command using old binary but may fail."
     );
   }
+
   return binName;
 };
 
 const main = async () => {
+  let cwd = process.cwd();
+  while (cwd.includes("node_modules") || cwd.includes("commands-stub"))
+    cwd = path.join(cwd, "..");
+  process.chdir(cwd);
   const binName = await getBinName();
 
-  require("ts-node").register();
+  require("ts-node").register({ transpileOnly: true });
   require("tsconfig-paths").register();
 
   const binPaths = [
