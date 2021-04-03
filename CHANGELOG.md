@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.2
+
+### Patch Changes
+
+- 117b8de: Fix release pipeline
+
 ## 0.2.1
 
 ### Patch Changes
