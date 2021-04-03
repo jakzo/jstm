@@ -392,6 +392,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          # Fetch Git history so that Changesets can check if release is required
+          fetch-depth: 0
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
@@ -406,7 +409,7 @@ jobs:
           yarn run-if-script-exists test:ci:after
       - name: Check if release is required
         id: check
-        run: yarn changeset status --since main && echo "::set-output name=release_required::true"
+        run: yarn changeset status --since ${mainBranch} && echo "::set-output name=release_required::true"
 
   release:
     name: Release
