@@ -22,8 +22,7 @@ const main = async (): Promise<void> => {
     packageJson.version = corePackageJson.version;
     await fse.writeJson(packageJsonPath, packageJson, { spaces: 2 });
 
-    spawnSync("npm", ["publish", "--access", "public"], {
-      cwd: packageDir,
+    spawnSync("npm", ["publish", "--access", "public", packageDir], {
       stdio: "inherit",
     });
   }
