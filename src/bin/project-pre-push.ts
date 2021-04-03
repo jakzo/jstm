@@ -39,7 +39,9 @@ export const main = async (): Promise<void> => {
     []
   );
   console.log(
-    chalk.blueBright("Please run `git push` again to push with changelog.")
+    chalk.blueBright(
+      "This push will now fail due to changeset being added. Please run `git push` again to push with changeset."
+    )
   );
   process.exit(1);
 };

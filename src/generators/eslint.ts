@@ -212,7 +212,7 @@ fi
 
 . "$(dirname "$0")/_/husky.sh"
 
-if [ -x /dev/tty ]; then
+if [ -t 1 ]; then
   exec </dev/tty
   "$(dirname "$0")/../node_modules/.bin/project-pre-push"
 fi
