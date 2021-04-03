@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.4
+
+### Patch Changes
+
+- 3378d88: Fixed release pipeline and pre-push hook
+
 ## 0.2.3
 
 ### Patch Changes
