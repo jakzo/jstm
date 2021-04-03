@@ -9,7 +9,7 @@ export const packageGen: TemplateGenerator = {
     "@changesets/get-release-plan",
     "@changesets/release-utils",
   ],
-  files: async () => [
+  files: async ({ mainBranch }) => [
     {
       path: [".changeset", "config.json"],
       isCheckedIn: true,
@@ -19,7 +19,7 @@ export const packageGen: TemplateGenerator = {
         commit: true,
         linked: [],
         access: "public",
-        baseBranch: "master",
+        baseBranch: mainBranch,
         updateInternalDependencies: "patch",
         ignore: [],
       }),

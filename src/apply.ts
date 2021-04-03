@@ -86,15 +86,22 @@ const getContentsVars = (files: TemplateFile[]): ContentsVars => ({
 
 const writeFileIfChanged = async (file: TemplateFile): Promise<void> => {
   const filePath = path.join(...file.path);
-  if (
-    file.doNotOverwrite
-      ? !(await fse.pathExists(filePath))
-      : await readFileOr(filePath, undefined).then(
-          (existingContents) => existingContents !== file.contents
-        )
-  ) {
+  if (await shouldWriteFile(file)) {
     if (file.path.length > 1)
       await fse.ensureDir(path.join(...file.path.slice(0, -1)));
-    await fse.writeFile(filePath, file.contents);
+    await fse.writeFile(filePath, file.contents, {
+      mode: file.isExecutable ? 0o755 : undefined,
+    });
   }
+};
+
+const shouldWriteFile = async (file: TemplateFile): Promise<boolean> => {
+  const filePath = path.join(...file.path);
+  if (file.doNotOverwrite) return !(await fse.pathExists(filePath));
+  if ((await readFileOr(filePath, undefined)) !== file.contents) return true;
+  if (file.isExecutable) {
+    const { mode } = await fse.stat(filePath);
+    if ((mode & 0o700) !== 0o700) await fse.chmod(filePath, mode | 0o700);
+  }
+  return false;
 };

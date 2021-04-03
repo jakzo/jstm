@@ -17,6 +17,7 @@ export interface TemplateGenerator {
 export interface TemplateFile {
   path: string[];
   isCheckedIn?: boolean;
+  isExecutable?: boolean;
   doNotOverwrite?: boolean;
   doNotTrim?: boolean;
   contents: string | ((vars: ContentsVars) => MaybePromise<string>);

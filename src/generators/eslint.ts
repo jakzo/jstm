@@ -183,20 +183,47 @@ try {
 `,
     },
     {
-      path: [".huskyrc.js"],
+      path: [".husky", "pre-commit"],
+      isExecutable: true,
       contents: `
-// DO NOT MODIFY
-// This file is auto-generated (make changes to ./config/.huskyrc.js instead)
-      
-module.exports = {
-  "pre-commit": "lint-staged",
-  "pre-push": "project-pre-push"
-};
+#!/bin/sh
 
-try {
-  Object.assign(module.exports, require('./config/.huskyrc'));
-} catch (_err) {}
+# DO NOT MODIFY
+# This file is auto-generated (make changes to pre-commit-custom.sh instead)
+
+. "$(dirname "$0")/_/husky.sh"
+
+"$(dirname "$0")/../node_modules/.bin/lint-staged"
+
+CUSTOM_SCRIPT="$(dirname "$0")/pre-commit-custom.sh"
+if [ -x "$CUSTOM_SCRIPT" ]; then
+  "$CUSTOM_SCRIPT"
+fi
 `,
+    },
+    {
+      path: [".husky", "pre-push"],
+      isExecutable: true,
+      contents: `
+#!/bin/sh
+
+# DO NOT MODIFY
+# This file is auto-generated (make changes to pre-push-custom.sh instead)
+
+. "$(dirname "$0")/_/husky.sh"
+
+exec </dev/tty
+"$(dirname "$0")/../node_modules/.bin/project-pre-push"
+
+CUSTOM_SCRIPT="$(dirname "$0")/pre-push-custom.sh"
+if [ -x "$CUSTOM_SCRIPT" ]; then
+  "$CUSTOM_SCRIPT"
+fi
+`,
+    },
+    {
+      path: [".husky", ".gitignore"],
+      contents: "_",
     },
   ],
 };

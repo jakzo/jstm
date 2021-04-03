@@ -25,7 +25,9 @@ config.gypi
 /.eslintignore
 /.prettierignore
 /.lintstagedrc.js
-/.huskyrc.js
+/.husky/pre-commit
+/.husky/pre-push
+/.husky/.gitignore
 /tsconfig.build.json
 /tsconfig.base.json
 # === (end generated patterns) ===

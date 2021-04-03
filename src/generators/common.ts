@@ -5,7 +5,9 @@ import { mergeJson, readFileOr } from "../utils";
 
 interface PackageScriptBuilder<C extends string> {
   add: <K extends string>(
-    func: (commands: Record<C, string>) => [K, string]
+    func: (
+      commands: Record<C, string>
+    ) => [K extends C ? "KeyAlreadyExists" : K, string]
   ) => PackageScriptBuilder<C | K>;
   entries: () => [string, string][];
 }
@@ -108,6 +110,10 @@ export const common: TemplateGenerator = {
             .add((c) => [
               "release",
               `${c["build:clean"]} && ${c.build} && changeset publish && run-if-script-exists release:custom`,
+            ])
+            .add(() => [
+              "prepare",
+              "husky install && run-if-script-exists prepare:custom",
             ])
             .entries(),
           ["=== (end generated scripts) ===", ""],

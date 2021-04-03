@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import { execSync, fork } from "child_process";
+import { fork } from "child_process";
+import path from "path";
 
 import chalk from "chalk";
 
@@ -12,16 +13,15 @@ const forkPromise = (modulePath: string, args: string[]): Promise<void> =>
     });
   });
 
-const exec = (cmd: string): Buffer => execSync(cmd, { stdio: "inherit" });
-
 export const main = async (): Promise<void> => {
   try {
     console.log(
       chalk.blueBright("Enter changeset information or press escape to skip...")
     );
-    await forkPromise("../../node_modules/.bin/changeset", []);
-    exec("git add .changeset");
-    exec('git commit -n -m "add changeset"');
+    await forkPromise(
+      path.join(__dirname, "..", "..", "node_modules", ".bin", "changeset"),
+      []
+    );
   } catch (err) {
     console.error(err);
     process.exit(1);
