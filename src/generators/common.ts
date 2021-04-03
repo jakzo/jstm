@@ -387,6 +387,8 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    outputs:
+      release_required: \${{ steps.check.outputs.release_required }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -398,15 +400,19 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Test
         run: |
+          set -e
           yarn run-if-script-exists test:ci:before
           yarn test:all
           yarn run-if-script-exists test:ci:after
+      - name: Check if release is required
+        id: check
+        run: yarn changeset status --since main && echo "::set-output name=release_required::true"
 
   release:
     name: Release
     runs-on: ubuntu-latest
     needs: test
-    if: github.ref == 'refs/heads/${mainBranch}'
+    if: \${{ github.ref == 'refs/heads/${mainBranch}' && needs.test.outputs.release_required == 'true' }}
     environment: Release
     outputs:
       release_upload_url: \${{ steps.create_release.outputs.upload_url }}
@@ -424,6 +430,7 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Bump versions according to changeset
         run: |
+          set -e
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           yarn changeset version
@@ -431,6 +438,7 @@ jobs:
       - name: Publish to npm
         id: publish
         run: |
+          set -e
           echo '//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}' > .npmrc
           yarn run-if-script-exists release:ci:before
           yarn release
