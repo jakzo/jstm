@@ -412,7 +412,8 @@ jobs:
         id: release_required
         with:
           script: |
-            const { changesets } = await require("@changesets/release-utils").readChangesetState();
+            const releaseUtils = require(process.env.GITHUB_WORKSPACE + '/node_modules/@changesets/release-utils');
+            const { changesets } = await releaseUtils.readChangesetState();
             return changesets.length > 0;
 
   release:
