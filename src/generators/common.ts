@@ -464,6 +464,7 @@ jobs:
             console.log(content.replace(/[%\\r\\n]/g, ch =>
               \`%\${ch.charCodeAt(0).toString(16).padStart(2, "0")}\`));
           ')"
+          yarn run-if-script-exists release:ci:after
         env:
           GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: \${{ secrets.NPM_TOKEN }}
@@ -476,8 +477,6 @@ jobs:
           tag_name: \${{ steps.publish.outputs.version_tag }}
           release_name: \${{ steps.publish.outputs.version_tag }}
           body: \${{ steps.publish.outputs.release_changelog }}
-      - name: After release
-        run: yarn run-if-script-exists release:ci:after
 `,
     },
   ],
