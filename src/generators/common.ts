@@ -421,7 +421,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     needs: test
-    if: \${{ github.ref == 'refs/heads/${mainBranch}' && needs.test.outputs.release_required }}
+    if: \${{ github.ref == 'refs/heads/${mainBranch}' && needs.test.outputs.release_required == 'true' }}
     environment: Release
     outputs:
       release_upload_url: \${{ steps.create_release.outputs.upload_url }}
