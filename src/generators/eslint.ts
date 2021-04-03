@@ -189,13 +189,13 @@ try {
 #!/bin/sh
 
 # DO NOT MODIFY
-# This file is auto-generated (make changes to pre-commit-custom.sh instead)
+# This file is auto-generated (make changes to pre-commit-custom instead)
 
 . "$(dirname "$0")/_/husky.sh"
 
 "$(dirname "$0")/../node_modules/.bin/lint-staged"
 
-CUSTOM_SCRIPT="$(dirname "$0")/pre-commit-custom.sh"
+CUSTOM_SCRIPT="$(dirname "$0")/pre-commit-custom"
 if [ -x "$CUSTOM_SCRIPT" ]; then
   "$CUSTOM_SCRIPT"
 fi
@@ -208,7 +208,7 @@ fi
 #!/bin/sh
 
 # DO NOT MODIFY
-# This file is auto-generated (make changes to pre-push-custom.sh instead)
+# This file is auto-generated (make changes to pre-push-custom instead)
 
 . "$(dirname "$0")/_/husky.sh"
 
@@ -217,7 +217,7 @@ if [ -x /dev/tty ]; then
   "$(dirname "$0")/../node_modules/.bin/project-pre-push"
 fi
 
-CUSTOM_SCRIPT="$(dirname "$0")/pre-push-custom.sh"
+CUSTOM_SCRIPT="$(dirname "$0")/pre-push-custom"
 if [ -x "$CUSTOM_SCRIPT" ]; then
   "$CUSTOM_SCRIPT"
 fi

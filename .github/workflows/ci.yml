@@ -86,7 +86,7 @@ jobs:
             const { version } = require("./package.json");
             const { content } = require("@changesets/release-utils").getChangelogEntry(changelog, version);
             console.log(content.replace(/[%\r\n]/g, ch =>
-              `%${ch.charCodeAt(0).toString(16).padStart(2, "0")}`));
+              `'%${ch.charCodeAt(0).toString(16).padStart(2, "0")}'`));
           ')"
           yarn run-if-script-exists release:ci:after
         env:

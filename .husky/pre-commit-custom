@@ -1,0 +1,3 @@
+#!/bin/sh
+yarn project
+git add .gitignore package.json .github/workflows/ci.yml
