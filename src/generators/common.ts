@@ -411,10 +411,11 @@ jobs:
         uses: actions/github-script@v3
         id: release_required
         with:
+          result-encoding: string
           script: |
             const releaseUtils = require(process.env.GITHUB_WORKSPACE + '/node_modules/@changesets/release-utils');
             const { changesets } = await releaseUtils.readChangesetState();
-            return changesets.length > 0;
+            return String(changesets.length > 0);
 
   release:
     name: Release
