@@ -2,6 +2,7 @@
 import { fork } from "child_process";
 import path from "path";
 
+import * as ch from "@changesets/release-utils";
 import chalk from "chalk";
 
 const forkPromise = (modulePath: string, args: string[]): Promise<void> =>
@@ -14,18 +15,19 @@ const forkPromise = (modulePath: string, args: string[]): Promise<void> =>
   });
 
 export const main = async (): Promise<void> => {
-  try {
-    console.log(
-      chalk.blueBright("Enter changeset information or press escape to skip...")
-    );
-    await forkPromise(
-      path.join(__dirname, "..", "..", "node_modules", ".bin", "changeset"),
-      []
-    );
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
+  const { changesets } = await ch.readChangesetState();
+  if (changesets.length === 0) return;
+
+  console.log(
+    chalk.blueBright("Enter changeset information or press escape to skip...")
+  );
+  await forkPromise(
+    path.join(__dirname, "..", "..", "node_modules", ".bin", "changeset"),
+    []
+  );
 };
 
-void main();
+void main().then((err) => {
+  console.error(err);
+  process.exit(1);
+});
