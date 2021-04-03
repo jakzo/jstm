@@ -214,8 +214,8 @@ fi
 
 if [ -x /dev/tty ]; then
   exec </dev/tty
+  "$(dirname "$0")/../node_modules/.bin/project-pre-push"
 fi
-"$(dirname "$0")/../node_modules/.bin/project-pre-push"
 
 CUSTOM_SCRIPT="$(dirname "$0")/pre-push-custom.sh"
 if [ -x "$CUSTOM_SCRIPT" ]; then
