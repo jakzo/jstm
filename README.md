@@ -1,6 +1,8 @@
 # @jstm/core
 
-JavaScript Technology Manager -- project tooling in a box. Preconfigured tools like Webpack, TypeScript, Jest, Github Actions and more set up and upgraded with a single command.\_
+_JavaScript Technology Manager -- project tooling in a box. Preconfigured tools like Webpack, TypeScript, Jest, Github Actions and more set up and upgraded with a single command._
+
+> **Warning:** this project is still in beta. Until it reaches v1.0.0 there will likely be breaking changes which require manual fixes.
 
 ## Usage
 
@@ -14,7 +16,7 @@ yarn add --dev @jstm/preset-node && yarn project
 
 ### Existing projects
 
-If you want to add this to an existing project you can run the same command to install all the tooling. Existing tooling files will be overwritten so make sure you're version control like Git so you can restore anything deleted if necessary. Carefully review all the changes which were made to make sure you don't lose anything. Some common things you will have to do are:
+If you want to add this to an existing project you can run the same command to install all the tooling. Existing tooling files will be overwritten so make sure you're using version control like Git so you can restore anything deleted if necessary. Carefully review all the changes which were made to make sure you don't lose anything. Some common things you will have to do are:
 
 - Manually find and delete any conflicting files. For example if the tool creates a `.eslintrc.js` file but your project had a `.eslintrc.json` file it will not be overwritten and you will have to manually delete the old file.
 - Modify your source code to pass tests and linting rules.
