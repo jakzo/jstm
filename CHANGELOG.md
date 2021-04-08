@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.10
+
+### Patch Changes
+
+- cfbf860: Final (tm) attempt at fixing changelog entries in GitHub releases.
+
 ## 0.2.9
 
 ### Patch Changes
