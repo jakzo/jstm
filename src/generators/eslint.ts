@@ -87,47 +87,33 @@ module.exports = {
   ],
   rules: {
     // Disabled rules
-    // Justification: Required for cases like \`try { ... } catch (err) {}\` and doesn't do much harm
     "no-empty": "off",
-    // Justification: Sometimes you just need a no-op and empty functions aren't a huge problem anyway
     "@typescript-eslint/no-empty-function": "off",
-    // Justification: Makes using things like \`Error.captureStackTrace\` painful
     "@typescript-eslint/unbound-method": "off",
-    // Justification: Some functions need to be async for API requirements but await nothing
     "@typescript-eslint/require-await": "off",
-    // Justification: Sometimes you want empty interfaces and they don't hurt anyone
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/no-explicit-any": "off",
 
     // Modified rules
-    // Justification: Allow intentionally infinite loops for cases like polling
     "no-constant-condition": ["error", { checkLoops: false }],
-    // Justification: Ignore pattern for cases like \`const cb = (_a, b) => b + 1\`
     "@typescript-eslint/no-unused-vars": [
       "error",
       { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
     ],
-    // Justification: This allows \`() => Promise<void>\` functions to be allowed when \`() => void\` is expected.
     "@typescript-eslint/no-misused-promises": [
       "error",
       { checksVoidReturn: false },
     ],
-    // Justification: This rule can be tedious for simple functions like \`() => 123\` and should
-    //                be made looser wherever possible
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       { allowExpressions: true },
     ],
 
     // Enabled rules
-    // Justification: Cyclic dependencies are confusing and cause bugs
     "import/no-cycle": "error",
-    // Justification: You should only use dependencies that exist in your package.
     "import/no-extraneous-dependencies": "error",
-    // Justification: Duplicate imports are confusing.
     "import/no-duplicates": ["error", { considerQueryString: true }],
-    // Justification: Keeps imports neat and readable
     "import/order": [
       "error",
       {
@@ -141,7 +127,6 @@ module.exports = {
         alphabetize: { order: "asc" },
       },
     ],
-    // Justification: same as import/order
     "sort-imports": [
       "error",
       {
@@ -149,15 +134,10 @@ module.exports = {
         ignoreMemberSort: false,
       },
     ],
-    // Justification: Readability
     "import/first": "error",
-    // Justification: Readability
     "import/newline-after-import": "error",
-    // Justification: Readability
     "import/no-useless-path-segments": "error",
-    // Justification: Why would you ever want to do this?
     "import/no-self-import": "error",
-    // Justification: Forgetting to await a promise is a common mistake
     "@typescript-eslint/no-floating-promises": ["error", { ignoreVoid: true }],
   },
 };
