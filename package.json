@@ -26,7 +26,8 @@
     "node": ">=10"
   },
   "bin": {
-    "run-if-script-exists": "./dist/bin/run-if-script-exists.js"
+    "run-if-script-exists": "./dist/bin/run-if-script-exists.js",
+    "ci-github-print-changelog": "./dist/bin/ci-github-print-changelog.js"
   },
   "scripts": {
     "=== Generated Scripts (do not modify) ===": "",

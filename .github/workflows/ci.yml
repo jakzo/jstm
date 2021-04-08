@@ -81,13 +81,7 @@ jobs:
           yarn run-if-script-exists release:ci:before
           yarn release
           echo "::set-output name=version_tag::$(git describe --tags --abbrev=0)"
-          echo "::set-output name=release_changelog::$(node -e '
-            const changelog = require("fs").readFileSync("CHANGELOG.md", "utf8");
-            const { version } = require("./package.json");
-            const { content } = require("@changesets/release-utils").getChangelogEntry(changelog, version);
-            console.log(content.replace(/[%\r\n]/g, ch =>
-              `'%${ch.charCodeAt(0).toString(16).padStart(2, "0")}'`));
-          ')"
+          echo "::set-output name=release_changelog::$(yarn ci-github-print-changelog)"
           yarn run-if-script-exists release:ci:after
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
