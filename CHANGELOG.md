@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.5
+
+### Patch Changes
+
+- 87fe25d: Added a configuration system consisting of a /config/.jstmrc.json file and prompts to generate one if it doesn't exist.
+
 ## 0.2.4
 
 ### Patch Changes
