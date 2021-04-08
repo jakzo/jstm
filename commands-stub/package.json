@@ -6,7 +6,8 @@
   "bin": {
     "project": "bin.js",
     "run-if-script-exists": "bin.js",
-    "project-pre-push": "bin.js"
+    "project-pre-push": "bin.js",
+    "ci-github-print-changelog": "bin.js"
   },
   "scripts": {
     "postinstall": "node bin.js"

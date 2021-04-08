@@ -27,6 +27,7 @@
   },
   "bin": {
     "run-if-script-exists": "./dist/bin/run-if-script-exists.js",
+    "project-pre-push": "./dist/bin/project-pre-push.js",
     "ci-github-print-changelog": "./dist/bin/ci-github-print-changelog.js"
   },
   "scripts": {
