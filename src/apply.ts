@@ -3,8 +3,9 @@ import path from "path";
 import * as fse from "fs-extra";
 import type { PackageJson } from "type-fest";
 
-import { ContentsVars, Preset, TemplateFile, Vars } from "./types";
-import { readFileOr } from "./utils";
+import { Config } from "./config";
+import { Preset, TemplateFile } from "./types";
+import { prettierFormatter, readFileOr } from "./utils";
 
 const asyncMap = async <T, U>(
   arr: T[],
@@ -30,12 +31,20 @@ export const applyPreset = async (
     await readFileOr("package.json", "{}")
   ) as PackageJson;
 
-  const vars = await getVars(packageJson, presetPackageJson);
+  const vars = {
+    config: new Config(process.cwd(), preset.formatter || prettierFormatter),
+    presetPackageJson,
+    packageJson,
+  };
   const files = [];
   for (const generator of preset.generators) {
     files.push(...(await generator.files(vars)));
   }
-  const contentsVars = getContentsVars(files);
+  const contentsVars = {
+    gitignorePatterns: files
+      .filter((file) => !file.isCheckedIn)
+      .map((file) => file.path.map((part) => `/${part}`).join("")),
+  };
   const formatter = preset.formatter || ((s) => s);
   const filesWithContents = await asyncMap(files, async (file) => ({
     ...file,
@@ -52,6 +61,7 @@ export const applyPreset = async (
   for (const file of filesWithContents) {
     await writeFileIfChanged(file);
   }
+  await vars.config.saveProjectConfig();
 };
 
 export const applyPresetCli = async (
@@ -62,27 +72,6 @@ export const applyPresetCli = async (
     console.error(err);
     process.exit(1);
   });
-
-const getVars = async (
-  packageJson: PackageJson,
-  presetPackageJson: PackageJson
-): Promise<Vars> => ({
-  presetPackageJson,
-  packageJson,
-  packageName: packageJson.name || `@jakzo/${path.basename(process.cwd())}`,
-  description: packageJson.description,
-  nodeTargetVersion: 14,
-  nodeMinVersion: 12,
-  srcDir: "src",
-  distDir: "dist",
-  mainBranch: "main",
-});
-
-const getContentsVars = (files: TemplateFile[]): ContentsVars => ({
-  gitignorePatterns: files
-    .filter((file) => !file.isCheckedIn)
-    .map((file) => file.path.map((part) => `/${part}`).join("")),
-});
 
 const writeFileIfChanged = async (file: TemplateFile): Promise<void> => {
   const filePath = path.join(...file.path);

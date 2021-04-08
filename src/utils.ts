@@ -6,7 +6,7 @@ import * as fleece from "golden-fleece";
 import * as prettier from "prettier";
 import type { PackageJson } from "type-fest";
 
-import { Preset } from "./types";
+import type { Formatter } from "./types";
 
 export const readFileOr = async <D>(
   filePath: string,
@@ -62,7 +62,7 @@ export const runIfScriptExists = (scriptName: string): void => {
   }
 };
 
-export const prettierFormatter: Preset["formatter"] = (filename, contents) => {
+export const prettierFormatter: Formatter = (filename, contents) => {
   const fileExt = path.extname(filename);
   const parser = Object.entries<string[]>({
     angular: [],

@@ -1,5 +1,6 @@
 import type { TemplateGenerator } from "../types";
 import { mergeJson } from "../utils";
+import { getDistDir, getNodeMinVersion, getSrcDir } from "./utils/config";
 
 export const typescript: TemplateGenerator = {
   devDependencies: [
@@ -9,7 +10,11 @@ export const typescript: TemplateGenerator = {
     "@types/node",
     "@types/jest",
   ],
-  files: async ({ nodeMinVersion, srcDir, distDir }) => {
+  files: async ({ config }) => {
+    const srcDir = await getSrcDir(config);
+    const distDir = await getDistDir(config);
+    const nodeMinVersion = await getNodeMinVersion(config);
+
     const targetEsVersion =
       nodeMinVersion < 6
         ? "ES6"

@@ -9,10 +9,10 @@ _JavaScript Technology Manager -- project tooling in a box. Preconfigured tools 
 Create an empty directory for your new project then run:
 
 ```sh
-yarn add --dev @jstm/preset-node && yarn project
+yarn add --dev @jstm/preset-node
 ```
 
-**That's it!** All the tooling should now be set up. Note that you may need to restart your IDE for the integrations to pick up the changes to tooling (eg. for the VSCode ESLint plugin to read the newly created config).
+**That's it!** After a few prompts all the tooling should now be set up. Note that you may need to restart your IDE for the integrations to pick up the changes to tooling (eg. for the VSCode ESLint plugin to read the newly created config).
 
 ### Existing projects
 
@@ -30,6 +30,12 @@ There are multiple templates available. To use a particular template, simply ins
 These packages are:
 
 - `@jstm/preset-node` - Preconfigured tooling for Node.js projects.
+
+## Configuration
+
+Configuration values for jstm are stored in `PROJECT_ROOT/config/.jstmrc.json`. This file contains things like the name of your project's main git branch (eg. master or main) or the minimum supported node version of your project. If this file does not exist you will be prompted for values for missing configuration items. After going through the prompts this file will be automatically created for you. Any config items missing from your `.jstmrc.json` will use jstm's default values.
+
+While you can configure a lot of different things, it is recommended you choose the defaults as much as possible. One of the main benefits of jstm is that it automatically upgrades your tooling config, but if you manually specify config values you will need to update them yourself. For example, if you set `nodeMinVersion` to 13 when the default is 12, eventually node 12 will reach its end-of-life and jstm will have the default bumped to version 14, but your project will still be using version 13 until you update it yourself.
 
 ## FAQ
 

@@ -19,7 +19,7 @@ CVS
 config.gypi
 /.npmignore
 /.nvmrc
-/.ymvrc
+/.yvmrc
 /jest.config.js
 /.eslintrc.js
 /.eslintignore

@@ -2,6 +2,18 @@ import path from "path";
 
 import type { TemplateGenerator } from "../types";
 import { mergeJson, readFileOr } from "../utils";
+import {
+  getDescription,
+  getDistDir,
+  getLicense,
+  getMainBranch,
+  getNodeMinVersion,
+  getNodeTargetVersion,
+  getPackageJsonAuthor,
+  getPackageName,
+  getRepoUrl,
+  getSrcDir,
+} from "./utils/config";
 
 interface PackageScriptBuilder<C extends string> {
   add: <K extends string>(
@@ -14,200 +26,208 @@ interface PackageScriptBuilder<C extends string> {
 
 export const common: TemplateGenerator = {
   devDependencies: ["jest", "ts-jest", "@types/jest", "rimraf"],
-  files: async ({
-    packageJson,
-    packageName,
-    description,
-    nodeTargetVersion,
-    nodeMinVersion,
-    srcDir,
-    distDir,
-    presetPackageJson,
-    mainBranch,
-  }) => [
-    {
-      path: ["package.json"],
-      isCheckedIn: true,
-      contents: () => {
-        const scriptEntries = Object.entries(packageJson.scripts || {});
-        const getGeneratedScriptIndexes = (): [number, number] => {
-          const generatedScriptStart = scriptEntries.findIndex(([key]) =>
-            /^\s*=== Generated Scripts/i.test(key)
-          );
-          if (generatedScriptStart === -1) return [0, 0];
-          const generatedScriptEnd =
-            generatedScriptStart +
-            2 +
-            scriptEntries
-              .slice(generatedScriptStart + 1)
-              .findIndex(([key]) => /^\s*===/.test(key));
-          return [
-            generatedScriptStart,
-            generatedScriptEnd +
-              (scriptEntries[generatedScriptEnd]?.[0] === "" ? 1 : 0),
-          ];
-        };
-        const [
-          generateScriptStart,
-          generatedScriptEnd,
-        ] = getGeneratedScriptIndexes();
+  files: async ({ config, packageJson, presetPackageJson }) => {
+    const packageName = await getPackageName(config, packageJson);
+    const description = await getDescription(config, packageJson);
+    const mainBranch = await getMainBranch(config);
+    const srcDir = await getSrcDir(config);
+    const distDir = await getDistDir(config);
+    const nodeMinVersion = await getNodeMinVersion(config);
+    const nodeTargetVersion = await getNodeTargetVersion(config);
 
-        const packageScriptBuilder = (): PackageScriptBuilder<never> => {
-          const scripts: Record<string, string> = {};
-          const builder: PackageScriptBuilder<never> = {
-            add: (func) => {
-              const [name, command] = func(scripts);
-              scripts[name] = command;
-              return builder as PackageScriptBuilder<string>;
-            },
-            entries: () =>
-              Object.entries(scripts).map(([name, command]) => [
-                name,
-                `project && ${command}`,
-              ]),
+    return [
+      {
+        path: ["package.json"],
+        isCheckedIn: true,
+        contents: async () => {
+          const scriptEntries = Object.entries(packageJson.scripts || {});
+          const getGeneratedScriptIndexes = (): [number, number] => {
+            const generatedScriptStart = scriptEntries.findIndex(([key]) =>
+              /^\s*=== Generated Scripts/i.test(key)
+            );
+            if (generatedScriptStart === -1) return [0, 0];
+            const generatedScriptEnd =
+              generatedScriptStart +
+              2 +
+              scriptEntries
+                .slice(generatedScriptStart + 1)
+                .findIndex(([key]) => /^\s*===/.test(key));
+            return [
+              generatedScriptStart,
+              generatedScriptEnd +
+                (scriptEntries[generatedScriptEnd]?.[0] === "" ? 1 : 0),
+            ];
           };
-          return builder;
-        };
+          const [
+            generateScriptStart,
+            generatedScriptEnd,
+          ] = getGeneratedScriptIndexes();
 
-        packageJson.scripts = Object.fromEntries([
-          ["=== Generated Scripts (do not modify) ===", ""],
-          ...packageScriptBuilder()
-            .add(() => ["dev", "ts-node-dev ./src/index.ts"])
-            .add(() => ["lint:eslint", "eslint --cache --ext js,jsx,ts,tsx ./"])
-            .add(() => ["lint:prettier", 'prettier -c "./**/*{.json,.md}"'])
-            .add((c) => [
-              "lint:fix",
-              `${c["lint:eslint"]} --fix && ${c["lint:prettier"]} --write && run-if-script-exists lint:fix:custom`,
-            ])
-            .add((c) => [
-              "lint",
-              `${c["lint:eslint"]} && ${c["lint:prettier"]} && run-if-script-exists lint:custom`,
-            ])
-            .add(() => [
-              "build:clean",
-              `rimraf "./${distDir}" *.tsbuildinfo && run-if-script-exists build:clean:custom`,
-            ])
-            .add(() => ["build:typescript", "tsc -p ./tsconfig.build.json"])
-            .add((c) => ["build:watch", `${c["build:typescript"]} -w`])
-            .add((c) => [
-              "build",
-              `run-if-script-exists build:custom-before && ${c["build:typescript"]} && run-if-script-exists build:custom`,
-            ])
-            .add(() => ["test:jest", "jest --passWithNoTests"])
-            .add((c) => ["test:watch", `${c["test:jest"]} --watch`])
-            .add((c) => [
-              "test",
-              `${c["test:jest"]} && run-if-script-exists test:custom`,
-            ])
-            .add((c) => [
-              "test:typecheck",
-              `tsc -p ./tsconfig.json --noEmit && ${c["build:typescript"]} --noEmit`,
-            ])
-            .add((c) => [
-              "test:all",
-              `${c["test:typecheck"]} && ${c.lint} && ${c.test}`,
-            ])
-            .add((c) => [
-              "release",
-              `${c["build:clean"]} && ${c.build} && changeset publish && run-if-script-exists release:custom`,
-            ])
-            .add(() => [
-              "prepare",
-              "husky install && run-if-script-exists prepare:custom",
-            ])
-            .entries(),
-          ["=== (end generated scripts) ===", ""],
-          ["", ""],
-          ...scriptEntries.slice(0, generateScriptStart),
-          ...scriptEntries.slice(generatedScriptEnd),
-        ]) as Record<string, string>;
+          const packageScriptBuilder = (): PackageScriptBuilder<never> => {
+            const scripts: Record<string, string> = {};
+            const builder: PackageScriptBuilder<never> = {
+              add: (func) => {
+                const [name, command] = func(scripts);
+                scripts[name] = command;
+                return builder as PackageScriptBuilder<string>;
+              },
+              entries: () =>
+                Object.entries(scripts).map(([name, command]) => [
+                  name,
+                  `project && ${command}`,
+                ]),
+            };
+            return builder;
+          };
 
-        const entriesAfter = [
-          ["scripts", packageJson.scripts],
-          ["peerDependencies", packageJson.peerDependencies],
-          ["optionalDependencies", packageJson.optionalDependencies],
-          ["dependencies", packageJson.dependencies],
-          [
-            "devDependencies",
-            packageJson.devDependencies || {
-              [presetPackageJson.name as string]: `^${presetPackageJson.version}`,
-            },
-          ],
-        ];
+          packageJson.scripts = Object.fromEntries([
+            ["=== Generated Scripts (do not modify) ===", ""],
+            ...packageScriptBuilder()
+              .add(() => ["dev", "ts-node-dev ./src/index.ts"])
+              .add(() => [
+                "lint:eslint",
+                "eslint --cache --ext js,jsx,ts,tsx ./",
+              ])
+              .add(() => ["lint:prettier", 'prettier -c "./**/*{.json,.md}"'])
+              .add((c) => [
+                "lint:fix",
+                `${c["lint:eslint"]} --fix && ${c["lint:prettier"]} --write && run-if-script-exists lint:fix:custom`,
+              ])
+              .add((c) => [
+                "lint",
+                `${c["lint:eslint"]} && ${c["lint:prettier"]} && run-if-script-exists lint:custom`,
+              ])
+              .add(() => [
+                "build:clean",
+                `rimraf "./${distDir}" *.tsbuildinfo && run-if-script-exists build:clean:custom`,
+              ])
+              .add(() => ["build:typescript", "tsc -p ./tsconfig.build.json"])
+              .add((c) => ["build:watch", `${c["build:typescript"]} -w`])
+              .add((c) => [
+                "build",
+                `run-if-script-exists build:custom-before && ${c["build:typescript"]} && run-if-script-exists build:custom`,
+              ])
+              .add(() => ["test:jest", "jest --passWithNoTests"])
+              .add((c) => ["test:watch", `${c["test:jest"]} --watch`])
+              .add((c) => [
+                "test",
+                `${c["test:jest"]} && run-if-script-exists test:custom`,
+              ])
+              .add((c) => [
+                "test:typecheck",
+                `tsc -p ./tsconfig.json --noEmit && ${c["build:typescript"]} --noEmit`,
+              ])
+              .add((c) => [
+                "test:all",
+                `${c["test:typecheck"]} && ${c.lint} && ${c.test}`,
+              ])
+              .add((c) => [
+                "release",
+                `${c["build:clean"]} && ${c.build} && changeset publish && run-if-script-exists release:custom`,
+              ])
+              .add(() => [
+                "prepare",
+                "husky install && run-if-script-exists prepare:custom",
+              ])
+              .entries(),
+            ["=== (end generated scripts) ===", ""],
+            ["", ""],
+            ...scriptEntries.slice(0, generateScriptStart),
+            ...scriptEntries.slice(generatedScriptEnd),
+          ]) as Record<string, string>;
 
-        const repoName = packageName.split("/").slice(-1)[0];
-        return JSON.stringify(
-          Object.fromEntries(
+          const entriesAfter = [
+            ["scripts", packageJson.scripts],
+            ["peerDependencies", packageJson.peerDependencies],
+            ["optionalDependencies", packageJson.optionalDependencies],
+            ["dependencies", packageJson.dependencies],
             [
-              ["name", packageName],
-              ["private", packageJson.private],
-              ["version", packageJson.version || "0.0.1"],
-              ["description", packageJson.description || ""],
-              ["keywords", packageJson.keywords || []],
+              "devDependencies",
+              packageJson.devDependencies || {
+                [presetPackageJson.name as string]: `^${presetPackageJson.version}`,
+              },
+            ],
+          ];
+
+          return JSON.stringify(
+            Object.fromEntries(
               [
-                "homepage",
-                packageJson.homepage ||
-                  `https://github.com/jakzo/${repoName}#readme`,
-              ],
-              [
-                "repository",
-                packageJson.repository || {
-                  type: "git",
-                  url: `https://github.com/jakzo/${repoName}.git`,
-                },
-              ],
-              [
-                "bugs",
-                packageJson.bugs || {
-                  url: `https://github.com/jakzo/${repoName}/issues`,
-                  email: "jack@jf.id.au",
-                },
-              ],
-              // TODO: Prompt these default values from the user
-              ["author", packageJson.author || "Jack Field"],
-              ["license", packageJson.license || "MIT"],
-              ["main", packageJson.main || `${distDir}/index.js`],
-              ["types", packageJson.types || `${distDir}/index.d.ts`],
-              [
-                "engines",
-                packageJson.engines || { node: `>=${nodeMinVersion}` },
-              ],
-              ...Object.entries(packageJson).filter(
-                ([key]) => !entriesAfter.some(([keyAfter]) => keyAfter === key)
-              ),
-              ...entriesAfter,
-            ].filter(([, value]) => value != null)
-          ),
-          null,
-          // TODO: Find tab size of existing package.json
-          2
-        );
+                ["name", packageName],
+                ["private", packageJson.private],
+                ["version", packageJson.version || "0.0.1"],
+                ["description", description],
+                ["keywords", packageJson.keywords || []],
+                [
+                  "homepage",
+                  packageJson.homepage ||
+                    `${await getRepoUrl(config, packageName)}#readme`,
+                ],
+                [
+                  "repository",
+                  packageJson.repository || {
+                    type: "git",
+                    url: `${await getRepoUrl(config, packageName)}.git`,
+                  },
+                ],
+                [
+                  "bugs",
+                  packageJson.bugs || {
+                    url: `${await getRepoUrl(config, packageName)}/issues`,
+                  },
+                ],
+                // TODO: Prompt these default values from the user
+                [
+                  "author",
+                  packageJson.author || (await getPackageJsonAuthor(config)),
+                ],
+                [
+                  "license",
+                  packageJson.license ||
+                    (await getLicense(config, packageJson)),
+                ],
+                ["main", packageJson.main || `${distDir}/index.js`],
+                ["types", packageJson.types || `${distDir}/index.d.ts`],
+                [
+                  "engines",
+                  packageJson.engines || { node: `>=${nodeMinVersion}` },
+                ],
+                ...Object.entries(packageJson).filter(
+                  ([key]) =>
+                    !entriesAfter.some(([keyAfter]) => keyAfter === key)
+                ),
+                ...entriesAfter,
+              ].filter(([, value]) => value != null)
+            ),
+            null,
+            2
+          );
+        },
       },
-    },
-    {
-      path: ["src", "index.ts"],
-      isCheckedIn: true,
-      doNotOverwrite: true,
-      contents: "",
-    },
-    {
-      path: ["README.md"],
-      isCheckedIn: true,
-      doNotOverwrite: true,
-      contents: `
+      {
+        path: ["src", "index.ts"],
+        isCheckedIn: true,
+        doNotOverwrite: true,
+        contents: "",
+      },
+      {
+        path: ["README.md"],
+        isCheckedIn: true,
+        doNotOverwrite: true,
+        contents: async () => `
 # ${packageName}
 ${description ? `\n_${description}_\n` : ""}
 ## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for instructions how to develop locally and make changes.
 `,
-    },
-    {
-      path: ["CONTRIBUTING.md"],
-      isCheckedIn: true,
-      doNotOverwrite: true,
-      contents: `
-Hi! 👋 Contributions are welcome -- feel free to open a PR for small fixes or open an issue for bigger changes, discussion or if unsure about how to implement something.
+      },
+      {
+        path: ["CONTRIBUTING.md"],
+        isCheckedIn: true,
+        doNotOverwrite: true,
+        contents: `
+Hi! 👋 Contributions are welcome -- feel free to open a PR for small fixes or open an issue for \
+bigger changes, discussion or if unsure about how to implement something.
 
 ## Dev Instructions
 
@@ -217,13 +237,7 @@ Before starting, install dependencies with:
 yarn
 \`\`\`
 
-To start the application in development mode while auto-reloading on change:
-
-\`\`\`sh
-yarn dev
-\`\`\`
-
-Other common commands are:
+Common commands are:
 
 \`\`\`sh
 yarn test:watch
@@ -231,12 +245,19 @@ yarn lint:fix
 \`\`\`
 
 See [package.json](./package.json) for more.
+
+## Releasing changes
+
+When you run \`git push\` you should be prompted to add a changeset if one doesn't already exist. \
+This will ask for a description for the change to appear in the changelog as well as the type of \
+bump (major, minor or patch) to make to the package. A PR without a changelog will not perform a \
+release or bump the package version.
 `,
-    },
-    {
-      path: [".gitignore"],
-      isCheckedIn: true,
-      contents: async ({ gitignorePatterns }) => `
+      },
+      {
+        path: [".gitignore"],
+        isCheckedIn: true,
+        contents: async ({ gitignorePatterns }) => `
 # === Generated Ignore Patterns (do not modify) ===
 /${distDir}/
 node_modules/
@@ -266,10 +287,10 @@ ${await readFileOr(
   contents.replace(/^\s*# === Generated [^]+# === [^\n]+(?:\n|$)/m, "").trim()
 )}
 `,
-    },
-    {
-      path: [".npmignore"],
-      contents: `
+      },
+      {
+        path: [".npmignore"],
+        contents: `
 # DO NOT MODIFY
 # This file is auto-generated (make changes to ./config/.npmignore instead)
 
@@ -296,18 +317,18 @@ __*__
 
 ${await readFileOr(path.join("config", ".npmignore"), "")}
 `,
-    },
-    {
-      path: [".nvmrc"],
-      contents: `${nodeTargetVersion}\n`,
-    },
-    {
-      path: [".ymvrc"],
-      contents: "1.9.2\n",
-    },
-    {
-      path: ["jest.config.js"],
-      contents: `
+      },
+      {
+        path: [".nvmrc"],
+        contents: `${nodeTargetVersion}`,
+      },
+      {
+        path: [".yvmrc"],
+        contents: "1.9.2",
+      },
+      {
+        path: ["jest.config.js"],
+        contents: `
 // DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/jest.config.js instead)
 
@@ -337,43 +358,43 @@ try {
   Object.assign(module.exports, require('./config/jest.config'));
 } catch (_err) {}
 `,
-    },
-    {
-      path: [".vscode", "settings.json"],
-      isCheckedIn: true,
-      contents: await mergeJson(
-        path.join(".vscode", "settings.json"),
-        [
-          "javascript",
-          "javascriptreact",
-          "typescript",
-          "typescriptreact",
-        ].reduce(
-          (settings, lang) => {
-            settings[`[${lang}]`] = {
-              "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-            };
-            return settings;
-          },
-          {
-            "editor.formatOnSave": true,
-            "editor.defaultFormatter": "esbenp.prettier-vscode",
-            "eslint.format.enable": true,
-          } as Record<string, unknown>
-        )
-      ),
-    },
-    {
-      path: [".vscode", "extensions.json"],
-      isCheckedIn: true,
-      contents: await mergeJson(path.join(".vscode", "extensions.json"), {
-        recommendations: ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"],
-      }),
-    },
-    {
-      path: [".github", "workflows", "ci.yml"],
-      isCheckedIn: true,
-      contents: `
+      },
+      {
+        path: [".vscode", "settings.json"],
+        isCheckedIn: true,
+        contents: await mergeJson(
+          path.join(".vscode", "settings.json"),
+          [
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact",
+          ].reduce(
+            (settings, lang) => {
+              settings[`[${lang}]`] = {
+                "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+              };
+              return settings;
+            },
+            {
+              "editor.formatOnSave": true,
+              "editor.defaultFormatter": "esbenp.prettier-vscode",
+              "eslint.format.enable": true,
+            } as Record<string, unknown>
+          )
+        ),
+      },
+      {
+        path: [".vscode", "extensions.json"],
+        isCheckedIn: true,
+        contents: await mergeJson(path.join(".vscode", "extensions.json"), {
+          recommendations: ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"],
+        }),
+      },
+      {
+        path: [".github", "workflows", "ci.yml"],
+        isCheckedIn: true,
+        contents: `
 # DO NOT MODIFY
 # This file is auto-generated (make another YAML file in this directory instead)
 name: CI
@@ -478,6 +499,7 @@ jobs:
           release_name: \${{ steps.publish.outputs.version_tag }}
           body: \${{ steps.publish.outputs.release_changelog }}
 `,
-    },
-  ],
+      },
+    ];
+  },
 };

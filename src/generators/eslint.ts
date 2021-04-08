@@ -2,6 +2,7 @@ import path from "path";
 
 import type { TemplateFile, TemplateGenerator } from "../types";
 import { readFileOr } from "../utils";
+import { getDistDir } from "./utils/config";
 
 export const eslint: TemplateGenerator = {
   devDependencies: [
@@ -19,10 +20,13 @@ export const eslint: TemplateGenerator = {
     "lint-staged",
     "chalk",
   ],
-  files: async ({ distDir }) => [
-    {
-      path: [".eslintrc.js"],
-      contents: `
+  files: async ({ config }) => {
+    const distDir = await getDistDir(config);
+
+    return [
+      {
+        path: [".eslintrc.js"],
+        contents: `
 // DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/.eslintrc.js instead)
 
@@ -163,12 +167,12 @@ try {
   Object.assign(module.exports, require('./config/.eslintrc'));
 } catch (_err) {}
 `,
-    },
-    ignorefileEntry(".eslintignore", distDir),
-    ignorefileEntry(".prettierignore", distDir),
-    {
-      path: [".lintstagedrc.js"],
-      contents: `
+      },
+      ignorefileEntry(".eslintignore", distDir),
+      ignorefileEntry(".prettierignore", distDir),
+      {
+        path: [".lintstagedrc.js"],
+        contents: `
 // DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/.lintstagedrc.js instead)
 
@@ -181,11 +185,11 @@ try {
   Object.assign(module.exports, require('./config/.lintstagedrc'));
 } catch (_err) {}
 `,
-    },
-    {
-      path: [".husky", "pre-commit"],
-      isExecutable: true,
-      contents: `
+      },
+      {
+        path: [".husky", "pre-commit"],
+        isExecutable: true,
+        contents: `
 #!/bin/sh
 
 # DO NOT MODIFY
@@ -200,11 +204,11 @@ if [ -x "$CUSTOM_SCRIPT" ]; then
   "$CUSTOM_SCRIPT"
 fi
 `,
-    },
-    {
-      path: [".husky", "pre-push"],
-      isExecutable: true,
-      contents: `
+      },
+      {
+        path: [".husky", "pre-push"],
+        isExecutable: true,
+        contents: `
 #!/bin/sh
 
 # DO NOT MODIFY
@@ -222,12 +226,13 @@ if [ -x "$CUSTOM_SCRIPT" ]; then
   "$CUSTOM_SCRIPT"
 fi
 `,
-    },
-    {
-      path: [".husky", ".gitignore"],
-      contents: "_",
-    },
-  ],
+      },
+      {
+        path: [".husky", ".gitignore"],
+        contents: "_",
+      },
+    ];
+  },
 };
 
 const ignorefileEntry = (filename: string, distDir: string): TemplateFile => ({

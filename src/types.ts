@@ -1,12 +1,18 @@
 import type { PackageJson } from "type-fest";
 
+import type { Config } from "./config";
+
 export type MaybePromise<T> = T | Promise<T>;
+
+export interface Formatter {
+  (filename: string, contents: string): string;
+}
 
 export interface Preset {
   name: string;
   useCase: string;
   generators: TemplateGenerator[];
-  formatter?: (filename: string, contents: string) => string;
+  formatter?: Formatter;
 }
 
 export interface TemplateGenerator {
@@ -24,15 +30,9 @@ export interface TemplateFile {
 }
 
 export interface Vars {
+  config: Config;
   presetPackageJson: PackageJson;
   packageJson: PackageJson;
-  packageName: string;
-  description?: string;
-  nodeTargetVersion: number;
-  nodeMinVersion: number;
-  srcDir: string;
-  distDir: string;
-  mainBranch: string;
 }
 export interface ContentsVars {
   gitignorePatterns: string[];
