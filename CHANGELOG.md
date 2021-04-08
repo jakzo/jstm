@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.8
+
+### Patch Changes
+
+- 9b52163: Yet another attempt at fixing changelog entries in GitHub releases.
+
 ## 0.2.7
 
 ### Patch Changes
