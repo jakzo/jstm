@@ -10,7 +10,8 @@ export const main = async (): Promise<void> => {
   console.log(
     content.replace(
       /[%\r\n]/g,
-      (ch) => `'%${ch.charCodeAt(0).toString(16).padStart(2, "0")}'`
+      (ch) =>
+        `'%${ch.charCodeAt(0).toString(16).padStart(2, "0").toUpperCase()}'`
     )
   );
 };
