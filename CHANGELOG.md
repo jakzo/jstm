@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.6
+
+### Patch Changes
+
+- 220247a: Fixed changelog entries in GitHub releases.
+
 ## 0.2.5
 
 ### Patch Changes
