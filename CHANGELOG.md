@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.11
+
+### Patch Changes
+
+- e8290f1: Fixed postinstall script.
+
 ## 0.2.10
 
 ### Patch Changes
