@@ -43,7 +43,7 @@ const main = async (): Promise<void> => {
         project: "project.js",
       },
       scripts: {
-        postinstall: "project",
+        postinstall: "./project.js",
       },
       dependencies: {
         [mainPackageJson.name as string]: mainPackageJson.version as string,
