@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.12
+
+### Patch Changes
+
+- 12ba82c: Removed postinstall setup script.
+
 ## 0.2.11
 
 ### Patch Changes
