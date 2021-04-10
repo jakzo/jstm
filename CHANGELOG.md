@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.15
+
+### Patch Changes
+
+- da47f37: Added peer dependencies required by Jest/jsdom.
+
 ## 0.2.14
 
 ### Patch Changes
