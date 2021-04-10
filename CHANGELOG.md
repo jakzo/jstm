@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.13
+
+### Patch Changes
+
+- 7ae2ca4: Fixed publish script.
+
 ## 0.2.12
 
 ### Patch Changes
