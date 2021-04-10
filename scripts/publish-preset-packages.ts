@@ -22,9 +22,15 @@ const main = async (): Promise<void> => {
     packageJson.version = corePackageJson.version;
     await fse.writeJson(packageJsonPath, packageJson, { spaces: 2 });
 
-    spawnSync("npm", ["publish", "--access", "public", packageDir], {
-      stdio: "inherit",
-    });
+    const { status, error } = spawnSync(
+      "npm",
+      ["publish", "--access", "public", packageDir],
+      {
+        stdio: "inherit",
+      }
+    );
+    if (error || status)
+      throw error || new Error(`npm publish returned code: ${status}`);
   }
 };
 
