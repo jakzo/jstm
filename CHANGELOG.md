@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.14
+
+### Patch Changes
+
+- e34e9f8: Fixed bug where generated scripts were not replacing custom scripts with the same name.
+
 ## 0.2.13
 
 ### Patch Changes
