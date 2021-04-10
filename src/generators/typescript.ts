@@ -7,6 +7,7 @@ export const typescript: TemplateGenerator = {
     "typescript",
     "ts-node",
     "ts-node-dev",
+    "node-notifier",
     "@types/node",
     "@types/jest",
   ],

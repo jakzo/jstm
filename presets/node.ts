@@ -8,6 +8,7 @@ const preset: Preset = {
     generators.packageGen,
     generators.eslint,
     generators.typescript,
+    generators.jest,
   ],
   formatter: prettierFormatter,
 };

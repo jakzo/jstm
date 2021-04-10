@@ -20,7 +20,6 @@ config.gypi
 /.npmignore
 /.nvmrc
 /.yvmrc
-/jest.config.js
 /.eslintrc.js
 /.eslintignore
 /.prettierignore
@@ -30,6 +29,7 @@ config.gypi
 /.husky/.gitignore
 /tsconfig.build.json
 /tsconfig.base.json
+/jest.config.js
 # === (end generated patterns) ===
 
 /presets/packages/

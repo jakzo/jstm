@@ -330,39 +330,6 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
         contents: "1.9.2",
       },
       {
-        path: ["jest.config.js"],
-        contents: `
-// DO NOT MODIFY
-// This file is auto-generated (make changes to ./config/jest.config.js instead)
-
-module.exports = {
-  automock: false,
-  cacheDirectory: '<rootDir>/.jest',
-  collectCoverage: false,
-  coverageDirectory: './.coverage',
-  collectCoverageFrom: ['./${srcDir}/**/*.{js,jsx,ts,tsx}'],
-  coverageThreshold: {
-    global: {
-      branches: 60,
-      functions: 60,
-      lines: 60,
-      statements: 60,
-    },
-  },
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  testPathIgnorePatterns: ['/node_modules/', '/.cache/', '/.git/', '/${distDir}/'],
-  watchPathIgnorePatterns: ['/node_modules/', '/.cache/', '/.git/', '/${distDir}/'],
-  testRegex: '/__tests__/.+\\.test\\.(?:js|jsx|ts|tsx)$',
-};
-
-try {
-  Object.assign(module.exports, require('./config/jest.config'));
-} catch (_err) {}
-`,
-      },
-      {
         path: [".vscode", "settings.json"],
         isCheckedIn: true,
         contents: await mergeJson(
