@@ -22,6 +22,7 @@ interface PackageScriptBuilder<C extends string> {
     ) => [K extends C ? "KeyAlreadyExists" : K, string]
   ) => PackageScriptBuilder<C | K>;
   entries: () => [string, string][];
+  has: (key: string) => boolean;
 }
 
 export const common: TemplateGenerator = {
@@ -76,64 +77,66 @@ export const common: TemplateGenerator = {
                   name,
                   `project && ${command}`,
                 ]),
+              has: (key) => Object.prototype.hasOwnProperty.call(scripts, key),
             };
             return builder;
           };
 
+          const generatedScripts = packageScriptBuilder()
+            .add(() => ["dev", "ts-node-dev ./src/index.ts"])
+            .add(() => ["lint:eslint", "eslint --cache --ext js,jsx,ts,tsx ./"])
+            .add(() => ["lint:prettier", 'prettier -c "./**/*{.json,.md}"'])
+            .add((c) => [
+              "lint:fix",
+              `${c["lint:eslint"]} --fix && ${c["lint:prettier"]} --write && run-if-script-exists lint:fix:custom`,
+            ])
+            .add((c) => [
+              "lint",
+              `${c["lint:eslint"]} && ${c["lint:prettier"]} && run-if-script-exists lint:custom`,
+            ])
+            .add(() => [
+              "build:clean",
+              `rimraf "./${distDir}" *.tsbuildinfo && run-if-script-exists build:clean:custom`,
+            ])
+            .add(() => ["build:typescript", "tsc -p ./tsconfig.build.json"])
+            .add((c) => ["build:watch", `${c["build:typescript"]} -w`])
+            .add((c) => [
+              "build",
+              `run-if-script-exists build:custom-before && ${c["build:typescript"]} && run-if-script-exists build:custom`,
+            ])
+            .add(() => ["test:jest", "jest --passWithNoTests"])
+            .add((c) => ["test:watch", `${c["test:jest"]} --watch`])
+            .add((c) => [
+              "test",
+              `${c["test:jest"]} && run-if-script-exists test:custom`,
+            ])
+            .add((c) => [
+              "test:typecheck",
+              `tsc -p ./tsconfig.json --noEmit && ${c["build:typescript"]} --noEmit`,
+            ])
+            .add((c) => [
+              "test:all",
+              `${c["test:typecheck"]} && ${c.lint} && ${c.test}`,
+            ])
+            .add((c) => [
+              "release",
+              `${c["build:clean"]} && ${c.build} && changeset publish && run-if-script-exists release:custom`,
+            ])
+            .add(() => [
+              "prepare",
+              "husky install && run-if-script-exists prepare:custom",
+            ]);
           packageJson.scripts = Object.fromEntries([
             ["=== Generated Scripts (do not modify) ===", ""],
-            ...packageScriptBuilder()
-              .add(() => ["dev", "ts-node-dev ./src/index.ts"])
-              .add(() => [
-                "lint:eslint",
-                "eslint --cache --ext js,jsx,ts,tsx ./",
-              ])
-              .add(() => ["lint:prettier", 'prettier -c "./**/*{.json,.md}"'])
-              .add((c) => [
-                "lint:fix",
-                `${c["lint:eslint"]} --fix && ${c["lint:prettier"]} --write && run-if-script-exists lint:fix:custom`,
-              ])
-              .add((c) => [
-                "lint",
-                `${c["lint:eslint"]} && ${c["lint:prettier"]} && run-if-script-exists lint:custom`,
-              ])
-              .add(() => [
-                "build:clean",
-                `rimraf "./${distDir}" *.tsbuildinfo && run-if-script-exists build:clean:custom`,
-              ])
-              .add(() => ["build:typescript", "tsc -p ./tsconfig.build.json"])
-              .add((c) => ["build:watch", `${c["build:typescript"]} -w`])
-              .add((c) => [
-                "build",
-                `run-if-script-exists build:custom-before && ${c["build:typescript"]} && run-if-script-exists build:custom`,
-              ])
-              .add(() => ["test:jest", "jest --passWithNoTests"])
-              .add((c) => ["test:watch", `${c["test:jest"]} --watch`])
-              .add((c) => [
-                "test",
-                `${c["test:jest"]} && run-if-script-exists test:custom`,
-              ])
-              .add((c) => [
-                "test:typecheck",
-                `tsc -p ./tsconfig.json --noEmit && ${c["build:typescript"]} --noEmit`,
-              ])
-              .add((c) => [
-                "test:all",
-                `${c["test:typecheck"]} && ${c.lint} && ${c.test}`,
-              ])
-              .add((c) => [
-                "release",
-                `${c["build:clean"]} && ${c.build} && changeset publish && run-if-script-exists release:custom`,
-              ])
-              .add(() => [
-                "prepare",
-                "husky install && run-if-script-exists prepare:custom",
-              ])
-              .entries(),
+            ...generatedScripts.entries(),
             ["=== (end generated scripts) ===", ""],
             ["", ""],
-            ...scriptEntries.slice(0, generateScriptStart),
-            ...scriptEntries.slice(generatedScriptEnd),
+            ...[
+              ...scriptEntries.slice(0, generateScriptStart),
+              ...scriptEntries.slice(generatedScriptEnd),
+            ].map(([key, value]) =>
+              generatedScripts.has(key) ? [`${key}:old`, value] : [key, value]
+            ),
           ]) as Record<string, string>;
 
           const entriesAfter = [
