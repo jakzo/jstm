@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.0
+
+### Minor Changes
+
+- a3f8fbe: Dependencies are now added directly to the project's package.json. This is to avoid hoisting issues where a dependency is not available from the top level and cannot be accessed by tools requiring it there (eg. ESLint plugins) or the binary cannot be used (eg. running `prettier` from the project's package.json).
+
 ## 0.2.17
 
 ### Patch Changes

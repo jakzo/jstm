@@ -1,6 +1,6 @@
 {
   "name": "@jstm/core",
-  "version": "0.2.17",
+  "version": "0.3.0",
   "description": "JavaScript Technology Manager -- project tooling in a box.",
   "keywords": [
     "tooling",
