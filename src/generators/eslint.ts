@@ -149,6 +149,17 @@ try {
 } catch (_err) {}
 `,
       },
+      {
+        path: [".prettierrc.js"],
+        contents: `
+module.exports = {};
+
+try {
+  // TODO: Merge these in smartly rather than just overwriting everything
+  Object.assign(module.exports, require('./config/.prettierrc'));
+} catch (_err) {}
+`,
+      },
       ignorefileEntry(".eslintignore", distDir),
       ignorefileEntry(".prettierignore", distDir),
       {

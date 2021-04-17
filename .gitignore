@@ -21,6 +21,7 @@ config.gypi
 /.nvmrc
 /.yvmrc
 /.eslintrc.js
+/.prettierrc.js
 /.eslintignore
 /.prettierignore
 /.lintstagedrc.js
