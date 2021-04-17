@@ -19,17 +19,19 @@ const getBinName = async () => {
 
   const nodeModulesBinContents = await fse.readFile(process.argv[1], "utf8");
   const commandsStubBinContents = await fse.readFile(
-    path.join(process.cwd(), "commands-stub", "bin.js"),
+    path.join(process.cwd(), "repo-helpers-stub", "bin.js"),
     "utf8"
   );
   if (nodeModulesBinContents !== commandsStubBinContents) {
     console.log(
-      "Linked binaries are out of sync with commands-stub package. Reinstalling..."
+      "Linked binaries are out of sync with repo-helpers-stub package. Reinstalling..."
     );
     spawnSync(
       "yarn",
-      ["add", "-D", "@jstm/commands-stub@file:./commands-stub", "--force"],
-      { stdio: "inherit" }
+      ["add", "-D", "@jstm/core@file:./repo-helpers-stub", "--force"],
+      {
+        stdio: "inherit",
+      }
     );
     console.log(
       "Reinstall complete. Will attempt to continue current command using old binary but may fail."
@@ -41,7 +43,10 @@ const getBinName = async () => {
 
 const main = async () => {
   let rootDir = process.cwd();
-  while (rootDir.includes("node_modules") || rootDir.includes("commands-stub"))
+  while (
+    rootDir.includes("node_modules") ||
+    rootDir.includes("repo-helpers-stub")
+  )
     rootDir = path.join(rootDir, "..");
   process.chdir(rootDir);
   const binName = await getBinName();

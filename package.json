@@ -64,7 +64,7 @@
     "@changesets/cli": "^2.14.1",
     "@changesets/get-release-plan": "^2.0.1",
     "@changesets/release-utils": "^0.1.0",
-    "@jstm/commands-stub": "file:./commands-stub",
+    "@jstm/core": "file:./repo-helpers-stub",
     "@types/fs-extra": "^9.0.9",
     "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.21",

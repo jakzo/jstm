@@ -647,7 +647,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@jstm/commands-stub@file:./commands-stub":
+"@jstm/core@file:./repo-helpers-stub":
   version "1.0.0"
 
 "@manypkg/find-root@^1.1.0":
