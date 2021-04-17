@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.2.17
+
+### Patch Changes
+
+- 5801e85: Turned off ESLint rule: @typescript-eslint/no-non-null-assertion
+
 ## 0.2.16
 
 ### Patch Changes
