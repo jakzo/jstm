@@ -28,10 +28,14 @@ const getBinName = async () => {
     );
     spawnSync(
       "yarn",
-      ["add", "-D", "@jstm/core@file:./repo-helpers-stub", "--force"],
-      {
-        stdio: "inherit",
-      }
+      [
+        "add",
+        "-D",
+        "@jstm/core@file:./repo-helpers-stub",
+        "--force",
+        "--ignore-scripts",
+      ],
+      { stdio: "inherit" }
     );
     console.log(
       "Reinstall complete. Will attempt to continue current command using old binary but may fail."
@@ -58,8 +62,22 @@ const main = async () => {
   });
   require("tsconfig-paths").register({
     baseUrl: rootDir,
-    paths: { "@jstm/core": ["./src"] },
+    paths: {
+      "@jstm/core": ["./src"],
+    },
   });
+
+  if (binName === "project") {
+    const presetNode = require(`${rootDir}/presets/node`).default;
+    const { applyPresetCli } = require(`${rootDir}/src`);
+    const packageJson = require(`${rootDir}/package.json`);
+
+    await applyPresetCli(presetNode, {
+      ...packageJson,
+      version: "file:./repo-helpers-stub",
+    });
+    return;
+  }
 
   const binPaths = [
     `${rootDir}/presets/template/${binName}`,

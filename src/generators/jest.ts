@@ -13,7 +13,7 @@ export const jest: TemplateGenerator = {
     "bufferutil",
     "utf-8-validate",
   ],
-  files: async ({ config, presetPackageJson }) => {
+  files: async ({ config }) => {
     const srcDir = await getSrcDir(config);
     const distDir = await getDistDir(config);
 
@@ -23,8 +23,6 @@ export const jest: TemplateGenerator = {
         contents: `
 // DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/jest.config.js instead)
-
-require("@jstm/core").includeImportPathsFrom("${presetPackageJson.name}");
 
 module.exports = {
   automock: false,

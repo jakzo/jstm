@@ -29,10 +29,16 @@ export interface TemplateFile {
   contents: string | ((vars: ContentsVars) => MaybePromise<string>);
 }
 
+export interface TemplateFileBuilt extends TemplateFile {
+  contents: string;
+  existingContents?: string;
+}
+
 export interface Vars {
   config: Config;
   presetPackageJson: PackageJson;
   packageJson: PackageJson;
+  devDependencies: Record<string, string>;
 }
 export interface ContentsVars {
   gitignorePatterns: string[];

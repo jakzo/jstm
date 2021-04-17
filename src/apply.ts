@@ -1,10 +1,11 @@
+import { spawnSync } from "child_process";
 import path from "path";
 
 import * as fse from "fs-extra";
 import type { PackageJson } from "type-fest";
 
 import { Config } from "./config";
-import { Preset, TemplateFile } from "./types";
+import { Preset, TemplateFileBuilt, Vars } from "./types";
 import { prettierFormatter, readFileOr } from "./utils";
 
 const asyncMap = async <T, U>(
@@ -31,10 +32,18 @@ export const applyPreset = async (
     await readFileOr("package.json", "{}")
   ) as PackageJson;
 
-  const vars = {
+  const vars: Vars = {
     config: new Config(process.cwd(), preset.formatter || prettierFormatter),
     presetPackageJson,
     packageJson,
+    devDependencies: Object.fromEntries(
+      preset.generators.flatMap((gen) =>
+        (gen.devDependencies || []).map((key) => [
+          key,
+          (presetPackageJson.devDependencies || {})[key] || "*",
+        ])
+      )
+    ),
   };
   const files = [];
   for (const generator of preset.generators) {
@@ -46,22 +55,27 @@ export const applyPreset = async (
       .map((file) => file.path.map((part) => `/${part}`).join("")),
   };
   const formatter = preset.formatter || ((s) => s);
-  const filesWithContents = await asyncMap(files, async (file) => ({
-    ...file,
-    contents: trimIf(
-      formatter(
-        file.path[file.path.length - 1],
-        typeof file.contents === "function"
-          ? await file.contents(contentsVars)
-          : file.contents
+  const filesWithContents: TemplateFileBuilt[] = await asyncMap(
+    files,
+    async (file) => ({
+      ...file,
+      contents: trimIf(
+        formatter(
+          file.path[file.path.length - 1],
+          typeof file.contents === "function"
+            ? await file.contents(contentsVars)
+            : file.contents
+        ),
+        !file.doNotTrim
       ),
-      !file.doNotTrim
-    ),
-  }));
+      existingContents: await readFileOr(path.join(...file.path), undefined),
+    })
+  );
   for (const file of filesWithContents) {
     await writeFileIfChanged(file);
   }
   await vars.config.saveProjectConfig();
+  await installDepsIfRequired(filesWithContents);
 };
 
 export const applyPresetCli = async (
@@ -73,7 +87,7 @@ export const applyPresetCli = async (
     process.exit(1);
   });
 
-const writeFileIfChanged = async (file: TemplateFile): Promise<void> => {
+const writeFileIfChanged = async (file: TemplateFileBuilt): Promise<void> => {
   const filePath = path.join(...file.path);
   if (await shouldWriteFile(file)) {
     if (file.path.length > 1)
@@ -84,7 +98,7 @@ const writeFileIfChanged = async (file: TemplateFile): Promise<void> => {
   }
 };
 
-const shouldWriteFile = async (file: TemplateFile): Promise<boolean> => {
+const shouldWriteFile = async (file: TemplateFileBuilt): Promise<boolean> => {
   const filePath = path.join(...file.path);
   if (file.doNotOverwrite) return !(await fse.pathExists(filePath));
   if ((await readFileOr(filePath, undefined)) !== file.contents) return true;
@@ -94,3 +108,32 @@ const shouldWriteFile = async (file: TemplateFile): Promise<boolean> => {
   }
   return false;
 };
+
+const installDepsIfRequired = async (
+  files: TemplateFileBuilt[]
+): Promise<void> => {
+  const packageJson = files.find(
+    (file) => file.path.length === 1 && file.path[0] === "package.json"
+  );
+  if (!packageJson) return;
+  try {
+    const existingPackageJson = packageJson.existingContents
+      ? (JSON.parse(packageJson.existingContents) as PackageJson)
+      : {};
+    const newPackageJson = JSON.parse(packageJson.contents) as PackageJson;
+    const existingDevDeps = existingPackageJson?.devDependencies || {};
+    const newDevDeps = newPackageJson?.devDependencies || {};
+    if (serializeDeps(existingDevDeps) !== serializeDeps(newDevDeps)) {
+      console.log(
+        "devDependencies have been updated. Running `yarn install` now..."
+      );
+      spawnSync("yarn", ["install", "--ignore-scripts"], { stdio: "inherit" });
+    }
+  } catch {}
+};
+
+const serializeDeps = (deps: Required<PackageJson>["dependencies"]): string =>
+  Object.entries(deps)
+    .map(([key, version]) => `${key}@${version}`)
+    .sort()
+    .join(",");

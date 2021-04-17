@@ -27,7 +27,12 @@ interface PackageScriptBuilder<C extends string> {
 
 export const common: TemplateGenerator = {
   devDependencies: ["jest", "ts-jest", "@types/jest", "rimraf"],
-  files: async ({ config, packageJson, presetPackageJson }) => {
+  files: async ({
+    config,
+    packageJson,
+    presetPackageJson,
+    devDependencies,
+  }) => {
     const packageName = await getPackageName(config, packageJson);
     const description = await getDescription(config, packageJson);
     const mainBranch = await getMainBranch(config);
@@ -143,11 +148,21 @@ export const common: TemplateGenerator = {
             ["scripts", packageJson.scripts],
             ["peerDependencies", packageJson.peerDependencies],
             ["optionalDependencies", packageJson.optionalDependencies],
-            ["dependencies", packageJson.dependencies],
+            [
+              "dependencies",
+              Object.fromEntries(
+                Object.entries(packageJson.dependencies || {}).filter(
+                  ([key]) =>
+                    !Object.prototype.hasOwnProperty.call(devDependencies, key)
+                )
+              ),
+            ],
             [
               "devDependencies",
-              packageJson.devDependencies || {
-                [presetPackageJson.name as string]: `^${presetPackageJson.version}`,
+              {
+                ...packageJson.devDependencies,
+                ...devDependencies,
+                [presetPackageJson.name as string]: presetPackageJson.version,
               },
             ],
           ];
