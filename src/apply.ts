@@ -32,16 +32,22 @@ export const applyPreset = async (
     await readFileOr("package.json", "{}")
   ) as PackageJson;
 
+  const getDepVersion = (name: string): string => {
+    const version =
+      (presetPackageJson.dependencies || {})[name] ||
+      (presetPackageJson.devDependencies || {})[name];
+    if (!version)
+      throw new Error(`Preset package is missing dependency: ${name}`);
+    return version;
+  };
+
   const vars: Vars = {
     config: new Config(process.cwd(), preset.formatter || prettierFormatter),
     presetPackageJson,
     packageJson,
     devDependencies: Object.fromEntries(
       preset.generators.flatMap((gen) =>
-        (gen.devDependencies || []).map((key) => [
-          key,
-          (presetPackageJson.devDependencies || {})[key] || "*",
-        ])
+        (gen.devDependencies || []).map((name) => [name, getDepVersion(name)])
       )
     ),
   };
