@@ -1,4 +1,5 @@
 import { spawn } from "child_process";
+import { Module } from "module";
 import path from "path";
 
 import * as fse from "fs-extra";
@@ -89,4 +90,44 @@ export const prettierFormatter: Formatter = (filename, contents) => {
   }).find(([, extensions]) => extensions.includes(fileExt))?.[0];
   if (!parser) return contents;
   return prettier.format(contents, { parser });
+};
+
+/** Makes `require()` calls resolve absolute paths relative to the specified
+ * node module. This is useful when external tools require modules
+ * not included in their package.json as dependencies (eg. ESLint importing
+ * plugins) and the modules have not been hoisted to the top level (eg. if
+ * the plugin module depends on a different version of a module already
+ * included in the project, the plugin module will be installed inside
+ * `node_modules/@jstm/my-preset/node_modules/my-plugin` and ESLint will not
+ * be able to import it from the main project). */
+export const includeImportPathsFrom = (moduleName: string): void => {
+  // https://github.com/nodejs/node/blob/94405650aebbb16dde6fcc215e1ba912ced0111d/lib/internal/modules/cjs/loader.js#L669
+  const isAbsolutePath = (request: string): boolean =>
+    request[0] !== "." ||
+    (request.length > 1 &&
+      request[1] !== "." &&
+      request[1] !== "/" &&
+      (!isWindows || request[1] !== "\\"));
+  const isWindows = process.platform === "win32";
+
+  // Add desired module to require cache so we can get its node_modules paths
+  require(moduleName);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const modulePaths = require.cache[require.resolve(moduleName)]!.paths;
+
+  // node itself uses a similar hack for ESLint
+  // https://github.com/nodejs/node/blob/4268fae04acc16b34fb302d63b01a85725ef2043/.eslintrc.js#L23
+  const M = Module as typeof Module & {
+    _resolveLookupPaths(request: string, parent: NodeModule): string[] | null;
+  };
+  const moduleResolveLookupPaths = M._resolveLookupPaths;
+  M._resolveLookupPaths = (request, parent) => {
+    const paths = moduleResolveLookupPaths(request, parent);
+    return paths && isAbsolutePath(request)
+      ? // Module paths are appended rather than prepended meaning that if a
+        // module exists in both the requester's node_modules and the preset's
+        // node_modules it will use the requester's one
+        [...new Set([...paths, ...modulePaths])]
+      : paths;
+  };
 };

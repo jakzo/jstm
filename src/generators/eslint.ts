@@ -20,7 +20,7 @@ export const eslint: TemplateGenerator = {
     "lint-staged",
     "chalk",
   ],
-  files: async ({ config }) => {
+  files: async ({ config, presetPackageJson }) => {
     const distDir = await getDistDir(config);
 
     return [
@@ -29,6 +29,8 @@ export const eslint: TemplateGenerator = {
         contents: `
 // DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/.eslintrc.js instead)
+
+require("@jstm/core").includeImportPathsFrom("${presetPackageJson.name}");
 
 module.exports = {
   env: {
