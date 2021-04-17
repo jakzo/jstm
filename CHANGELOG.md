@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.2
+
+### Patch Changes
+
+- ddd466c: Added explicit Prettier config. It is empty but now allows overrides from the ./config directory and stops Prettier from reading config from a parent directory.
+
 ## 0.3.1
 
 ### Patch Changes
