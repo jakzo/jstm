@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.1
+
+### Patch Changes
+
+- b95bebd: Fixed issue where added dependency versions were all `*` instead of their real versions.
+
 ## 0.3.0
 
 ### Minor Changes
