@@ -143,6 +143,7 @@ export const common: TemplateGenerator = {
             ),
           ]) as Record<string, string>;
 
+          const packageJsonDeps = packageJson.dependencies || {};
           const entriesAfter = [
             ["scripts", packageJson.scripts],
             ["peerDependencies", packageJson.peerDependencies],
@@ -150,17 +151,28 @@ export const common: TemplateGenerator = {
             [
               "dependencies",
               Object.fromEntries(
-                Object.entries(packageJson.dependencies || {}).filter(
-                  ([key]) =>
-                    !Object.prototype.hasOwnProperty.call(devDependencies, key)
-                )
+                Object.entries(packageJsonDeps).map(([name, version]) => [
+                  name,
+                  // Use jstm's version if a required dev dependency is already in dependencies
+                  Object.prototype.hasOwnProperty.call(devDependencies, name)
+                    ? devDependencies[name]
+                    : version,
+                ])
               ),
             ],
             [
               "devDependencies",
               {
                 ...packageJson.devDependencies,
-                ...devDependencies,
+                ...Object.fromEntries(
+                  Object.entries(devDependencies).filter(
+                    ([key]) =>
+                      !Object.prototype.hasOwnProperty.call(
+                        packageJsonDeps,
+                        key
+                      )
+                  )
+                ),
                 [presetPackageJson.name as string]: presetPackageJson.version,
               },
             ],
