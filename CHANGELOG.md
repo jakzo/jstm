@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.3
+
+### Patch Changes
+
+- 46281ee: Removed generated dev script from package.json since a lot of projects have different ways to run in dev mode rather than just running `index.ts`.
+
 ## 0.3.2
 
 ### Patch Changes
