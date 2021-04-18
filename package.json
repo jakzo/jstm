@@ -32,7 +32,6 @@
   },
   "scripts": {
     "=== Generated Scripts (do not modify) ===": "",
-    "dev": "project && ts-node-dev ./src/index.ts",
     "lint:eslint": "project && eslint --cache --ext js,jsx,ts,tsx ./",
     "lint:prettier": "project && prettier -c \"./**/*{.json,.md}\"",
     "lint:fix": "project && eslint --cache --ext js,jsx,ts,tsx ./ --fix && prettier -c \"./**/*{.json,.md}\" --write && run-if-script-exists lint:fix:custom",

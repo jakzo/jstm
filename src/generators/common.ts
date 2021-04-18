@@ -88,7 +88,6 @@ export const common: TemplateGenerator = {
           };
 
           const generatedScripts = packageScriptBuilder()
-            .add(() => ["dev", "ts-node-dev ./src/index.ts"])
             .add(() => ["lint:eslint", "eslint --cache --ext js,jsx,ts,tsx ./"])
             .add(() => ["lint:prettier", 'prettier -c "./**/*{.json,.md}"'])
             .add((c) => [
