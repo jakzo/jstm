@@ -5,6 +5,7 @@ const preset: Preset = {
   useCase: "node packages",
   generators: [
     generators.common,
+    generators.github,
     generators.packageGen,
     generators.eslint,
     generators.typescript,

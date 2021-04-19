@@ -5795,6 +5795,10 @@ yaml@^1.10.0:
   version "1.10.2"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
 
+yaml@^2.0.0-5:
+  version "2.0.0-5"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.0.0-5.tgz#00906046dc119427b2b4f7cf9041d34682d1480b"
+
 yargs-parser@20.x:
   version "20.2.7"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/yargs-parser/-/yargs-parser-20.2.7.tgz#61df85c113edfb5a7a4e36eb8aa60ef423cbc90a"

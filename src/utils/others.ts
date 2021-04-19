@@ -6,7 +6,7 @@ import * as fleece from "golden-fleece";
 import * as prettier from "prettier";
 import type { PackageJson } from "type-fest";
 
-import type { Formatter } from "./types";
+import type { Formatter } from "../types";
 
 export const readFileOr = async <D>(
   filePath: string,
@@ -20,6 +20,26 @@ export const readFileOr = async <D>(
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null;
 
+export const merge = (
+  a: Record<string, unknown>,
+  b: Record<string, unknown>,
+  overwrite: boolean
+): Record<string, unknown> => {
+  for (const [key, valueB] of Object.entries(b)) {
+    if (Object.prototype.hasOwnProperty.call(a, key)) {
+      const valueA = a[key];
+      if (isObject(valueA) && isObject(valueB)) {
+        merge(valueA, valueB, overwrite);
+      } else if (overwrite) {
+        a[key] = valueB;
+      }
+    } else {
+      a[key] = valueB;
+    }
+  }
+  return a;
+};
+
 // TODO: Add `defaultsToOverwrite` option so we can update values we added but
 //       not values added by users
 export const mergeJson = async (
@@ -27,26 +47,11 @@ export const mergeJson = async (
   properties: Record<string, unknown>,
   overwrite = false
 ): Promise<string> => {
-  const merge = (
-    a: Record<string, unknown>,
-    b: Record<string, unknown>
-  ): Record<string, unknown> => {
-    for (const [key, valueB] of Object.entries(b)) {
-      if (Object.prototype.hasOwnProperty.call(a, key)) {
-        const valueA = a[key];
-        if (isObject(valueA) && isObject(valueB)) {
-          merge(valueA, valueB);
-        } else if (overwrite) {
-          a[key] = valueB;
-        }
-      } else {
-        a[key] = valueB;
-      }
-    }
-    return a;
-  };
   const contents = await readFileOr(filePath, "{}");
-  return fleece.patch(contents, merge(fleece.evaluate(contents), properties));
+  return fleece.patch(
+    contents,
+    merge(fleece.evaluate(contents), properties, overwrite)
+  );
 };
 
 export const runIfScriptExists = (scriptName: string): void => {

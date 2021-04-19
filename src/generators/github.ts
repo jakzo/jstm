@@ -1,3 +1,20 @@
+import path from "path";
+
+import type { TemplateGenerator } from "../types";
+import { mergeYaml, readFileOr } from "../utils";
+import { getMainBranch, getNodeTargetVersion } from "./utils/config";
+
+export const github: TemplateGenerator = {
+  files: async ({ config }) => {
+    const mainBranch = await getMainBranch(config);
+    const nodeTargetVersion = await getNodeTargetVersion(config);
+
+    return [
+      {
+        path: [".github", "workflows", "ci.yml"],
+        isCheckedIn: true,
+        contents: await mergeYaml(
+          `
 # DO NOT MODIFY
 # This file is auto-generated (make another YAML file in this directory instead
 # or create a file in ./config/.github/workflows/ci.yml with contents to merge)
@@ -6,20 +23,20 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - ${mainBranch}
   pull_request:
     branches:
       - "*"
 
 env:
-  node_version: 14
+  node_version: ${nodeTargetVersion}
 
 jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
     outputs:
-      release_required: ${{ steps.release_required.outputs.result }}
+      release_required: \${{ steps.release_required.outputs.result }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -29,7 +46,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ env.node_version }}
+          node-version: \${{ env.node_version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Test
@@ -51,10 +68,10 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     needs: test
-    if: ${{ github.ref == 'refs/heads/main' && needs.test.outputs.release_required == 'true' }}
+    if: \${{ github.ref == 'refs/heads/${mainBranch}' && needs.test.outputs.release_required == 'true' }}
     environment: Release
     outputs:
-      release_upload_url: ${{ steps.create_release.outputs.upload_url }}
+      release_upload_url: \${{ steps.create_release.outputs.upload_url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -64,7 +81,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ env.node_version }}
+          node-version: \${{ env.node_version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Bump versions according to changeset
@@ -78,21 +95,32 @@ jobs:
         id: publish
         run: |
           set -e
-          echo '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}' > .npmrc
+          echo '//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}' > .npmrc
           yarn run-if-script-exists release:ci:before
           yarn release
           echo "::set-output name=version_tag::$(git describe --tags --abbrev=0)"
           echo "::set-output name=release_changelog::$(yarn --silent ci-github-print-changelog)"
           yarn run-if-script-exists release:ci:after
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: \${{ secrets.NPM_TOKEN }}
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.publish.outputs.version_tag }}
-          release_name: ${{ steps.publish.outputs.version_tag }}
-          body: ${{ steps.publish.outputs.release_changelog }}
+          tag_name: \${{ steps.publish.outputs.version_tag }}
+          release_name: \${{ steps.publish.outputs.version_tag }}
+          body: \${{ steps.publish.outputs.release_changelog }}
+`,
+          await readFileOr(
+            path.join("config", ".github", "workflows", "ci.yml"),
+            ""
+          ),
+          true
+        ),
+      },
+    ];
+  },
+};
