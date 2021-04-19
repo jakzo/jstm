@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.5
+
+### Patch Changes
+
+- 35caf09: You can now create a ./config/.github/workflows/ci.yml file and its contents will be merged with the generated ci.yml file.
+
 ## 0.3.4
 
 ### Patch Changes
