@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { getChangelogEntry } from "@changesets/release-utils";
 import * as fse from "fs-extra";
 import { PackageJson } from "type-fest";
