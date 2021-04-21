@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.7
+
+### Patch Changes
+
+- dc095c0: Project command will now be run automatically when the preset package is installed.
+
 ## 0.3.6
 
 ### Patch Changes
