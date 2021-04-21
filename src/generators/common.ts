@@ -370,7 +370,7 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
       },
       {
         path: [".yvmrc"],
-        contents: "1.9.2",
+        contents: "1.22.10",
       },
       {
         path: [".vscode", "settings.json"],
