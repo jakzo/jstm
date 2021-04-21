@@ -8,6 +8,9 @@ import {
   getLicense,
   getNodeMinVersion,
   getNodeTargetVersion,
+  getNpmAccess,
+  getNpmPublishRegistry,
+  getNpmRegistry,
   getPackageJsonAuthor,
   getPackageName,
   getRepoUrl,
@@ -38,6 +41,9 @@ export const common: TemplateGenerator = {
     const distDir = await getDistDir(config);
     const nodeMinVersion = await getNodeMinVersion(config);
     const nodeTargetVersion = await getNodeTargetVersion(config);
+    const npmRegistry = await getNpmRegistry(config);
+    const npmPublishRegistry = await getNpmPublishRegistry(config);
+    const npmAccess = await getNpmAccess(config);
 
     return [
       {
@@ -218,6 +224,13 @@ export const common: TemplateGenerator = {
                   "engines",
                   packageJson.engines || { node: `>=${nodeMinVersion}` },
                 ],
+                [
+                  "publishConfig",
+                  packageJson.publishConfig || {
+                    access: npmAccess,
+                    registry: npmPublishRegistry,
+                  },
+                ],
                 ...Object.entries(packageJson).filter(
                   ([key]) =>
                     !entriesAfter.some(([keyAfter]) => keyAfter === key)
@@ -229,6 +242,12 @@ export const common: TemplateGenerator = {
             2
           );
         },
+      },
+      {
+        path: [".npmrc"],
+        contents: `
+registry = "${npmRegistry}"
+`,
       },
       {
         path: ["src", "index.ts"],

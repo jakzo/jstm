@@ -95,7 +95,7 @@ jobs:
         id: publish
         run: |
           set -e
-          echo '//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}' > .npmrc
+          npm config set _authToken "$NODE_AUTH_TOKEN"
           yarn run-if-script-exists release:ci:before
           yarn release
           echo "::set-output name=version_tag::$(git describe --tags --abbrev=0)"

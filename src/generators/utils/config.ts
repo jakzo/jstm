@@ -92,3 +92,19 @@ export const getNodeTargetVersion = createConfigGetter(
   "number",
   () => ({ defaultValue: 14 })
 );
+
+export const getNpmRegistry = createConfigGetter(
+  "npmRegistry",
+  "string",
+  () => ({ defaultValue: "https://registry.yarnpkg.com" })
+);
+
+export const getNpmPublishRegistry = createConfigGetter(
+  "npmPublishRegistry",
+  "string",
+  () => ({ defaultValue: "https://registry.npmjs.org" })
+);
+
+export const getNpmAccess = createConfigGetter("npmAccess", "string", () => ({
+  defaultValue: "public",
+}));

@@ -25,6 +25,10 @@
   "engines": {
     "node": ">=10"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "bin": {
     "run-if-script-exists": "./dist/bin/run-if-script-exists.js",
     "project-pre-push": "./dist/bin/project-pre-push.js",
