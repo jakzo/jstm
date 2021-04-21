@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.10
+
+### Patch Changes
+
+- 98e7819: Fixed pre-push script for unusually hoisted node_modules structures.
+
 ## 0.3.9
 
 ### Patch Changes
