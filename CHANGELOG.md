@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.9
+
+### Patch Changes
+
+- a837ffd: Fixed GitHub CI changelog script.
+
 ## 0.3.8
 
 ### Patch Changes
