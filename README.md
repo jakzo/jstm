@@ -9,7 +9,7 @@ _JavaScript Technology Manager -- project tooling in a box. Preconfigured tools 
 Create an empty directory for your new project then run:
 
 ```sh
-yarn add --exact --dev @jstm/preset-node && yarn project
+yarn add --exact --dev @jstm/preset-node
 ```
 
 **That's it!** After a few prompts all the tooling should now be set up. Note that you may need to restart your IDE for the integrations to pick up the changes to tooling (eg. for the VSCode ESLint plugin to read the newly created config).
