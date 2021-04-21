@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.12
+
+### Patch Changes
+
+- dcd10d4: Fixed issue with publish registry not being correctly used.
+
 ## 0.3.11
 
 ### Patch Changes
