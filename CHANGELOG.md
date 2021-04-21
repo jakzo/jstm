@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.8
+
+### Patch Changes
+
+- 7655d03: Attempt to fix issue with postinstall script not working.
+
 ## 0.3.7
 
 ### Patch Changes
