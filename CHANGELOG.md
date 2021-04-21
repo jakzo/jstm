@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.6
+
+### Patch Changes
+
+- dfe49a4: Allowed customization of package registry to be used for the project when installing dependencies and publishing.
+
 ## 0.3.5
 
 ### Patch Changes
