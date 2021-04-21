@@ -42,7 +42,9 @@ const main = async (): Promise<void> => {
       bin: {
         project: "project.js",
       },
-      scripts: {},
+      scripts: {
+        postinstall: "node project.js",
+      },
       dependencies: {
         [mainPackageJson.name as string]: mainPackageJson.version as string,
         tslib: (mainPackageJson.dependencies as PackageJson.Dependency).tslib,
