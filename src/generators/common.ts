@@ -9,7 +9,6 @@ import {
   getNodeMinVersion,
   getNodeTargetVersion,
   getNpmAccess,
-  getNpmPublishRegistry,
   getNpmRegistry,
   getPackageJsonAuthor,
   getPackageName,
@@ -42,7 +41,6 @@ export const common: TemplateGenerator = {
     const nodeMinVersion = await getNodeMinVersion(config);
     const nodeTargetVersion = await getNodeTargetVersion(config);
     const npmRegistry = await getNpmRegistry(config);
-    const npmPublishRegistry = await getNpmPublishRegistry(config);
     const npmAccess = await getNpmAccess(config);
 
     return [
@@ -228,7 +226,7 @@ export const common: TemplateGenerator = {
                   "publishConfig",
                   packageJson.publishConfig || {
                     access: npmAccess,
-                    registry: npmPublishRegistry,
+                    registry: npmRegistry,
                   },
                 ],
                 ...Object.entries(packageJson).filter(
