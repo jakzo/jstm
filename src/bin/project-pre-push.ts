@@ -1,19 +1,10 @@
 #!/usr/bin/env node
-import { fork } from "child_process";
+import { execSync, fork } from "child_process";
 import path from "path";
 
 import { readChangesetState } from "@changesets/release-utils";
 import chalk from "chalk";
 import inquirer from "inquirer";
-import npm from "npm";
-
-const getBinDir = (): Promise<string> =>
-  new Promise((resolve, reject) => {
-    npm.load((err) => {
-      if (err) reject(err);
-      else resolve(npm.bin);
-    });
-  });
 
 const forkPromise = (modulePath: string, args: string[]): Promise<void> =>
   new Promise((resolve, reject) => {
@@ -43,7 +34,7 @@ export const main = async (): Promise<void> => {
   ]);
   if (!shouldCreate) return;
 
-  await forkPromise(path.join(await getBinDir(), "changeset"), []);
+  await forkPromise(path.join(execSync("npm bin").toString(), "changeset"), []);
   console.log(
     chalk.blueBright(
       "This push will now fail due to changeset being added. Please run `git push` again to push with changeset."
