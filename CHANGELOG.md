@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.14
+
+### Patch Changes
+
+- 2df146e: Fixed npm publish (for real).
+
 ## 0.3.13
 
 ### Patch Changes
