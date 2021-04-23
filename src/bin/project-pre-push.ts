@@ -34,7 +34,10 @@ export const main = async (): Promise<void> => {
   ]);
   if (!shouldCreate) return;
 
-  await forkPromise(path.join(execSync("npm bin").toString(), "changeset"), []);
+  await forkPromise(
+    path.join(execSync("npm bin").toString().trimEnd(), "changeset"),
+    []
+  );
   console.log(
     chalk.blueBright(
       "This push will now fail due to changeset being added. Please run `git push` again to push with changeset."
