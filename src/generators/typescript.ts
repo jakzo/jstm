@@ -68,7 +68,8 @@ export const typescript: TemplateGenerator = {
     "**/.*cache/**/*",
     "**/.jest/**/*",
     "**/.yarn/**/*",
-    "**/.coverage/**/*"
+    "**/.coverage/**/*",
+    "./.pnp.*"
   ],
   "compilerOptions": {
     "noEmit": true,

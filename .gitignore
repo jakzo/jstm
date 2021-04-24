@@ -1,9 +1,10 @@
 # === Generated Ignore Patterns (do not modify) ===
-/dist/
+# You may add your own rules below the end of this generated section.
+
+# Commonly ignored files
 node_modules/
 .*cache
 .jest
-.yarn
 *.tsbuildinfo
 *.log
 .coverage/
@@ -17,10 +18,25 @@ CVS
 ._*
 .npmrc
 config.gypi
+/package-lock.json
+
+# Rules for Yarn zero-installs
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# jstm generated files
+/dist/
 /.npmrc
 /.npmignore
 /.nvmrc
 /.yvmrc
+/.yarnrc.yml
+/.yarn/releases/yarn-berry.cjs
 /.eslintrc.js
 /.prettierrc.js
 /.eslintignore

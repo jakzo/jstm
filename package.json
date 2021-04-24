@@ -30,9 +30,9 @@
     "registry": "https://registry.npmjs.org"
   },
   "bin": {
-    "run-if-script-exists": "./dist/bin/run-if-script-exists.js",
+    "ci-github-print-changelog": "./dist/bin/ci-github-print-changelog.js",
     "project-pre-push": "./dist/bin/project-pre-push.js",
-    "ci-github-print-changelog": "./dist/bin/ci-github-print-changelog.js"
+    "run-if-script-exists": "./dist/bin/run-if-script-exists.js"
   },
   "scripts": {
     "=== Generated Scripts (do not modify) ===": "",
@@ -73,6 +73,7 @@
     "@types/inquirer": "7.3.1",
     "@types/jest": "26.0.21",
     "@types/node": "14.14.37",
+    "@types/prettier": "2.2.3",
     "@typescript-eslint/eslint-plugin": "4.18.0",
     "@typescript-eslint/parser": "4.18.0",
     "bufferutil": "4.0.3",

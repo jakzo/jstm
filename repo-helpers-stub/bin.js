@@ -46,12 +46,7 @@ const getBinName = async () => {
 };
 
 const main = async () => {
-  let rootDir = process.cwd();
-  while (
-    rootDir.includes("node_modules") ||
-    rootDir.includes("repo-helpers-stub")
-  )
-    rootDir = path.join(rootDir, "..");
+  const rootDir = process.env.INIT_CWD || process.cwd();
   process.chdir(rootDir);
   const binName = await getBinName();
 

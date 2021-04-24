@@ -1,5 +1,7 @@
 import path from "path";
 
+import * as fse from "fs-extra";
+
 import type { TemplateGenerator } from "../types";
 import { mergeJson, readFileOr } from "../utils";
 import {
@@ -303,11 +305,12 @@ release or bump the package version.
         isCheckedIn: true,
         contents: async ({ gitignorePatterns }) => `
 # === Generated Ignore Patterns (do not modify) ===
-/${distDir}/
+# You may add your own rules below the end of this generated section.
+
+# Commonly ignored files
 node_modules/
 .*cache
 .jest
-.yarn
 *.tsbuildinfo
 *.log
 .coverage/
@@ -321,6 +324,19 @@ CVS
 ._*
 .npmrc
 config.gypi
+/package-lock.json
+
+# Rules for Yarn zero-installs
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# jstm generated files
+/${distDir}/
 ${gitignorePatterns.join("\n")}
 # === (end generated patterns) ===
 
@@ -368,7 +384,26 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
       },
       {
         path: [".yvmrc"],
-        contents: "1.22.10",
+        contents: "^1.22.10",
+      },
+      {
+        path: [".yarnrc.yml"],
+        contents: 'yarnPath: ".yarn/releases/yarn-berry.cjs"',
+      },
+      {
+        path: [".yarn", "releases", "yarn-berry.cjs"],
+        contents: async () =>
+          fse.readFile(
+            path.join(
+              __dirname,
+              "..",
+              "..",
+              ".yarn",
+              "releases",
+              "yarn-berry.cjs"
+            ),
+            "utf8"
+          ),
       },
       {
         path: [".vscode", "settings.json"],
@@ -391,6 +426,14 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
               "editor.formatOnSave": true,
               "editor.defaultFormatter": "esbenp.prettier-vscode",
               "eslint.format.enable": true,
+              "typescript.tsdk": ".yarn/sdks/typescript/lib",
+              "search.exclude": {
+                "**/.yarn": true,
+                "**/.pnp.*": true,
+              },
+              "eslint.nodePath": ".yarn/sdks",
+              "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
+              "typescript.enablePromptUseWorkspaceTsdk": true,
             } as Record<string, unknown>
           )
         ),
@@ -399,7 +442,21 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
         path: [".vscode", "extensions.json"],
         isCheckedIn: true,
         contents: await mergeJson(path.join(".vscode", "extensions.json"), {
-          recommendations: ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"],
+          recommendations: [
+            "dbaeumer.vscode-eslint",
+            "esbenp.prettier-vscode",
+            "arcanis.vscode-zipfs",
+          ],
+        }),
+      },
+      {
+        path: [".vim", "coc-settings.json"],
+        isCheckedIn: true,
+        contents: await mergeJson(path.join(".vim", "coc-settings.json"), {
+          "eslint.packageManager": "yarn",
+          "eslint.nodePath": ".yarn/sdks",
+          "workspace.workspaceFolderCheckCwd": false,
+          "tsserver.tsdk": ".yarn/sdks/typescript/lib",
         }),
       },
     ];
