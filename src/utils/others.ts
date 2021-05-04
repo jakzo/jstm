@@ -1,21 +1,22 @@
-import { spawn } from "child_process";
 import path from "path";
 
 import * as fse from "fs-extra";
 import * as fleece from "golden-fleece";
 import * as prettier from "prettier";
-import type { PackageJson } from "type-fest";
 
 import type { Formatter } from "../types";
 
 export const readFileOr = async <D>(
   filePath: string,
   defaultValue: D
-): Promise<string | D> =>
-  fse.readFile(filePath, "utf8").catch((err) => {
+): Promise<string | D> => {
+  try {
+    return await fse.readFile(filePath, "utf8");
+  } catch (err) {
     if ((err as { code?: string }).code === "ENOENT") return defaultValue;
     throw err;
-  });
+  }
+};
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null;
@@ -54,44 +55,51 @@ export const mergeJson = async (
   );
 };
 
-export const runIfScriptExists = (scriptName: string): void => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const packageJson = require(`${process.cwd()}/package.json`) as PackageJson;
-  if (packageJson?.scripts?.[scriptName]) {
-    const proc = spawn("yarn", ["run", scriptName], {
-      stdio: "inherit",
-    });
-    proc.on("close", (code) => {
-      process.exit(code || undefined);
-    });
-  }
-};
+// TODO: Use Prettier's rules for deciding which parser to use
+//       (some files like package.json use a special parser)
+const prettierExtToParser = Object.entries({
+  angular: [],
+  "babel-flow": [".js", ".jsx"],
+  "babel-ts": [],
+  babel: [],
+  css: [".css"],
+  espree: [],
+  flow: [],
+  glimmer: [],
+  graphql: [".graphql"],
+  html: [".html", ".htm"],
+  json: [".json"],
+  json5: [],
+  less: [],
+  lwc: [],
+  markdown: [".md"],
+  mdx: [],
+  meriyah: [],
+  scss: [],
+  typescript: [".ts", ".tsx"],
+  vue: [],
+  yaml: [".yaml", ".yml"],
+}).reduce<Record<string, string>>((map, [parser, exts]) => {
+  for (const ext of exts) map[ext] = parser;
+  return map;
+}, {});
 
-export const prettierFormatter: Formatter = (filename, contents) => {
-  const fileExt = path.extname(filename);
-  const parser = Object.entries<string[]>({
-    angular: [],
-    "babel-flow": [".js", ".jsx"],
-    "babel-ts": [],
-    babel: [],
-    css: [".css"],
-    espree: [],
-    flow: [],
-    glimmer: [],
-    graphql: [".graphql"],
-    html: [".html", ".htm"],
-    json: [".json"],
-    json5: [],
-    less: [],
-    lwc: [],
-    markdown: [".md"],
-    mdx: [],
-    meriyah: [],
-    scss: [],
-    typescript: [".ts", ".tsx"],
-    vue: [],
-    yaml: [".yaml", ".yml"],
-  }).find(([, extensions]) => extensions.includes(fileExt))?.[0];
+// TODO: Cache this per `applyPreset()` call
+let prettierConfig: prettier.Options | undefined = undefined;
+
+export const prettierFormatter: Formatter = async (filename, contents) => {
+  const parser =
+    filename === "package.json"
+      ? "json-stringify"
+      : prettierExtToParser[path.extname(filename)];
   if (!parser) return contents;
-  return prettier.format(contents, { parser });
+  if (!prettierConfig)
+    prettierConfig =
+      ((await fse.pathExists(".prettierrc.js")) &&
+        (await prettier.resolveConfig(".prettierrc.js"))) ||
+      {};
+  return prettier.format(contents, {
+    ...prettierConfig,
+    parser,
+  });
 };

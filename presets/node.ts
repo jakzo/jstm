@@ -4,6 +4,7 @@ const preset: Preset = {
   name: "node",
   useCase: "node packages",
   generators: [
+    generators.manifest,
     generators.common,
     generators.github,
     generators.packageGen,

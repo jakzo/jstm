@@ -1,5 +1,24 @@
 #!/usr/bin/env node
-import { runIfScriptExists } from "@jstm/core";
+import { spawn } from "child_process";
+import path from "path";
+
+import { PackageJson } from "type-fest";
+
+export const runIfScriptExists = (scriptName: string): void => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const packageJson = require(path.join(
+    process.cwd(),
+    "package.json"
+  )) as PackageJson;
+  if (packageJson?.scripts?.[scriptName]) {
+    const proc = spawn("yarn", ["run", scriptName], {
+      stdio: "inherit",
+    });
+    proc.on("close", (code) => {
+      process.exit(code || undefined);
+    });
+  }
+};
 
 try {
   const scriptName = process.argv[2];

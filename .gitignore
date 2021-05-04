@@ -30,12 +30,11 @@ config.gypi
 !.yarn/versions
 
 # jstm generated files
-/dist/
+dist/
 /.npmrc
 /.npmignore
 /.nvmrc
 /.yvmrc
-/.yarnrc.yml
 /.yarn/releases/yarn-berry.cjs
 /.eslintrc.js
 /.prettierrc.js
@@ -51,4 +50,3 @@ config.gypi
 # === (end generated patterns) ===
 
 /presets/packages/
-/__fixtures__/

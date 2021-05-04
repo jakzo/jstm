@@ -22,9 +22,14 @@ const createConfigGetter = <T extends ConfigTypeNames, A extends unknown[]>(
 export const getPackageName = createConfigGetter(
   "packageName",
   "string",
-  (packageJson: PackageJson) => ({
+  (packageJson: PackageJson, isMonorepo) => ({
+    hint: isMonorepo
+      ? "name of the unpublished monorepo root package"
+      : undefined,
     value: packageJson.name,
-    defaultValue: path.basename(process.cwd()),
+    defaultValue: isMonorepo
+      ? `@${path.basename(process.cwd())}/monorepo`
+      : path.basename(process.cwd()),
     shouldNotSave: true,
   })
 );
@@ -39,7 +44,7 @@ export const getDescription = createConfigGetter(
 );
 
 export const getRepoUrl = createConfigGetter(
-  "repoName",
+  "repoUrl",
   "string",
   (packageName: string) => {
     const nameParts = packageName.replace("@", "").split("/");
@@ -101,4 +106,39 @@ export const getNpmRegistry = createConfigGetter(
 
 export const getNpmAccess = createConfigGetter("npmAccess", "string", () => ({
   defaultValue: "public",
+  shouldNotSave: true,
 }));
+
+export const getIsMonorepo = createConfigGetter(
+  "isMonorepo",
+  "boolean",
+  () => ({ defaultValue: false })
+);
+
+export const getSubpackageName = createConfigGetter(
+  "subpackageName",
+  "string",
+  (rootPackageName: string) => ({
+    hint: "name of the initial package within the monorepo",
+    defaultValue: rootPackageSubName(rootPackageName, "sample"),
+    shouldNotSave: true,
+  })
+);
+
+export const getSubpackageDescription = createConfigGetter(
+  "subpackageDescription",
+  "string",
+  (packageJson: PackageJson) => ({
+    value: packageJson.description,
+    shouldNotSave: true,
+  })
+);
+
+const rootPackageSubName = (
+  rootPackageName: string,
+  subname: string
+): string => {
+  const match = /^@[^/]+/.exec(rootPackageName);
+  if (match) return `${match[0]}/${subname}`;
+  return `${rootPackageName}-${subname}`;
+};

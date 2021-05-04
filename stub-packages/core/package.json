@@ -1,0 +1,17 @@
+{
+  "name": "@jstm/core",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
+  "bin": {
+    "run-if-script-exists": "run-if-script-exists.js",
+    "project-pre-push": "project-pre-push.js",
+    "ci-github-print-changelog": "ci-github-print-changelog.js"
+  },
+  "dependencies": {
+    "fs-extra": "^9.1.0",
+    "ts-node": "9.1.1",
+    "typescript": "4.2.3"
+  }
+}

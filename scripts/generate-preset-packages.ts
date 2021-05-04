@@ -5,7 +5,47 @@ import type { PackageJson } from "type-fest";
 
 import type { Preset } from "../src/types";
 
-const main = async (): Promise<void> => {
+export const getPackageJson = (
+  mainPackageJson: PackageJson,
+  preset: Preset
+): PackageJson => {
+  const presetDeps = new Set(
+    preset.generators.flatMap((gen) => gen.devDependencies || [])
+  );
+  const packageNameParts = (mainPackageJson.name as string).split("/");
+  const packageJson: PackageJson = {
+    ...mainPackageJson,
+    name: `${packageNameParts[0]}${
+      packageNameParts.length > 1 ? "/" : "-"
+    }preset-${preset.name}`,
+    description: `Preconfigured project tooling for ${preset.useCase}.`,
+    main: "index.js",
+    types: "index.d.ts",
+    repository: {
+      ...(mainPackageJson.repository as { type: string; url: string }),
+      directory: "presets",
+    },
+    bin: {
+      project: "project.js",
+    },
+    scripts: {
+      postinstall: "node project.js",
+    },
+    dependencies: {
+      [mainPackageJson.name as string]: mainPackageJson.version as string,
+      tslib: (mainPackageJson.dependencies as PackageJson.Dependency).tslib,
+      ...Object.fromEntries(
+        Object.entries(
+          mainPackageJson.devDependencies as PackageJson.Dependency
+        ).filter(([dep]) => presetDeps.has(dep))
+      ),
+    },
+    devDependencies: {},
+  };
+  return packageJson;
+};
+
+export const generatePresetPackages = async (): Promise<void> => {
   const packagesDir = path.join(__dirname, "..", "presets", "packages");
   await fse.emptyDir(packagesDir);
   const mainPackageJson = (await fse.readJson(
@@ -23,39 +63,7 @@ const main = async (): Promise<void> => {
     const { default: preset } = require(`../presets/${presetFile}`) as {
       default: Preset;
     };
-    const presetDeps = new Set(
-      preset.generators.flatMap((gen) => gen.devDependencies || [])
-    );
-    const packageNameParts = (mainPackageJson.name as string).split("/");
-    const packageJson: PackageJson = {
-      ...mainPackageJson,
-      name: `${packageNameParts[0]}${
-        packageNameParts.length > 1 ? "/" : "-"
-      }preset-${preset.name}`,
-      description: `Preconfigured project tooling for ${preset.useCase}.`,
-      main: "index.js",
-      types: "index.d.ts",
-      repository: {
-        ...(mainPackageJson.repository as { type: string; url: string }),
-        directory: "presets",
-      },
-      bin: {
-        project: "project.js",
-      },
-      scripts: {
-        postinstall: "node project.js",
-      },
-      dependencies: {
-        [mainPackageJson.name as string]: mainPackageJson.version as string,
-        tslib: (mainPackageJson.dependencies as PackageJson.Dependency).tslib,
-        ...Object.fromEntries(
-          Object.entries(
-            mainPackageJson.devDependencies as PackageJson.Dependency
-          ).filter(([dep]) => presetDeps.has(dep))
-        ),
-      },
-      devDependencies: {},
-    };
+    const packageJson = getPackageJson(mainPackageJson, preset);
 
     const packageDir = path.join(packagesDir, presetFile);
     await fse.copy(path.join(presetsDir, "template"), packageDir);
@@ -69,7 +77,8 @@ const main = async (): Promise<void> => {
   }
 };
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (require.main === module)
+  generatePresetPackages().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });

@@ -6,16 +6,7 @@ import type { PackageJson } from "type-fest";
 
 import { Config } from "./config";
 import { Preset, TemplateFileBuilt, Vars } from "./types";
-import { prettierFormatter, readFileOr } from "./utils";
-
-const asyncMap = async <T, U>(
-  arr: T[],
-  func: (item: T, index: number, array: T[]) => Promise<U>
-): Promise<U[]> => {
-  const result = [];
-  for (const [i, item] of arr.entries()) result.push(await func(item, i, arr));
-  return result;
-};
+import { asyncMap, prettierFormatter, readFileOr } from "./utils";
 
 const trimIf = (str: string, shouldTrim: boolean): string => {
   if (!shouldTrim) return str;
@@ -26,7 +17,9 @@ const trimIf = (str: string, shouldTrim: boolean): string => {
 
 export const applyPreset = async (
   preset: Preset,
-  presetPackageJson: PackageJson
+  presetPackageJson: PackageJson,
+  config: Config,
+  doNotInstallDeps = true
 ): Promise<void> => {
   const packageJson = JSON.parse(
     await readFileOr("package.json", "{}")
@@ -42,7 +35,7 @@ export const applyPreset = async (
   };
 
   const vars: Vars = {
-    config: new Config(process.cwd(), preset.formatter || prettierFormatter),
+    config,
     presetPackageJson,
     packageJson,
     devDependencies: Object.fromEntries(
@@ -59,6 +52,7 @@ export const applyPreset = async (
     gitignorePatterns: files
       .filter((file) => !file.isCheckedIn)
       .map((file) => file.path.map((part) => `/${part}`).join("")),
+    files,
   };
   const formatter = preset.formatter || ((s) => s);
   const filesWithContents: TemplateFileBuilt[] = await asyncMap(
@@ -66,7 +60,7 @@ export const applyPreset = async (
     async (file) => ({
       ...file,
       contents: trimIf(
-        formatter(
+        await formatter(
           file.path[file.path.length - 1],
           typeof file.contents === "function"
             ? await file.contents(contentsVars)
@@ -81,14 +75,18 @@ export const applyPreset = async (
     await writeFileIfChanged(file);
   }
   await vars.config.saveProjectConfig();
-  await installDepsIfRequired(filesWithContents);
+  if (!doNotInstallDeps) await installDepsIfRequired(filesWithContents);
 };
 
 export const applyPresetCli = async (
   preset: Preset,
   packageJson: PackageJson
 ): Promise<void> =>
-  applyPreset(preset, packageJson).catch((err) => {
+  applyPreset(
+    preset,
+    packageJson,
+    new Config(process.cwd(), preset.formatter)
+  ).catch((err) => {
     console.error(err);
     process.exit(1);
   });
@@ -133,7 +131,7 @@ const installDepsIfRequired = async (
       console.log(
         "devDependencies have been updated. Running `yarn install` now..."
       );
-      spawnSync("yarn", ["install", "--ignore-scripts"], { stdio: "inherit" });
+      spawnSync("yarn", ["install"], { stdio: "inherit" });
     }
   } catch {}
 };

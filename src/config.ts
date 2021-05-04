@@ -4,7 +4,7 @@ import * as fse from "fs-extra";
 import inquirer, { QuestionMap } from "inquirer";
 
 import type { Formatter } from "./types";
-import { readFileOr } from "./utils";
+import { prettierFormatter, readFileOr } from "./utils";
 
 const JSTM_CONFIG_FILENAME = ".jstmrc.json";
 
@@ -36,12 +36,30 @@ const configTypes = {
   boolean: createConfigType<boolean>("boolean", "confirm"),
 };
 
+const inquirerPrompt = async <T extends ConfigTypeNames>(
+  key: string,
+  type: T,
+  opts: ConfigOpts<T>
+): Promise<ConfigTypeOf<T>> =>
+  (
+    await inquirer.prompt<{ value: ConfigTypeOf<T> }>([
+      {
+        name: "value",
+        message: key,
+        type: configTypes[type].inquirerType,
+        default: opts.defaultValue,
+      },
+    ])
+  ).value;
+
 export type ConfigTypeNames = keyof typeof configTypes;
 export type ConfigTypeOf<
   T extends ConfigTypeNames
 > = typeof configTypes[T]["_T"];
 
 export type ConfigOpts<T extends ConfigTypeNames> = Partial<{
+  /** Message displayed when prompting the user for a value. */
+  hint: string;
   defaultValue: ConfigTypeOf<T>;
   /** If true, value will not be saved in project config (since it will not be needed later).
    *  An example of this is the `author` email address used in the package.json.
@@ -56,7 +74,13 @@ export class Config {
 
   constructor(
     public projectPath: string,
-    public formatter: Formatter,
+    public formatter: Formatter = prettierFormatter,
+    public prompt: <T extends ConfigTypeNames>(
+      key: string,
+      type: T,
+      opts: ConfigOpts<T>
+    ) => Promise<ConfigTypeOf<T>> = inquirerPrompt,
+    public log: (message: string) => void = console.log,
     public data?: Record<string, unknown>
   ) {}
 
@@ -86,7 +110,8 @@ export class Config {
     const dataToSave = Object.fromEntries(
       Object.entries(this.data).filter(([key]) => !this.doNotSave.has(key))
     );
-    return fse.writeFile(
+    await fse.ensureDir(path.join(configPath, ".."));
+    await fse.writeFile(
       configPath,
       this.formatter(JSTM_CONFIG_FILENAME, JSON.stringify(dataToSave, null, 2))
     );
@@ -98,7 +123,7 @@ export class Config {
     opts: ConfigOpts<T> = {}
   ): Promise<ConfigTypeOf<T>> {
     if (!this.data) this.data = await this.readProjectConfig();
-    const { inquirerType, guard, isSensitive } = configTypes[type];
+    const { guard, isSensitive } = configTypes[type];
     if (isSensitive || opts.shouldNotSave) this.doNotSave.add(key);
 
     if (hasProp(this.data, key)) {
@@ -112,23 +137,14 @@ export class Config {
       );
     }
 
-    if (this.useDefaultInsteadOfPrompt && opts.defaultValue)
+    if (this.useDefaultInsteadOfPrompt && opts.defaultValue !== undefined)
       return opts.defaultValue;
 
     if (!this.hasPromptedForValues) {
-      console.log(
-        "Please enter values for the following configuration options:"
-      );
+      this.log("Please enter values for the following configuration options:");
       this.hasPromptedForValues = true;
     }
-    const { value } = await inquirer.prompt<{ value: ConfigTypeOf<T> }>([
-      {
-        name: "value",
-        message: key,
-        type: inquirerType,
-        default: opts.defaultValue,
-      },
-    ]);
+    const value = await this.prompt(key, type, opts);
     this.data[key] = value;
     if (value === opts.defaultValue) this.doNotSave.add(key);
     return value;

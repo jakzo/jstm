@@ -1,3 +1,4 @@
+export { manifest } from "./manifest";
 export { common } from "./common";
 export { github } from "./github";
 export { eslint } from "./eslint";

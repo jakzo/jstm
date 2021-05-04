@@ -5,11 +5,12 @@ import type { Config } from "./config";
 export type MaybePromise<T> = T | Promise<T>;
 
 export interface Formatter {
-  (filename: string, contents: string): string;
+  (filename: string, contents: string): MaybePromise<string>;
 }
 
 export interface Preset {
   name: string;
+  /** Generated description is: `Preconfigured project tooling for ${useCase}.` */
   useCase: string;
   generators: TemplateGenerator[];
   formatter?: Formatter;
@@ -42,4 +43,5 @@ export interface Vars {
 }
 export interface ContentsVars {
   gitignorePatterns: string[];
+  files: TemplateFile[];
 }
