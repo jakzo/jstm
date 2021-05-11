@@ -27,10 +27,6 @@ export const common: TemplateGenerator = {
 
     return [
       {
-        path: [".npmrc"],
-        contents: `registry = "${npmRegistry}"`,
-      },
-      {
         path: ["README.md"],
         isCheckedIn: true,
         doNotOverwrite: true,
@@ -167,6 +163,8 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
         isCheckedIn: true,
         doNotOverwrite: true,
         contents: `
+npmRegistryServer: ${npmRegistry}
+
 plugins:
   - path: .yarn/plugins/@yarnpkg/plugin-typescript.cjs
     spec: "@yarnpkg/plugin-typescript"
@@ -176,6 +174,7 @@ yarnPath: .yarn/releases/yarn-berry.cjs
       },
       {
         path: [".yarn", "releases", "yarn-berry.cjs"],
+        isCheckedIn: true,
         contents: async () =>
           fse.readFile(
             path.join(

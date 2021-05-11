@@ -62,11 +62,9 @@ node_modules/
 yarn.lock
 package-lock.json
 .pnp.*
-/.npmrc
 /.npmignore
 /.nvmrc
 /.yvmrc
-/.yarn/releases/yarn-berry.cjs
 /.eslintrc.js
 /.prettierrc.js
 /.eslintignore
@@ -341,11 +339,9 @@ config.gypi
 
 # jstm generated files
 dist/
-/.npmrc
 /.npmignore
 /.nvmrc
 /.yvmrc
-/.yarn/releases/yarn-berry.cjs
 /.eslintrc.js
 /.prettierrc.js
 /.eslintignore
@@ -435,8 +431,6 @@ __*__
 # === Custom Config Rules ===
 # (rules from ./config/.npmignore will appear below)
 ",
-  ".npmrc": "registry = \\"https://registry.npmjs.org\\"
-",
   ".nvmrc": "14
 ",
   ".prettierignore": "# DO NOT MODIFY
@@ -468,11 +462,9 @@ node_modules/
 yarn.lock
 package-lock.json
 .pnp.*
-/.npmrc
 /.npmignore
 /.nvmrc
 /.yvmrc
-/.yarn/releases/yarn-berry.cjs
 /.eslintrc.js
 /.prettierrc.js
 /.eslintignore
@@ -534,7 +526,9 @@ try {
       "yarn-berry.cjs": "Hash: febb7417818e86591007abc5c6db6865faffe7a4d800d49bccef392c18f2e7d2",
     },
   },
-  ".yarnrc.yml": "plugins:
+  ".yarnrc.yml": "npmRegistryServer: https://registry.npmjs.org
+
+plugins:
   - path: .yarn/plugins/@yarnpkg/plugin-typescript.cjs
     spec: \\"@yarnpkg/plugin-typescript\\"
 
@@ -679,8 +673,8 @@ try {
     \\"canvas\\": \\"2.7.0\\",
     \\"bufferutil\\": \\"4.0.3\\",
     \\"utf-8-validate\\": \\"5.0.4\\",
-    \\"@jstm/preset-node\\": \\"0.3.13\\",
-    \\"@jstm/core\\": \\"0.3.13\\"
+    \\"@jstm/preset-node\\": \\"0.3.14\\",
+    \\"@jstm/core\\": \\"0.3.14\\"
   }
 }
 ",
@@ -824,11 +818,9 @@ node_modules/
 yarn.lock
 package-lock.json
 .pnp.*
-/.npmrc
 /.npmignore
 /.nvmrc
 /.yvmrc
-/.yarn/releases/yarn-berry.cjs
 /.eslintrc.js
 /.prettierrc.js
 /.eslintignore
@@ -1103,11 +1095,9 @@ config.gypi
 
 # jstm generated files
 dist/
-/.npmrc
 /.npmignore
 /.nvmrc
 /.yvmrc
-/.yarn/releases/yarn-berry.cjs
 /.eslintrc.js
 /.prettierrc.js
 /.eslintignore
@@ -1197,8 +1187,6 @@ __*__
 # === Custom Config Rules ===
 # (rules from ./config/.npmignore will appear below)
 ",
-  ".npmrc": "registry = \\"https://registry.npmjs.org\\"
-",
   ".nvmrc": "14
 ",
   ".prettierignore": "# DO NOT MODIFY
@@ -1230,11 +1218,9 @@ node_modules/
 yarn.lock
 package-lock.json
 .pnp.*
-/.npmrc
 /.npmignore
 /.nvmrc
 /.yvmrc
-/.yarn/releases/yarn-berry.cjs
 /.eslintrc.js
 /.prettierrc.js
 /.eslintignore
@@ -1296,7 +1282,9 @@ try {
       "yarn-berry.cjs": "Hash: febb7417818e86591007abc5c6db6865faffe7a4d800d49bccef392c18f2e7d2",
     },
   },
-  ".yarnrc.yml": "plugins:
+  ".yarnrc.yml": "npmRegistryServer: https://registry.npmjs.org
+
+plugins:
   - path: .yarn/plugins/@yarnpkg/plugin-typescript.cjs
     spec: \\"@yarnpkg/plugin-typescript\\"
 
@@ -1443,8 +1431,8 @@ try {
     \\"canvas\\": \\"2.7.0\\",
     \\"bufferutil\\": \\"4.0.3\\",
     \\"utf-8-validate\\": \\"5.0.4\\",
-    \\"@jstm/preset-node\\": \\"0.3.13\\",
-    \\"@jstm/core\\": \\"0.3.13\\"
+    \\"@jstm/preset-node\\": \\"0.3.14\\",
+    \\"@jstm/core\\": \\"0.3.14\\"
   }
 }
 ",

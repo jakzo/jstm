@@ -6,7 +6,7 @@ import type { PackageJson } from "type-fest";
 
 import { Config } from "./config";
 import { Preset, TemplateFileBuilt, Vars } from "./types";
-import { asyncMap, prettierFormatter, readFileOr } from "./utils";
+import { asyncMap, readFileOr } from "./utils";
 
 const trimIf = (str: string, shouldTrim: boolean): string => {
   if (!shouldTrim) return str;

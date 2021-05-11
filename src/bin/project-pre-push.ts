@@ -1,19 +1,9 @@
 #!/usr/bin/env node
-import { execSync, fork } from "child_process";
-import path from "path";
+import { execSync } from "child_process";
 
 import { readChangesetState } from "@changesets/release-utils";
 import chalk from "chalk";
 import inquirer from "inquirer";
-
-const forkPromise = (modulePath: string, args: string[]): Promise<void> =>
-  new Promise((resolve, reject) => {
-    const proc = fork(modulePath, args, { stdio: "inherit" });
-    proc.on("exit", (code) => {
-      if (code === 0) resolve();
-      else reject(new Error(`Exited with code: ${code}`));
-    });
-  });
 
 export const main = async (): Promise<void> => {
   const { changesets } = await readChangesetState();
@@ -34,10 +24,7 @@ export const main = async (): Promise<void> => {
   ]);
   if (!shouldCreate) return;
 
-  await forkPromise(
-    path.join(execSync("npm bin").toString().trimEnd(), "changeset"),
-    []
-  );
+  execSync("yarn changeset", { stdio: "inherit" });
   console.log(
     chalk.blueBright(
       "This push will now fail due to changeset being added. Please run `git push` again to push with changeset."

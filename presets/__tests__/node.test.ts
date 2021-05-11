@@ -6,6 +6,7 @@ import * as fse from "fs-extra";
 import isUtf8 from "isutf8";
 import tempy from "tempy";
 import { PackageJson } from "type-fest";
+import yaml from "yaml";
 
 import rootPackageJson from "../../package.json";
 import { getPackageJson } from "../../scripts/generate-preset-packages";
@@ -118,24 +119,43 @@ const testPreset = async (
     path.join(testDir, "yarn.lock")
   );
   await fse.copy(path.join(REPO_ROOT, ".yarn"), path.join(testDir, ".yarn"));
-  await fse.appendFile(
+  await fse.writeFile(
     path.join(testDir, ".yarnrc.yml"),
-    "enableNetwork: false\n"
+    yaml.stringify({
+      ...yaml.parse(
+        await fse.readFile(path.join(testDir, ".yarnrc.yml"), "utf8")
+      ),
+      enableNetwork: false,
+      npmRegistryServer: "http://localhost:4186",
+    })
   );
 
-  process.stdout.write("Running: yarn install\n");
-  execSync("yarn install", {
-    cwd: testDir,
-    stdio: "inherit",
-    env: { ...process.env, JSTM_TEST_ROOT: REPO_ROOT },
-  });
+  // Publish to local Verdaccio registry for tests
+  await fse.writeJson(
+    path.join(testDir, "package.json"),
+    {
+      ...(await fse.readJson(path.join(testDir, "package.json"))),
+      publishConfig: {
+        // TODO: Get port from setup script
+        registry: "http://localhost:4186",
+      },
+    },
+    { spaces: 2 }
+  );
 
-  process.stdout.write("Running: yarn test:all\n");
-  execSync("yarn test:all", {
-    cwd: testDir,
-    stdio: "inherit",
-    env: { ...process.env, JSTM_TEST_ROOT: REPO_ROOT },
-  });
+  const runYarnCommand = (script: string): void => {
+    execSync(`yarn ${script}`, {
+      cwd: testDir,
+      stdio: "inherit",
+      env: { ...process.env, JSTM_TEST_ROOT: REPO_ROOT },
+    });
+  };
+
+  runYarnCommand("install");
+  runYarnCommand("test:all");
+  // Disable testing release until Yarn 2 works with Verdaccio
+  // https://github.com/yarnpkg/berry/issues/1044
+  // runYarnCommand("release");
 };
 
 test("default config", async () => testPreset(presetNode, "default"));

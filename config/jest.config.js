@@ -6,4 +6,6 @@ module.exports = {
     "/dist/",
     "/presets/packages/",
   ],
+  globalSetup: "./__tests__/jest.setup.ts",
+  globalTeardown: "./__tests__/jest.teardown.ts",
 };

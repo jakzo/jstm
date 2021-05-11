@@ -113,7 +113,10 @@ export class Config {
     await fse.ensureDir(path.join(configPath, ".."));
     await fse.writeFile(
       configPath,
-      this.formatter(JSTM_CONFIG_FILENAME, JSON.stringify(dataToSave, null, 2))
+      await this.formatter(
+        JSTM_CONFIG_FILENAME,
+        JSON.stringify(dataToSave, null, 2)
+      )
     );
   }
 

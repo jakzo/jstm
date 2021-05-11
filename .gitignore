@@ -31,11 +31,9 @@ config.gypi
 
 # jstm generated files
 dist/
-/.npmrc
 /.npmignore
 /.nvmrc
 /.yvmrc
-/.yarn/releases/yarn-berry.cjs
 /.eslintrc.js
 /.prettierrc.js
 /.eslintignore
