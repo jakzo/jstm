@@ -83,7 +83,7 @@ jobs:
         with:
           node-version: \${{ env.node_version }}
       - name: Install dependencies
-        run: yarn install --immutable --immutable-cache --check-cache
+        run: yarn install --immutable --immutable-cache
       - name: Bump versions according to changeset
         run: |
           set -e
