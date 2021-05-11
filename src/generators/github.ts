@@ -60,7 +60,13 @@ jobs:
         id: release_required
         with:
           script: |
-            const releaseUtils = require(process.env.GITHUB_WORKSPACE + '/node_modules/@changesets/release-utils');
+            const path = require('path');
+            const pnpapi = require(path.join(process.env.GITHUB_WORKSPACE, '.pnp'));
+            const releaseUtilsPath = pnpapi.resolveToUnqualified(
+              '@changesets/release-utils',
+              process.env.GITHUB_WORKSPACE
+            );
+            const releaseUtils = require(releaseUtilsPath);
             const { changesets } = await releaseUtils.readChangesetState();
             return changesets.length > 0;
 
