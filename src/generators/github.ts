@@ -62,6 +62,7 @@ jobs:
           script: |
             const path = require('path');
             const pnpapi = require(path.join(process.env.GITHUB_WORKSPACE, '.pnp'));
+            pnpapi.setup();
             const releaseUtilsPath = pnpapi.resolveToUnqualified(
               '@changesets/release-utils',
               process.env.GITHUB_WORKSPACE
