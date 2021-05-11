@@ -48,7 +48,7 @@ jobs:
         with:
           node-version: \${{ env.node_version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable --immutable-cache --check-cache
       - name: Test
         run: |
           set -e
@@ -83,7 +83,7 @@ jobs:
         with:
           node-version: \${{ env.node_version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable --immutable-cache --check-cache
       - name: Bump versions according to changeset
         run: |
           set -e
