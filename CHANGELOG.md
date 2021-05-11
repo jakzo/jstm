@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.15
+
+### Patch Changes
+
+- 60d0db7: Added isMonorepo config option.
+
 ## 0.3.14
 
 ### Patch Changes
