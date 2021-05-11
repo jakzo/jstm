@@ -200,7 +200,7 @@ export const modifyPackageJson = async ({
     ])
     .add(() => [
       "build:clean",
-      `rimraf "./${distDir}" *.tsbuildinfo && run-if-script-exists build:clean:custom`,
+      `rimraf "./${distDir}" "*.tsbuildinfo" && run-if-script-exists build:clean:custom`,
     ])
     .add(() => [
       "build:typescript",
