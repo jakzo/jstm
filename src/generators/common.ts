@@ -159,6 +159,7 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
         contents: "^1.22.10",
       },
       {
+        // TODO: Run the yarn commands to install Berry/plugins
         path: [".yarnrc.yml"],
         isCheckedIn: true,
         doNotOverwrite: true,
