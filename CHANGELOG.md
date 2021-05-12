@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.17
+
+### Patch Changes
+
+- 1920d96: Fixed dependencies.
+
 ## 0.3.16
 
 ### Patch Changes
