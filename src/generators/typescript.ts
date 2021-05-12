@@ -7,7 +7,7 @@ import { PackageJson } from "type-fest";
 
 import { Config } from "../config";
 import type { ContentsVars, TemplateFile, TemplateGenerator } from "../types";
-import { asyncMap, mergeJson } from "../utils";
+import { asyncMap, mergeJsonFile } from "../utils";
 import { getSubpackageDirname } from "./manifest";
 import {
   getDistDir,
@@ -130,7 +130,7 @@ export const typescript: TemplateGenerator = {
       {
         path: ["tsconfig.json"],
         isCheckedIn: true,
-        contents: await mergeJson(
+        contents: await mergeJsonFile(
           "tsconfig.json",
           {
             extends: "./tsconfig.base.json",

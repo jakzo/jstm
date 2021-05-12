@@ -18,6 +18,9 @@ const REPO_ROOT = path.join(__dirname, "..", "..");
 
 const IGNORED_FILES = ["node_modules", "preset-package"];
 
+// Hard-code the package.json version so that the snapshot does not need to be updated every release
+rootPackageJson.version = "1.0.0";
+
 interface SnapshotFiles {
   [name: string]: string | null | SnapshotFiles;
 }

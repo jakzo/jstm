@@ -43,16 +43,23 @@ export const merge = (
 
 // TODO: Add `defaultsToOverwrite` option so we can update values we added but
 //       not values added by users
-export const mergeJson = async (
-  filePath: string,
+export const mergeJson = (
+  contentsA: string,
   properties: Record<string, unknown>,
   overwrite = false
+): string =>
+  fleece.patch(
+    contentsA,
+    merge(fleece.evaluate(contentsA), properties, overwrite)
+  );
+
+export const mergeJsonFile = async (
+  filePath: string,
+  properties: Record<string, unknown>,
+  overwrite?: boolean
 ): Promise<string> => {
   const contents = await readFileOr(filePath, "{}");
-  return fleece.patch(
-    contents,
-    merge(fleece.evaluate(contents), properties, overwrite)
-  );
+  return mergeJson(contents, properties, overwrite);
 };
 
 // TODO: Use Prettier's rules for deciding which parser to use

@@ -680,8 +680,8 @@ try {
     \\"canvas\\": \\"2.7.0\\",
     \\"bufferutil\\": \\"4.0.3\\",
     \\"utf-8-validate\\": \\"5.0.4\\",
-    \\"@jstm/preset-node\\": \\"0.3.14\\",
-    \\"@jstm/core\\": \\"0.3.14\\"
+    \\"@jstm/preset-node\\": \\"1.0.0\\",
+    \\"@jstm/core\\": \\"1.0.0\\"
   }
 }
 ",
@@ -1445,8 +1445,8 @@ try {
     \\"canvas\\": \\"2.7.0\\",
     \\"bufferutil\\": \\"4.0.3\\",
     \\"utf-8-validate\\": \\"5.0.4\\",
-    \\"@jstm/preset-node\\": \\"0.3.14\\",
-    \\"@jstm/core\\": \\"0.3.14\\"
+    \\"@jstm/preset-node\\": \\"1.0.0\\",
+    \\"@jstm/core\\": \\"1.0.0\\"
   }
 }
 ",

@@ -3,7 +3,7 @@ import path from "path";
 import * as fse from "fs-extra";
 
 import type { TemplateGenerator } from "../types";
-import { mergeJson, readFileOr } from "../utils";
+import { mergeJsonFile, readFileOr } from "../utils";
 import {
   getDescription,
   getDistDir,
@@ -191,7 +191,7 @@ yarnPath: .yarn/releases/yarn-berry.cjs
       {
         path: [".vscode", "settings.json"],
         isCheckedIn: true,
-        contents: await mergeJson(
+        contents: await mergeJsonFile(
           path.join(".vscode", "settings.json"),
           [
             "javascript",
@@ -224,7 +224,7 @@ yarnPath: .yarn/releases/yarn-berry.cjs
       {
         path: [".vscode", "extensions.json"],
         isCheckedIn: true,
-        contents: await mergeJson(path.join(".vscode", "extensions.json"), {
+        contents: await mergeJsonFile(path.join(".vscode", "extensions.json"), {
           recommendations: [
             "dbaeumer.vscode-eslint",
             "esbenp.prettier-vscode",
@@ -235,7 +235,7 @@ yarnPath: .yarn/releases/yarn-berry.cjs
       {
         path: [".vim", "coc-settings.json"],
         isCheckedIn: true,
-        contents: await mergeJson(path.join(".vim", "coc-settings.json"), {
+        contents: await mergeJsonFile(path.join(".vim", "coc-settings.json"), {
           "eslint.packageManager": "yarn",
           "eslint.nodePath": ".yarn/sdks",
           "workspace.workspaceFolderCheckCwd": false,
