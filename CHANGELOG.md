@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.16
+
+### Patch Changes
+
+- ac353dc: Added isMonorepo config option.
+
 ## 0.3.15
 
 ### Patch Changes
