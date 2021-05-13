@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.22
+
+### Patch Changes
+
+- 818e924: Fix monorepo workspace references.
+
 ## 0.3.21
 
 ### Patch Changes
