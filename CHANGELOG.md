@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.19
+
+### Patch Changes
+
+- c0c6e8a: Fixes generator.
+
 ## 0.3.18
 
 ### Patch Changes
