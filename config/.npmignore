@@ -1,4 +1,4 @@
 # Used at runtime by a generator
-!/.yarn/releases/
-!/.yarn/plugins/
-!/.yarn/sdks/
+!/.yarn/releases/**/*
+!/.yarn/plugins/**/*
+!/.yarn/sdks/**/*
