@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.21
+
+### Patch Changes
+
+- 61da5c3: Fixed monorepo TSConfig reference paths.
+
 ## 0.3.20
 
 ### Patch Changes
