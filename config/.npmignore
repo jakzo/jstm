@@ -1,2 +1,4 @@
 # Used at runtime by a generator
-!/.yarn/releases/yarn-berry.cjs
+!/.yarn/releases/
+!/.yarn/plugins/
+!/.yarn/sdks/
