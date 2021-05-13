@@ -88,6 +88,7 @@ export const getMonorepoTsconfigs = async (
               Object.keys(deps || {})
                 .map((dep) => packageMap.get(dep))
                 .filter((dir): dir is string => dir !== undefined)
+                .map((dir) => ({ path: path.relative(pkg.dir, dir) }))
             ),
           }),
         };
