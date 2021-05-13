@@ -9,7 +9,7 @@ _JavaScript Technology Manager -- project tooling in a box. Preconfigured tools 
 Create an empty directory for your new project then run:
 
 ```sh
-yarn add --exact --dev @jstm/preset-node
+npx @jstm/preset-node
 ```
 
 **That's it!** After a few prompts all the tooling should now be set up. Note that you may need to restart your IDE for the integrations to pick up the changes to tooling (eg. for the VSCode ESLint plugin to read the newly created config).
@@ -17,8 +17,7 @@ yarn add --exact --dev @jstm/preset-node
 ## Quick commands
 
 ```sh
-yarn add --exact --dev @jstm/preset-node # install in project, --exact is recommended to ensure version matches what you expect
-yarn upgrade @jstm/preset-node --latest  # update to latest project tooling
+yarn add --exact --dev @jstm/preset-node # install/upgrade in project, --exact is recommended to ensure version matches what you expect
 yarn project                             # manually sync tooling into project
 ```
 
@@ -49,7 +48,7 @@ While you can configure a lot of different things, it is recommended you choose 
 
 ### Why use this instead of Yeoman or even just copying a boilerplate folder?
 
-For **free maintainence**. This tool is more than just a set of file templates; all the tooling and configuration is encapsulated inside a dependency which means that by running `yarn upgrade @jstm/preset-node --latest` your tooling will be updated to the current state-of-the-art JS project setup. These upgrades can even be automated with a bot like [Renovate](https://github.com/renovatebot/renovate). With file templates they help you get started quickly but leave all the maintenance to you. If you have many separate repositories, the maintenance time savings add up quickly.
+For **free maintainence**. This tool is more than just a set of file templates; all the tooling and configuration is encapsulated inside a dependency which means that by updating just the JSTM preset package dependency version your tooling will be updated to the current state-of-the-art JS project setup. These upgrades can even be automated with a bot like [Renovate](https://github.com/renovatebot/renovate). With file templates they help you get started quickly but leave all the maintenance to you. If you have many separate repositories, the maintenance time savings add up quickly.
 
 ### Why would I not want to use this?
 
@@ -62,7 +61,6 @@ If you require a unique tooling setup which is not compatible with any available
 
 This is a manual process for now. To do this you should:
 
-- Install all the packages depended on by `@jstm/preset-node`
 - Run `yarn remove @jstm/preset-node`
 - Remove config files from `.gitignore`
 - Remove all the "generated file, do not modify" warnings

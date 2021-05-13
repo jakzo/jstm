@@ -2,7 +2,7 @@ import path from "path";
 
 import * as fse from "fs-extra";
 
-import type { TemplateGenerator } from "../types";
+import type { TemplateFile, TemplateGenerator } from "../types";
 import { mergeJsonFile, readFileOr } from "../utils";
 import {
   getDescription,
@@ -14,9 +14,40 @@ import {
   getSrcDir,
 } from "./utils/config";
 
+const JSTM_DIR = path.join(__dirname, "..", "..");
+
+const addFilesFromDir = async (pathParts: string[]): Promise<TemplateFile[]> =>
+  (
+    await Promise.all(
+      (
+        await fse.readdir(path.join(JSTM_DIR, ...pathParts), {
+          withFileTypes: true,
+        })
+      ).map(async (entry) =>
+        entry.isFile()
+          ? [
+              {
+                path: [...pathParts, entry.name],
+                isCheckedIn: true,
+                doNotTrim: true,
+                doNotFormat: true,
+                contents: await fse.readFile(
+                  path.join(JSTM_DIR, ...pathParts, entry.name),
+                  "utf8"
+                ),
+              },
+            ]
+          : entry.isDirectory()
+          ? await addFilesFromDir([...pathParts, entry.name])
+          : []
+      )
+    )
+  ).flat();
+
 export const common: TemplateGenerator = {
   devDependencies: ["jest", "ts-jest", "@types/jest", "rimraf"],
   files: async ({ config, packageJson }) => {
+    const rootDir = process.cwd();
     const isMonorepo = await getIsMonorepo(config);
     const packageName = await getPackageName(config, packageJson, isMonorepo);
     const description = await getDescription(config, packageJson);
@@ -159,7 +190,6 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
         contents: "^1.22.10",
       },
       {
-        // TODO: Run the yarn commands to install Berry/plugins
         path: [".yarnrc.yml"],
         isCheckedIn: true,
         doNotOverwrite: true,
@@ -173,19 +203,19 @@ plugins:
 yarnPath: .yarn/releases/yarn-berry.cjs
 `,
       },
+      ...((await fse.pathExists(path.join(rootDir, ".yarnrc.yml")))
+        ? []
+        : [
+            ...(await addFilesFromDir([".yarn", "releases"])),
+            ...(await addFilesFromDir([".yarn", "plugins"])),
+            ...(await addFilesFromDir([".yarn", "sdks"])),
+          ]),
       {
         path: [".yarn", "releases", "yarn-berry.cjs"],
         isCheckedIn: true,
         contents: async () =>
           fse.readFile(
-            path.join(
-              __dirname,
-              "..",
-              "..",
-              ".yarn",
-              "releases",
-              "yarn-berry.cjs"
-            ),
+            path.join(JSTM_DIR, ".yarn", "releases", "yarn-berry.cjs"),
             "utf8"
           ),
       },

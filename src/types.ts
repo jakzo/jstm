@@ -27,6 +27,7 @@ export interface TemplateFile {
   isExecutable?: boolean;
   doNotOverwrite?: boolean;
   doNotTrim?: boolean;
+  doNotFormat?: boolean;
   contents: string | ((vars: ContentsVars) => MaybePromise<string>);
 }
 

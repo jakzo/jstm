@@ -27,7 +27,11 @@ interface SnapshotFiles {
 
 const readOrHash = async (filePath: string): Promise<string> => {
   const contents = await fse.readFile(filePath);
-  if (contents.length < 4096 && isUtf8(contents))
+  if (
+    contents.length < 4096 &&
+    isUtf8(contents) &&
+    !filePath.includes("/.yarn/")
+  )
     return contents.toString("utf8");
   const hash = crypto.createHash("sha256");
   hash.update(await fse.readFile(filePath));

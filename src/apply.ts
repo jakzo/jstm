@@ -57,19 +57,22 @@ export const applyPreset = async (
   const formatter = preset.formatter || ((s) => s);
   const filesWithContents: TemplateFileBuilt[] = await asyncMap(
     files,
-    async (file) => ({
-      ...file,
-      contents: trimIf(
-        await formatter(
-          file.path[file.path.length - 1],
-          typeof file.contents === "function"
-            ? await file.contents(contentsVars)
-            : file.contents
+    async (file) => {
+      const rawContents =
+        typeof file.contents === "function"
+          ? await file.contents(contentsVars)
+          : file.contents;
+      return {
+        ...file,
+        contents: trimIf(
+          file.doNotFormat
+            ? rawContents
+            : await formatter(file.path[file.path.length - 1], rawContents),
+          !file.doNotTrim
         ),
-        !file.doNotTrim
-      ),
-      existingContents: await readFileOr(path.join(...file.path), undefined),
-    })
+        existingContents: await readFileOr(path.join(...file.path), undefined),
+      };
+    }
   );
   for (const file of filesWithContents) {
     await writeFileIfChanged(file);
