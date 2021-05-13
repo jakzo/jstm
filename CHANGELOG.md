@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.18
+
+### Patch Changes
+
+- 73e4910: Fixed issue where Yarn plugins and SDK files were not included after running project for the first time
+
 ## 0.3.17
 
 ### Patch Changes
