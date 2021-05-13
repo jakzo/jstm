@@ -48,6 +48,7 @@ export const common: TemplateGenerator = {
   devDependencies: ["jest", "ts-jest", "@types/jest", "rimraf"],
   files: async ({ config, packageJson }) => {
     const rootDir = process.cwd();
+
     const isMonorepo = await getIsMonorepo(config);
     const packageName = await getPackageName(config, packageJson, isMonorepo);
     const description = await getDescription(config, packageJson);

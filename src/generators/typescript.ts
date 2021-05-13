@@ -1,8 +1,9 @@
 import path from "path";
 
-import { getPackages } from "@manypkg/get-packages";
+import { Package, getPackages } from "@manypkg/get-packages";
 import * as fse from "fs-extra";
 import * as goldenFleece from "golden-fleece";
+import { Tsconfig } from "tsconfig-paths/lib/tsconfig-loader";
 import { PackageJson } from "type-fest";
 
 import { Config } from "../config";
@@ -22,6 +23,8 @@ export const getMonorepoTsconfigs = async (
   rootDir = process.cwd()
 ): Promise<TemplateFile[]> => {
   const subpackageDirName = await getSubpackageDirname(config, packageJson);
+  const srcDir = await getSrcDir(config);
+  const distDir = await getDistDir(config);
 
   // jstm can run before the root package.json has been created
   if (!(await fse.pathExists(path.join(rootDir, "package.json"))))
@@ -34,12 +37,12 @@ export const getMonorepoTsconfigs = async (
             contents: `
 {
   "extends": "../../tsconfig.json",
-  "include": ["./src/**/*", "./src/**/*.json"],
+  "include": ["./${srcDir}/**/*", "./${srcDir}/**/*.json"],
   "exclude": ["**/__*__/**/*"],
   "compilerOptions": {
     "noEmit": false,
-    "rootDir": "./src",
-    "outDir": "./dist",
+    "rootDir": "./${srcDir}",
+    "outDir": "./${distDir}",
     "types": ["node"]
   },
   "references": []
@@ -52,8 +55,8 @@ export const getMonorepoTsconfigs = async (
   const { packages } = await getPackages(rootDir);
   const packageMap = new Map(
     packages
-      .map((pkg) => [(pkg.packageJson as PackageJson).name, pkg.dir])
-      .filter((entry): entry is [string, string] => entry[0] !== undefined)
+      .map((pkg) => [(pkg.packageJson as PackageJson).name, pkg])
+      .filter((entry): entry is [string, Package] => entry[0] !== undefined)
   );
   return (
     await asyncMap(
@@ -72,24 +75,39 @@ export const getMonorepoTsconfigs = async (
         const tsconfigPath = path.join(pkg.dir, "tsconfig.json");
         if (!(await fse.pathExists(tsconfigPath))) return undefined;
         const tsconfigContents = await fse.readFile(tsconfigPath, "utf8");
+        const tsconfig = goldenFleece.evaluate(tsconfigContents) as Tsconfig;
         const packageJson = pkg.packageJson as PackageJson;
+        const workspaceDeps = [
+          packageJson.dependencies,
+          packageJson.devDependencies,
+          packageJson.peerDependencies,
+        ].flatMap((deps) =>
+          Object.keys(deps || {})
+            .map((dep) => packageMap.get(dep))
+            .filter((pkg): pkg is Package => pkg !== undefined)
+        );
         return {
           path: [
             ...path.relative(rootDir, pkg.dir).split(path.sep),
             "tsconfig.json",
           ],
           contents: goldenFleece.patch(tsconfigContents, {
-            ...goldenFleece.evaluate(tsconfigContents),
-            references: [
-              packageJson.dependencies,
-              packageJson.devDependencies,
-              packageJson.peerDependencies,
-            ].flatMap((deps) =>
-              Object.keys(deps || {})
-                .map((dep) => packageMap.get(dep))
-                .filter((dir): dir is string => dir !== undefined)
-                .map((dir) => ({ path: path.relative(pkg.dir, dir) }))
-            ),
+            ...tsconfig,
+            compilerOptions: {
+              ...tsconfig?.compilerOptions,
+              paths: {
+                ...tsconfig?.compilerOptions?.paths,
+                ...(Object.fromEntries(
+                  workspaceDeps.map((dep) => [
+                    (dep.packageJson as PackageJson).name!,
+                    [path.relative(pkg.dir, path.join(dep.dir, srcDir))],
+                  ])
+                ) as Record<string, string[]>),
+              },
+            },
+            references: workspaceDeps.map((dep) => ({
+              path: path.relative(pkg.dir, dep.dir),
+            })),
           }),
         };
       }
