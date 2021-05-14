@@ -699,6 +699,7 @@ try {
     \\"@typescript-eslint/parser\\": \\"4.18.0\\",
     \\"eslint-config-prettier\\": \\"8.1.0\\",
     \\"eslint-plugin-import\\": \\"2.22.1\\",
+    \\"eslint-import-resolver-node\\": \\"0.3.4\\",
     \\"eslint-import-resolver-typescript\\": \\"2.4.0\\",
     \\"eslint-plugin-jest\\": \\"24.3.2\\",
     \\"eslint-plugin-only-warn\\": \\"1.0.2\\",
@@ -771,7 +772,9 @@ try {
     \\"noUnusedParameters\\": false,
     \\"strictFunctionTypes\\": false,
     \\"strictNullChecks\\": true,
-    \\"strictPropertyInitialization\\": false
+    \\"strictPropertyInitialization\\": false,
+
+    \\"paths\\": {}
   }
 }
 ",
@@ -1497,6 +1500,7 @@ try {
     \\"@typescript-eslint/parser\\": \\"4.18.0\\",
     \\"eslint-config-prettier\\": \\"8.1.0\\",
     \\"eslint-plugin-import\\": \\"2.22.1\\",
+    \\"eslint-import-resolver-node\\": \\"0.3.4\\",
     \\"eslint-import-resolver-typescript\\": \\"2.4.0\\",
     \\"eslint-plugin-jest\\": \\"24.3.2\\",
     \\"eslint-plugin-only-warn\\": \\"1.0.2\\",
@@ -1616,7 +1620,9 @@ try {
     \\"noUnusedParameters\\": false,
     \\"strictFunctionTypes\\": false,
     \\"strictNullChecks\\": true,
-    \\"strictPropertyInitialization\\": false
+    \\"strictPropertyInitialization\\": false,
+
+    \\"paths\\": {}
   }
 }
 ",

@@ -3,12 +3,11 @@ import path from "path";
 import { Package, getPackages } from "@manypkg/get-packages";
 import * as fse from "fs-extra";
 import * as goldenFleece from "golden-fleece";
-import { Tsconfig } from "tsconfig-paths/lib/tsconfig-loader";
-import { PackageJson } from "type-fest";
+import { PackageJson, TsConfigJson } from "type-fest";
 
 import { Config } from "../config";
 import type { ContentsVars, TemplateFile, TemplateGenerator } from "../types";
-import { asyncMap, mergeJsonFile } from "../utils";
+import { asyncMap, mergeJsonFile, readFileOr } from "../utils";
 import { getSubpackageDirname } from "./manifest";
 import {
   getDistDir,
@@ -17,17 +16,45 @@ import {
   getSrcDir,
 } from "./utils/config";
 
+const getMonorepoPackages = async (
+  rootDir: string
+): Promise<(Package & { srcDirs: string[] })[]> => {
+  const { packages } = await getPackages(rootDir);
+  return asyncMap(packages, async (pkg) => {
+    const tsconfig = JSON.parse(
+      (await readFileOr(path.join(pkg.dir, "tsconfig.json"), undefined)) || "{}"
+    ) as TsConfigJson;
+    const { main } = pkg.packageJson as PackageJson;
+    const { compilerOptions: { rootDir = undefined, rootDirs = [] } = {} } =
+      tsconfig || {};
+    return {
+      ...pkg,
+      srcDirs: [
+        ...new Set(
+          [
+            typeof main === "string" ? main : undefined,
+            rootDir ? path.resolve(pkg.dir, rootDir) : undefined,
+            ...rootDirs.map((dir) => path.resolve(pkg.dir, dir)),
+          ].filter((x): x is string => x !== undefined)
+        ),
+      ],
+    };
+  });
+};
+
 export const getMonorepoTsconfigs = async (
   config: Config,
   packageJson: PackageJson,
-  rootDir = process.cwd()
+  isPackageJsonPresent: boolean,
+  packages: Package[],
+  rootDir: string
 ): Promise<TemplateFile[]> => {
   const subpackageDirName = await getSubpackageDirname(config, packageJson);
   const srcDir = await getSrcDir(config);
   const distDir = await getDistDir(config);
 
   // jstm can run before the root package.json has been created
-  if (!(await fse.pathExists(path.join(rootDir, "package.json"))))
+  if (!isPackageJsonPresent)
     return subpackageDirName
       ? [
           {
@@ -52,7 +79,6 @@ export const getMonorepoTsconfigs = async (
         ]
       : [];
 
-  const { packages } = await getPackages(rootDir);
   const packageMap = new Map(
     packages
       .map((pkg) => [(pkg.packageJson as PackageJson).name, pkg])
@@ -75,7 +101,9 @@ export const getMonorepoTsconfigs = async (
         const tsconfigPath = path.join(pkg.dir, "tsconfig.json");
         if (!(await fse.pathExists(tsconfigPath))) return undefined;
         const tsconfigContents = await fse.readFile(tsconfigPath, "utf8");
-        const tsconfig = goldenFleece.evaluate(tsconfigContents) as Tsconfig;
+        const tsconfig = goldenFleece.evaluate(
+          tsconfigContents
+        ) as TsConfigJson;
         const packageJson = pkg.packageJson as PackageJson;
         const workspaceDeps = [
           packageJson.dependencies,
@@ -91,6 +119,7 @@ export const getMonorepoTsconfigs = async (
             ...path.relative(rootDir, pkg.dir).split(path.sep),
             "tsconfig.json",
           ],
+          isCheckedIn: true,
           contents: goldenFleece.patch(tsconfigContents, {
             ...tsconfig,
             compilerOptions: {
@@ -125,13 +154,28 @@ export const typescript: TemplateGenerator = {
     "@types/jest",
   ],
   files: async ({ config, packageJson }) => {
+    const rootDir = process.cwd();
+
     const isMonorepo = await getIsMonorepo(config);
     const srcDir = await getSrcDir(config);
     const distDir = await getDistDir(config);
     const nodeMinVersion = await getNodeMinVersion(config);
 
+    const isPackageJsonPresent = await fse.pathExists(
+      path.join(rootDir, "package.json")
+    );
+    const packages =
+      isMonorepo && isPackageJsonPresent
+        ? await getMonorepoPackages(rootDir)
+        : [];
     const tsconfigEntries = isMonorepo
-      ? await getMonorepoTsconfigs(config, packageJson)
+      ? await getMonorepoTsconfigs(
+          config,
+          packageJson,
+          isPackageJsonPresent,
+          packages,
+          rootDir
+        )
       : [];
 
     const targetEsVersion =
@@ -253,7 +297,16 @@ export const typescript: TemplateGenerator = {
     "noUnusedParameters": false,
     "strictFunctionTypes": false,
     "strictNullChecks": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+
+    "paths": ${JSON.stringify(
+      Object.fromEntries(
+        packages.map((pkg) => [
+          (pkg.packageJson as PackageJson).name!,
+          pkg.srcDirs.map((dir) => path.relative(rootDir, dir)),
+        ])
+      )
+    )}
   }
 }
 `,

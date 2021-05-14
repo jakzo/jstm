@@ -12,6 +12,7 @@ export const eslint: TemplateGenerator = {
     "@typescript-eslint/parser",
     "eslint-config-prettier",
     "eslint-plugin-import",
+    "eslint-import-resolver-node",
     "eslint-import-resolver-typescript",
     "eslint-plugin-jest",
     "eslint-plugin-only-warn",
