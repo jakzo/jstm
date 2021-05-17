@@ -613,6 +613,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for instructions how to develop locally
   },
   "jest.config.js": "// DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/jest.config.js instead)
+const { getModuleNameMap } = require(\\"@jstm/core\\");
 
 module.exports = {
   automock: false,
@@ -634,6 +635,7 @@ module.exports = {
   testPathIgnorePatterns: [\\"/node_modules/\\", \\"/.cache/\\", \\"/.git/\\", \\"/dist/\\"],
   watchPathIgnorePatterns: [\\"/node_modules/\\", \\"/.cache/\\", \\"/.git/\\", \\"/dist/\\"],
   testRegex: \\"/__tests__/.+.test.(?:js|jsx|ts|tsx)$\\",
+  moduleNameMapper: getModuleNameMap(__dirname),
 };
 
 try {
@@ -709,6 +711,7 @@ try {
     \\"typescript\\": \\"4.2.3\\",
     \\"ts-node\\": \\"9.1.1\\",
     \\"ts-node-dev\\": \\"1.1.6\\",
+    \\"tsconfig-paths\\": \\"3.9.0\\",
     \\"node-notifier\\": \\"9.0.1\\",
     \\"@types/node\\": \\"14.14.37\\",
     \\"canvas\\": \\"2.7.0\\",
@@ -1414,6 +1417,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for instructions how to develop locally
   },
   "jest.config.js": "// DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/jest.config.js instead)
+const { getModuleNameMap } = require(\\"@jstm/core\\");
 
 module.exports = {
   automock: false,
@@ -1435,6 +1439,7 @@ module.exports = {
   testPathIgnorePatterns: [\\"/node_modules/\\", \\"/.cache/\\", \\"/.git/\\", \\"/dist/\\"],
   watchPathIgnorePatterns: [\\"/node_modules/\\", \\"/.cache/\\", \\"/.git/\\", \\"/dist/\\"],
   testRegex: \\"/__tests__/.+.test.(?:js|jsx|ts|tsx)$\\",
+  moduleNameMapper: getModuleNameMap(__dirname),
 };
 
 try {
@@ -1510,6 +1515,7 @@ try {
     \\"typescript\\": \\"4.2.3\\",
     \\"ts-node\\": \\"9.1.1\\",
     \\"ts-node-dev\\": \\"1.1.6\\",
+    \\"tsconfig-paths\\": \\"3.9.0\\",
     \\"node-notifier\\": \\"9.0.1\\",
     \\"@types/node\\": \\"14.14.37\\",
     \\"canvas\\": \\"2.7.0\\",

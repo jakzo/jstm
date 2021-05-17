@@ -894,9 +894,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jstm/core@file:../core::locator=%40jstm%2Fpreset-node%40file%3A.%2Fstub-packages%2Fpreset%23.%2Fstub-packages%2Fpreset%3A%3Ahash%3D6dbb60%26locator%3D%2540jstm%252Fcore%2540workspace%253A.":
+"@jstm/core@file:../core::locator=%40jstm%2Fpreset-node%40file%3A.%2Fstub-packages%2Fpreset%23.%2Fstub-packages%2Fpreset%3A%3Ahash%3D3e676a%26locator%3D%2540jstm%252Fcore%2540workspace%253A.":
   version: 1.0.0
-  resolution: "@jstm/core@file:../core#../core::hash=c39e23&locator=%40jstm%2Fpreset-node%40file%3A.%2Fstub-packages%2Fpreset%23.%2Fstub-packages%2Fpreset%3A%3Ahash%3D6dbb60%26locator%3D%2540jstm%252Fcore%2540workspace%253A."
+  resolution: "@jstm/core@file:../core#../core::hash=afbfb2&locator=%40jstm%2Fpreset-node%40file%3A.%2Fstub-packages%2Fpreset%23.%2Fstub-packages%2Fpreset%3A%3Ahash%3D3e676a%26locator%3D%2540jstm%252Fcore%2540workspace%253A."
   dependencies:
     fs-extra: ^9.1.0
     ts-node: 9.1.1
@@ -905,13 +905,13 @@ __metadata:
     ci-github-print-changelog: ci-github-print-changelog.js
     project-pre-push: project-pre-push.js
     run-if-script-exists: run-if-script-exists.js
-  checksum: 6bb34256f6379373bffff05c19970fb01ddc6199edae98813241a3cdab04eab2a6b38e291c1ad3e9afe0e67186e76ceed61f6f566ac882778fb21232a8e0f4c2
+  checksum: 71fed5d9ccba8164e22456622239f74a014eb4144f1610ae54c68b2dd291c507dd8278d8778ed80c113d87cf6b5ee5155545dcd62f3e23d3d100398a071bacd0
   languageName: node
   linkType: hard
 
 "@jstm/core@file:./stub-packages/core::locator=%40jstm%2Fcore%40workspace%3A.":
   version: 1.0.0
-  resolution: "@jstm/core@file:./stub-packages/core#./stub-packages/core::hash=c39e23&locator=%40jstm%2Fcore%40workspace%3A."
+  resolution: "@jstm/core@file:./stub-packages/core#./stub-packages/core::hash=afbfb2&locator=%40jstm%2Fcore%40workspace%3A."
   dependencies:
     fs-extra: ^9.1.0
     ts-node: 9.1.1
@@ -920,7 +920,7 @@ __metadata:
     ci-github-print-changelog: ci-github-print-changelog.js
     project-pre-push: project-pre-push.js
     run-if-script-exists: run-if-script-exists.js
-  checksum: 6bb34256f6379373bffff05c19970fb01ddc6199edae98813241a3cdab04eab2a6b38e291c1ad3e9afe0e67186e76ceed61f6f566ac882778fb21232a8e0f4c2
+  checksum: 71fed5d9ccba8164e22456622239f74a014eb4144f1610ae54c68b2dd291c507dd8278d8778ed80c113d87cf6b5ee5155545dcd62f3e23d3d100398a071bacd0
   languageName: node
   linkType: hard
 
@@ -984,7 +984,7 @@ __metadata:
 
 "@jstm/preset-node@file:./stub-packages/preset::locator=%40jstm%2Fcore%40workspace%3A.":
   version: 1.0.0
-  resolution: "@jstm/preset-node@file:./stub-packages/preset#./stub-packages/preset::hash=6dbb60&locator=%40jstm%2Fcore%40workspace%3A."
+  resolution: "@jstm/preset-node@file:./stub-packages/preset#./stub-packages/preset::hash=3e676a&locator=%40jstm%2Fcore%40workspace%3A."
   dependencies:
     "@jstm/core": "file:../core"
     fs-extra: ^9.1.0
@@ -994,7 +994,7 @@ __metadata:
     typescript: 4.2.3
   bin:
     project: project.js
-  checksum: 2d7828116dc96e7b211827b1395f40a52b09a76bf9458b6084a88b8311802c824b97cdbde989aca4f42f73796ae29fb4b7b912fb4f2888656db04697aef425a1
+  checksum: 6c516f359b929226feb3af18fee19c414962483b9895ad303ccd1bdd3c48e779dc9e378a35fc2b8113453038683403247212c6902576811f41fd98bfaba00e83
   languageName: node
   linkType: hard
 

@@ -275,6 +275,7 @@ export const modifyPackageJson = async ({
       "devDependencies",
       {
         ...packageJson.devDependencies,
+        // TODO: maybe we can avoid adding all these dependencies by using resolutions in the .yarnrc.yml file?
         ...Object.fromEntries(
           Object.entries(devDependencies).filter(([key]) =>
             monorepoPackageJson

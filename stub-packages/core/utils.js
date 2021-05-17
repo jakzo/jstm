@@ -69,3 +69,8 @@ exports.bin = async (binName) => {
     process.exit(1);
   }
 };
+
+exports.teardown = () => {
+  // Unregister ts-node to avoid conflicts with ts-jest, etc.
+  delete require.extensions[".ts"];
+};

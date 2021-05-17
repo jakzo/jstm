@@ -120,3 +120,8 @@ exports.redirectPresetImports = (rootDir) => {
     ]);
   };
 };
+
+exports.teardown = () => {
+  // Unregister ts-node to avoid conflicts with ts-jest, etc.
+  delete require.extensions[".ts"];
+};

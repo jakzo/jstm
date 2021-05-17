@@ -23,6 +23,7 @@ export const jest: TemplateGenerator = {
         contents: `
 // DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/jest.config.js instead)
+const { getModuleNameMap } = require('@jstm/core');
 
 module.exports = {
   automock: false,
@@ -44,6 +45,7 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '/.cache/', '/.git/', '/${distDir}/'],
   watchPathIgnorePatterns: ['/node_modules/', '/.cache/', '/.git/', '/${distDir}/'],
   testRegex: '/__tests__/.+\\.test\\.(?:js|jsx|ts|tsx)$',
+  moduleNameMapper: getModuleNameMap(__dirname),
 };
 
 try {

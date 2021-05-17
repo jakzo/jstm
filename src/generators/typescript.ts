@@ -17,7 +17,8 @@ import {
 } from "./utils/config";
 
 const getMonorepoPackages = async (
-  rootDir: string
+  rootDir: string,
+  distDir: string
 ): Promise<(Package & { srcDirs: string[] })[]> => {
   const { packages } = await getPackages(rootDir);
   return asyncMap(packages, async (pkg) => {
@@ -32,7 +33,9 @@ const getMonorepoPackages = async (
       srcDirs: [
         ...new Set(
           [
-            typeof main === "string" ? main : undefined,
+            typeof main === "string" && !main.includes(distDir)
+              ? path.resolve(pkg.dir, main)
+              : undefined,
             rootDir ? path.resolve(pkg.dir, rootDir) : undefined,
             ...rootDirs.map((dir) => path.resolve(pkg.dir, dir)),
           ].filter((x): x is string => x !== undefined)
@@ -149,6 +152,7 @@ export const typescript: TemplateGenerator = {
     "typescript",
     "ts-node",
     "ts-node-dev",
+    "tsconfig-paths",
     "node-notifier",
     "@types/node",
     "@types/jest",
@@ -166,7 +170,7 @@ export const typescript: TemplateGenerator = {
     );
     const packages =
       isMonorepo && isPackageJsonPresent
-        ? await getMonorepoPackages(rootDir)
+        ? await getMonorepoPackages(rootDir, distDir)
         : [];
     const tsconfigEntries = isMonorepo
       ? await getMonorepoTsconfigs(
