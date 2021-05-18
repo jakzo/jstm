@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.26
+
+### Patch Changes
+
+- a49931a: Fixed issue where monorepo package TSConfig paths didn't work because they were missing baseUrl.
+
 ## 0.3.25
 
 ### Patch Changes
