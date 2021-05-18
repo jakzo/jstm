@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.25
+
+### Patch Changes
+
+- 1c71f46: Fixed Jest module name maps.
+
 ## 0.3.24
 
 ### Patch Changes
