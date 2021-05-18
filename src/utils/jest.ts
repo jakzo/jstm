@@ -16,6 +16,9 @@ export const getModuleNameMap = (
   return Object.fromEntries(
     Object.entries(tsconfig?.compilerOptions?.paths || {})
       .filter(([, modulePaths]) => modulePaths.length > 0)
-      .map(([name, modulePaths]) => [`^${regexEscape(name)}$`, modulePaths[0]])
+      .map(([name, modulePaths]) => [
+        `^${regexEscape(name)}$`,
+        path.resolve(rootDir, modulePaths[0]),
+      ])
   );
 };
