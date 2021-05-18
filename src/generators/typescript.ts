@@ -71,6 +71,7 @@ export const getMonorepoTsconfigs = async (
   "exclude": ["**/__*__/**/*"],
   "compilerOptions": {
     "noEmit": false,
+    "baseUrl": ".",
     "rootDir": "./${srcDir}",
     "outDir": "./${distDir}",
     "types": ["node"]
@@ -132,7 +133,15 @@ export const getMonorepoTsconfigs = async (
                 ...(Object.fromEntries(
                   workspaceDeps.map((dep) => [
                     (dep.packageJson as PackageJson).name!,
-                    [path.relative(pkg.dir, path.join(dep.dir, srcDir))],
+                    [
+                      path.relative(
+                        path.resolve(
+                          pkg.dir,
+                          tsconfig?.compilerOptions?.baseUrl || rootDir
+                        ),
+                        path.join(dep.dir, srcDir)
+                      ),
+                    ],
                   ])
                 ) as Record<string, string[]>),
               },
