@@ -1567,6 +1567,7 @@ try {
   \\"exclude\\": [\\"**/__*__/**/*\\"],
   \\"compilerOptions\\": {
     \\"noEmit\\": false,
+    \\"baseUrl\\": \\".\\",
     \\"rootDir\\": \\"./src\\",
     \\"outDir\\": \\"./dist\\",
     \\"types\\": [\\"node\\"]
