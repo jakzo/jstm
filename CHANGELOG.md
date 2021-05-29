@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.28
+
+### Patch Changes
+
+- c97ed00: Fix monorepo publishing.
+
 ## 0.3.27
 
 ### Patch Changes
