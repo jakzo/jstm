@@ -64,7 +64,14 @@ jobs:
         uses: actions/github-script@v3
         id: release_required
         with:
-          script: |
+          script: |${
+            isMonorepo
+              ? `
+            const path = require('path');
+            const fs = require('fs');
+            const versionFiles = fs.readdirSync(path.join(process.env.GITHUB_WORKSPACE, '.yarn', 'versions'));
+            return versionFiles.length > 0;`
+              : `
             const path = require('path');
             const pnpapi = require(path.join(process.env.GITHUB_WORKSPACE, '.pnp'));
             pnpapi.setup();
@@ -74,7 +81,8 @@ jobs:
             );
             const releaseUtils = require(releaseUtilsPath);
             const { changesets } = await releaseUtils.readChangesetState();
-            return changesets.length > 0;
+            return changesets.length > 0;`
+          }
 
   release:
     name: Release

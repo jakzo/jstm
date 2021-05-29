@@ -694,7 +694,6 @@ try {
     \\"=== (end generated scripts) ===\\": \\"\\",
     \\"\\": \\"\\"
   },
-  \\"dependencies\\": {},
   \\"devDependencies\\": {
     \\"jest\\": \\"26.6.3\\",
     \\"ts-jest\\": \\"26.5.4\\",
@@ -830,19 +829,6 @@ Set {
 
 exports[`monorepo: file structure 1`] = `
 Object {
-  ".changeset": Object {
-    "config.json": "{
-  \\"$schema\\": \\"https://unpkg.com/@changesets/config@1.4.0/schema.json\\",
-  \\"changelog\\": \\"@changesets/cli/changelog\\",
-  \\"commit\\": true,
-  \\"linked\\": [],
-  \\"access\\": \\"public\\",
-  \\"baseBranch\\": \\"master\\",
-  \\"updateInternalDependencies\\": \\"patch\\",
-  \\"ignore\\": []
-}
-",
-  },
   ".eslintignore": "# DO NOT MODIFY
 # This file is auto-generated (make changes to ./config/.eslintignore instead)
 
@@ -1060,15 +1046,9 @@ jobs:
         with:
           script: |
             const path = require('path');
-            const pnpapi = require(path.join(process.env.GITHUB_WORKSPACE, '.pnp'));
-            pnpapi.setup();
-            const releaseUtilsPath = pnpapi.resolveToUnqualified(
-              '@changesets/release-utils',
-              process.env.GITHUB_WORKSPACE
-            );
-            const releaseUtils = require(releaseUtilsPath);
-            const { changesets } = await releaseUtils.readChangesetState();
-            return changesets.length > 0;
+            const fs = require('fs');
+            const versionFiles = fs.readdirSync(path.join(process.env.GITHUB_WORKSPACE, '.yarn', 'versions'));
+            return versionFiles.length > 0;
 
   release:
     name: Release
@@ -1485,7 +1465,6 @@ try {
     \\"=== (end generated scripts) ===\\": \\"\\",
     \\"\\": \\"\\"
   },
-  \\"dependencies\\": {},
   \\"devDependencies\\": {
     \\"jest\\": \\"26.6.3\\",
     \\"ts-jest\\": \\"26.5.4\\",

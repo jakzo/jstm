@@ -360,6 +360,10 @@ export const modifyPackageJson = async ({
         ([key]) => !entriesAfter.some(([keyAfter]) => keyAfter === key)
       ),
       ...entriesAfter,
-    ].filter(([, value]) => value != null)
+    ].filter(
+      ([key, value]) =>
+        value != null &&
+        (key !== "dependencies" || Object.keys(value).length !== 0)
+    )
   ) as PackageJson;
 };
