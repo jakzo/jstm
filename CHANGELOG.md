@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.27
+
+### Patch Changes
+
+- 5a89894: Fixing publish in monorepos.
+
 ## 0.3.26
 
 ### Patch Changes
