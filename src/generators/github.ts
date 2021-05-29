@@ -2,12 +2,17 @@ import path from "path";
 
 import type { TemplateGenerator } from "../types";
 import { mergeYaml, readFileOr } from "../utils";
-import { getMainBranch, getNodeTargetVersion } from "./utils/config";
+import {
+  getIsMonorepo,
+  getMainBranch,
+  getNodeTargetVersion,
+} from "./utils/config";
 
 export const github: TemplateGenerator = {
   files: async ({ config }) => {
     const mainBranch = await getMainBranch(config);
     const nodeTargetVersion = await getNodeTargetVersion(config);
+    const isMonorepo = await getIsMonorepo(config);
 
     return [
       {
@@ -96,7 +101,7 @@ jobs:
           set -e
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          yarn changeset version
+          yarn ${isMonorepo ? "version apply" : "changeset version"}
           git push --no-verify
       - name: Publish to npm
         id: publish

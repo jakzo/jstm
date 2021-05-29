@@ -231,7 +231,11 @@ export const modifyPackageJson = async ({
     ])
     .add((c) => [
       "release",
-      `${c["build:clean"]} && ${c.build} && changeset publish && run-if-script-exists release:custom`,
+      `${c["build:clean"]} && ${c.build} && ${
+        isMonorepo
+          ? "yarn version apply && yarn npm publish"
+          : "changeset publish"
+      } && run-if-script-exists release:custom`,
     ])
     .add(() => [
       "prepare",

@@ -2,7 +2,7 @@ import path from "path";
 
 import type { TemplateFile, TemplateGenerator } from "../types";
 import { readFileOr } from "../utils";
-import { getDistDir } from "./utils/config";
+import { getDistDir, getIsMonorepo } from "./utils/config";
 
 export const eslint: TemplateGenerator = {
   devDependencies: [
@@ -22,6 +22,7 @@ export const eslint: TemplateGenerator = {
   ],
   files: async ({ config }) => {
     const distDir = await getDistDir(config);
+    const isMonorepo = await getIsMonorepo(config);
 
     return [
       {
@@ -201,10 +202,13 @@ if [ -x "$CUSTOM_SCRIPT" ]; then
 fi
 `,
       },
-      {
-        path: [".husky", "pre-push"],
-        isExecutable: true,
-        contents: `
+      ...(isMonorepo
+        ? []
+        : [
+            {
+              path: [".husky", "pre-push"],
+              isExecutable: true,
+              contents: `
 #!/bin/sh
 
 # DO NOT MODIFY
@@ -223,7 +227,8 @@ if [ -x "$CUSTOM_SCRIPT" ]; then
   "$CUSTOM_SCRIPT"
 fi
 `,
-      },
+            },
+          ]),
       {
         path: [".husky", ".gitignore"],
         contents: "_",

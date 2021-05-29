@@ -35,9 +35,10 @@ export const getPackageJson = (
       [mainPackageJson.name as string]: mainPackageJson.version as string,
       tslib: (mainPackageJson.dependencies as PackageJson.Dependency).tslib,
       ...Object.fromEntries(
-        Object.entries(
-          mainPackageJson.devDependencies as PackageJson.Dependency
-        ).filter(([dep]) => presetDeps.has(dep))
+        Object.entries({
+          ...mainPackageJson.devDependencies,
+          ...mainPackageJson.dependencies,
+        } as PackageJson.Dependency).filter(([dep]) => presetDeps.has(dep))
       ),
     },
     devDependencies: {},

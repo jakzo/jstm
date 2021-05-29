@@ -8,6 +8,7 @@ import {
   getDescription,
   getDistDir,
   getIsMonorepo,
+  getMainBranch,
   getNodeTargetVersion,
   getNpmRegistry,
   getPackageName,
@@ -56,6 +57,7 @@ export const common: TemplateGenerator = {
     const distDir = await getDistDir(config);
     const nodeTargetVersion = await getNodeTargetVersion(config);
     const npmRegistry = await getNpmRegistry(config);
+    const mainBranch = await getMainBranch(config);
 
     return [
       {
@@ -195,6 +197,11 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
         isCheckedIn: true,
         doNotOverwrite: true,
         contents: `
+changesetBaseRefs:
+  - ${mainBranch}
+  - origin/${mainBranch}
+  - upstream/${mainBranch}
+
 npmRegistryServer: ${npmRegistry}
 
 plugins:
