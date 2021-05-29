@@ -233,7 +233,9 @@ export const modifyPackageJson = async ({
       "release",
       `${c["build:clean"]} && ${c.build} && ${
         isMonorepo
-          ? "yarn version apply && yarn npm publish"
+          ? // We might be able to unify these after this issue is resolved
+            // https://github.com/yarnpkg/berry/issues/1510
+            "yarn version apply && yarn npm publish"
           : "changeset publish"
       } && run-if-script-exists release:custom`,
     ])

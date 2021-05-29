@@ -532,6 +532,7 @@ try {
     "plugins": Object {
       "@yarnpkg": Object {
         "plugin-typescript.cjs": "Hash: 0779a5d254f388f8d86f7f38262e4fb2292979bdc5a0bb34517141ac868476e1",
+        "plugin-version.cjs": "Hash: 319f6c5f50390e867cfa4a073e41a7d1773a8db9c5fd770802338264dca1234d",
       },
     },
     "releases": Object {
@@ -566,11 +567,18 @@ try {
       },
     },
   },
-  ".yarnrc.yml": "npmRegistryServer: https://registry.npmjs.org
+  ".yarnrc.yml": "changesetBaseRefs:
+  - master
+  - origin/master
+  - upstream/master
+
+npmRegistryServer: https://registry.npmjs.org
 
 plugins:
   - path: .yarn/plugins/@yarnpkg/plugin-typescript.cjs
     spec: \\"@yarnpkg/plugin-typescript\\"
+  - path: .yarn/plugins/@yarnpkg/plugin-version.cjs
+    spec: \\"@yarnpkg/plugin-version\\"
 
 yarnPath: .yarn/releases/yarn-berry.cjs
 ",
@@ -873,7 +881,6 @@ package-lock.json
 /.prettierignore
 /.lintstagedrc.js
 /.husky/pre-commit
-/.husky/pre-push
 /.husky/.gitignore
 /tsconfig.build.json
 /tsconfig.base.json
@@ -1088,7 +1095,7 @@ jobs:
           set -e
           git config --global user.name \\"github-actions[bot]\\"
           git config --global user.email \\"github-actions[bot]@users.noreply.github.com\\"
-          yarn changeset version
+          yarn version apply
           git push --no-verify
       - name: Publish to npm
         id: publish
@@ -1157,7 +1164,6 @@ dist/
 /.prettierignore
 /.lintstagedrc.js
 /.husky/pre-commit
-/.husky/pre-push
 /.husky/.gitignore
 /tsconfig.build.json
 /tsconfig.base.json
@@ -1181,24 +1187,6 @@ yarn project
 yarn lint-staged
 
 CUSTOM_SCRIPT=\\"$(dirname \\"$0\\")/pre-commit-custom\\"
-if [ -x \\"$CUSTOM_SCRIPT\\" ]; then
-  \\"$CUSTOM_SCRIPT\\"
-fi
-",
-    "pre-push": "#!/bin/sh
-
-# DO NOT MODIFY
-# This file is auto-generated (make changes to pre-push-custom instead)
-
-. \\"$(dirname \\"$0\\")/_/husky.sh\\"
-set -e
-
-if [ -t 1 ]; then
-  exec </dev/tty
-  yarn project-pre-push
-fi
-
-CUSTOM_SCRIPT=\\"$(dirname \\"$0\\")/pre-push-custom\\"
 if [ -x \\"$CUSTOM_SCRIPT\\" ]; then
   \\"$CUSTOM_SCRIPT\\"
 fi
@@ -1280,7 +1268,6 @@ package-lock.json
 /.prettierignore
 /.lintstagedrc.js
 /.husky/pre-commit
-/.husky/pre-push
 /.husky/.gitignore
 /tsconfig.build.json
 /tsconfig.base.json
@@ -1334,6 +1321,7 @@ try {
     "plugins": Object {
       "@yarnpkg": Object {
         "plugin-typescript.cjs": "Hash: 0779a5d254f388f8d86f7f38262e4fb2292979bdc5a0bb34517141ac868476e1",
+        "plugin-version.cjs": "Hash: 319f6c5f50390e867cfa4a073e41a7d1773a8db9c5fd770802338264dca1234d",
       },
     },
     "releases": Object {
@@ -1368,11 +1356,18 @@ try {
       },
     },
   },
-  ".yarnrc.yml": "npmRegistryServer: https://registry.npmjs.org
+  ".yarnrc.yml": "changesetBaseRefs:
+  - master
+  - origin/master
+  - upstream/master
+
+npmRegistryServer: https://registry.npmjs.org
 
 plugins:
   - path: .yarn/plugins/@yarnpkg/plugin-typescript.cjs
     spec: \\"@yarnpkg/plugin-typescript\\"
+  - path: .yarn/plugins/@yarnpkg/plugin-version.cjs
+    spec: \\"@yarnpkg/plugin-version\\"
 
 yarnPath: .yarn/releases/yarn-berry.cjs
 ",
@@ -1485,7 +1480,7 @@ try {
     \\"test\\": \\"project && jest --passWithNoTests && run-if-script-exists test:custom\\",
     \\"test:typecheck\\": \\"project && tsc -p ./tsconfig.json --noEmit && tsc -b ./tsconfig.build.json\\",
     \\"test:all\\": \\"project && tsc -p ./tsconfig.json --noEmit && tsc -b ./tsconfig.build.json && eslint --cache --ext js,jsx,ts,tsx ./ && prettier -c \\\\\\"./**/*{.json,.md}\\\\\\" && run-if-script-exists lint:custom && jest --passWithNoTests && run-if-script-exists test:custom\\",
-    \\"release\\": \\"project && rimraf \\\\\\"./dist\\\\\\" \\\\\\"*.tsbuildinfo\\\\\\" && run-if-script-exists build:clean:custom && run-if-script-exists build:custom-before && tsc -b ./tsconfig.build.json && run-if-script-exists build:custom && changeset publish && run-if-script-exists release:custom\\",
+    \\"release\\": \\"project && rimraf \\\\\\"./dist\\\\\\" \\\\\\"*.tsbuildinfo\\\\\\" && run-if-script-exists build:clean:custom && run-if-script-exists build:custom-before && tsc -b ./tsconfig.build.json && run-if-script-exists build:custom && yarn version apply && yarn npm publish && run-if-script-exists release:custom\\",
     \\"prepare\\": \\"project && husky install && run-if-script-exists prepare:custom\\",
     \\"=== (end generated scripts) ===\\": \\"\\",
     \\"\\": \\"\\"

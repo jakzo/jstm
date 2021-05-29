@@ -207,6 +207,8 @@ npmRegistryServer: ${npmRegistry}
 plugins:
   - path: .yarn/plugins/@yarnpkg/plugin-typescript.cjs
     spec: "@yarnpkg/plugin-typescript"
+  - path: .yarn/plugins/@yarnpkg/plugin-version.cjs
+    spec: "@yarnpkg/plugin-version"
 
 yarnPath: .yarn/releases/yarn-berry.cjs
 `,
