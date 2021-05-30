@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.30
+
+### Patch Changes
+
+- b861197: Fix Yarn 2 auth.
+
 ## 0.3.29
 
 ### Patch Changes
