@@ -202,6 +202,9 @@ changesetBaseRefs:
   - origin/${mainBranch}
   - upstream/${mainBranch}
 
+changesetIgnorePatterns:
+  - "**/__*__/**/*"
+
 npmRegistryServer: ${npmRegistry}
 
 plugins:
@@ -209,6 +212,8 @@ plugins:
     spec: "@yarnpkg/plugin-typescript"
   - path: .yarn/plugins/@yarnpkg/plugin-version.cjs
     spec: "@yarnpkg/plugin-version"
+  - path: .yarn/plugins/@yarnpkg/plugin-workspace-tools.cjs
+    spec: "@yarnpkg/plugin-workspace-tools"
 
 yarnPath: .yarn/releases/yarn-berry.cjs
 `,

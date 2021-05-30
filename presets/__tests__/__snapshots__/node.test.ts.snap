@@ -533,6 +533,7 @@ try {
       "@yarnpkg": Object {
         "plugin-typescript.cjs": "Hash: 0779a5d254f388f8d86f7f38262e4fb2292979bdc5a0bb34517141ac868476e1",
         "plugin-version.cjs": "Hash: 319f6c5f50390e867cfa4a073e41a7d1773a8db9c5fd770802338264dca1234d",
+        "plugin-workspace-tools.cjs": "Hash: c53639f3eaf1ac536bb3e333e1e1215c4c5cd8316f3c628e6cb447150d5d30b6",
       },
     },
     "releases": Object {
@@ -572,6 +573,9 @@ try {
   - origin/master
   - upstream/master
 
+changesetIgnorePatterns:
+  - \\"**/__*__/**/*\\"
+
 npmRegistryServer: https://registry.npmjs.org
 
 plugins:
@@ -579,6 +583,8 @@ plugins:
     spec: \\"@yarnpkg/plugin-typescript\\"
   - path: .yarn/plugins/@yarnpkg/plugin-version.cjs
     spec: \\"@yarnpkg/plugin-version\\"
+  - path: .yarn/plugins/@yarnpkg/plugin-workspace-tools.cjs
+    spec: \\"@yarnpkg/plugin-workspace-tools\\"
 
 yarnPath: .yarn/releases/yarn-berry.cjs
 ",
@@ -1302,6 +1308,7 @@ try {
       "@yarnpkg": Object {
         "plugin-typescript.cjs": "Hash: 0779a5d254f388f8d86f7f38262e4fb2292979bdc5a0bb34517141ac868476e1",
         "plugin-version.cjs": "Hash: 319f6c5f50390e867cfa4a073e41a7d1773a8db9c5fd770802338264dca1234d",
+        "plugin-workspace-tools.cjs": "Hash: c53639f3eaf1ac536bb3e333e1e1215c4c5cd8316f3c628e6cb447150d5d30b6",
       },
     },
     "releases": Object {
@@ -1341,6 +1348,9 @@ try {
   - origin/master
   - upstream/master
 
+changesetIgnorePatterns:
+  - \\"**/__*__/**/*\\"
+
 npmRegistryServer: https://registry.npmjs.org
 
 plugins:
@@ -1348,6 +1358,8 @@ plugins:
     spec: \\"@yarnpkg/plugin-typescript\\"
   - path: .yarn/plugins/@yarnpkg/plugin-version.cjs
     spec: \\"@yarnpkg/plugin-version\\"
+  - path: .yarn/plugins/@yarnpkg/plugin-workspace-tools.cjs
+    spec: \\"@yarnpkg/plugin-workspace-tools\\"
 
 yarnPath: .yarn/releases/yarn-berry.cjs
 ",
@@ -1460,7 +1472,7 @@ try {
     \\"test\\": \\"project && jest --passWithNoTests && run-if-script-exists test:custom\\",
     \\"test:typecheck\\": \\"project && tsc -p ./tsconfig.json --noEmit && tsc -b ./tsconfig.build.json\\",
     \\"test:all\\": \\"project && tsc -p ./tsconfig.json --noEmit && tsc -b ./tsconfig.build.json && eslint --cache --ext js,jsx,ts,tsx ./ && prettier -c \\\\\\"./**/*{.json,.md}\\\\\\" && run-if-script-exists lint:custom && jest --passWithNoTests && run-if-script-exists test:custom\\",
-    \\"release\\": \\"project && rimraf \\\\\\"./dist\\\\\\" \\\\\\"*.tsbuildinfo\\\\\\" && run-if-script-exists build:clean:custom && run-if-script-exists build:custom-before && tsc -b ./tsconfig.build.json && run-if-script-exists build:custom && yarn version apply && yarn npm publish && run-if-script-exists release:custom\\",
+    \\"release\\": \\"project && rimraf \\\\\\"./dist\\\\\\" \\\\\\"*.tsbuildinfo\\\\\\" && run-if-script-exists build:clean:custom && run-if-script-exists build:custom-before && tsc -b ./tsconfig.build.json && run-if-script-exists build:custom && yarn workspaces foreach --verbose --topological --no-private npm publish --tolerate-republish && run-if-script-exists release:custom\\",
     \\"prepare\\": \\"project && husky install && run-if-script-exists prepare:custom\\",
     \\"=== (end generated scripts) ===\\": \\"\\",
     \\"\\": \\"\\"
