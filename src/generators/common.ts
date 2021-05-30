@@ -195,6 +195,7 @@ ${await readFileOr(path.join("config", ".npmignore"), "")}
       {
         path: [".yarnrc.yml"],
         isCheckedIn: true,
+        // TODO: Merge in updates to existing file
         doNotOverwrite: true,
         contents: `
 changesetBaseRefs:

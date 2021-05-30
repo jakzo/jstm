@@ -115,7 +115,11 @@ jobs:
         id: publish
         run: |
           set -e
-          echo '_authToken=\${NODE_AUTH_TOKEN}' > ~/.npmrc
+          ${
+            isMonorepo
+              ? "echo '\"_authToken\" ${NODE_AUTH_TOKEN}' > ~/.yarnrc"
+              : "echo '_authToken=${NODE_AUTH_TOKEN}' > ~/.npmrc"
+          }
           yarn run-if-script-exists release:ci:before
           yarn release
           echo "::set-output name=version_tag::$(git describe --tags --abbrev=0)"

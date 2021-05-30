@@ -18,7 +18,7 @@ npx @jstm/preset-node
 
 ```sh
 yarn add --exact --dev @jstm/preset-node # install/upgrade in project, --exact is recommended to ensure version matches what you expect
-yarn project                             # manually sync tooling into project
+yarn project && yarn                     # manually sync tooling into project (remember to run `yarn install` after syncing!)
 ```
 
 ### Existing projects
