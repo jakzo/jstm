@@ -114,11 +114,11 @@ jobs:
       - name: Publish to npm
         id: publish
         run: |
-          set -e
-          ${
+          set -e${
             isMonorepo
-              ? "echo '\"_authToken\" ${NODE_AUTH_TOKEN}' > ~/.yarnrc"
-              : "echo '_authToken=${NODE_AUTH_TOKEN}' > ~/.npmrc"
+              ? ""
+              : `
+          echo '_authToken=\${NODE_AUTH_TOKEN}' > ~/.npmrc`
           }
           yarn run-if-script-exists release:ci:before
           yarn release
@@ -127,7 +127,15 @@ jobs:
           yarn run-if-script-exists release:ci:after
         env:
           GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: \${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: \${{ secrets.NPM_TOKEN }}${
+            isMonorepo
+              ? `
+          YARN_NPM_AUTH_TOKEN: \${{ secrets.NPM_TOKEN }}`
+              : ""
+          }${
+            isMonorepo
+              ? ""
+              : `
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -136,7 +144,8 @@ jobs:
         with:
           tag_name: \${{ steps.publish.outputs.version_tag }}
           release_name: \${{ steps.publish.outputs.version_tag }}
-          body: \${{ steps.publish.outputs.release_changelog }}
+          body: \${{ steps.publish.outputs.release_changelog }}`
+          }
 `,
           await readFileOr(
             path.join("config", ".github", "workflows", "ci.yml"),

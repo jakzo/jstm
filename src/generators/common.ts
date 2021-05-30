@@ -128,6 +128,7 @@ CVS
 .*.swp
 ._*
 .npmrc
+.yarnrc
 config.gypi
 /package-lock.json
 
