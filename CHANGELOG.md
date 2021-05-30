@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.29
+
+### Patch Changes
+
+- 1c3ce58: Fixing monorepo setup.
+
 ## 0.3.28
 
 ### Patch Changes
