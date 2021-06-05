@@ -70,6 +70,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["isutf8", "npm:3.1.1"],
             ["jest", "npm:26.6.3"],
             ["lint-staged", "npm:10.5.4"],
+            ["multimatch", "npm:5.0.0"],
             ["node-notifier", "npm:9.0.1"],
             ["prettier", "npm:2.2.1"],
             ["rimraf", "npm:3.0.2"],
@@ -1245,6 +1246,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["isutf8", "npm:3.1.1"],
             ["jest", "npm:26.6.3"],
             ["lint-staged", "npm:10.5.4"],
+            ["multimatch", "npm:5.0.0"],
             ["node-notifier", "npm:9.0.1"],
             ["prettier", "npm:2.2.1"],
             ["rimraf", "npm:3.0.2"],
@@ -1515,6 +1517,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-json5-npm-0.0.29-f63a7916bd-66e9ac0143.zip/node_modules/@types/json5/",
           "packageDependencies": [
             ["@types/json5", "npm:0.0.29"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/minimatch", [
+        ["npm:3.0.4", {
+          "packageLocation": "./.yarn/cache/@types-minimatch-npm-3.0.4-f1932169cb-abbe7031d8.zip/node_modules/@types/minimatch/",
+          "packageDependencies": [
+            ["@types/minimatch", "npm:3.0.4"]
           ],
           "linkType": "HARD",
         }]
@@ -2323,6 +2334,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["array-differ", [
+        ["npm:3.0.0", {
+          "packageLocation": "./.yarn/cache/array-differ-npm-3.0.0-ddc0d89007-6d87a752b5.zip/node_modules/array-differ/",
+          "packageDependencies": [
+            ["array-differ", "npm:3.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["array-equal", [
         ["npm:1.0.0", {
           "packageLocation": "./.yarn/cache/array-equal-npm-1.0.0-c41a42b83b-ad82ed5493.zip/node_modules/array-equal/",
@@ -2399,6 +2419,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/arrify-npm-1.0.1-affafba9fe-f1d3bae819.zip/node_modules/arrify/",
           "packageDependencies": [
             ["arrify", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.0.1", {
+          "packageLocation": "./.yarn/cache/arrify-npm-2.0.1-38c408f77c-2a19726815.zip/node_modules/arrify/",
+          "packageDependencies": [
+            ["arrify", "npm:2.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -8442,6 +8469,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ms-npm-2.1.3-81ff3cfac1-6e721e648a.zip/node_modules/ms/",
           "packageDependencies": [
             ["ms", "npm:2.1.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["multimatch", [
+        ["npm:5.0.0", {
+          "packageLocation": "./.yarn/cache/multimatch-npm-5.0.0-9938abf6fa-93fcf94313.zip/node_modules/multimatch/",
+          "packageDependencies": [
+            ["multimatch", "npm:5.0.0"],
+            ["@types/minimatch", "npm:3.0.4"],
+            ["array-differ", "npm:3.0.0"],
+            ["array-union", "npm:2.1.0"],
+            ["arrify", "npm:2.0.1"],
+            ["minimatch", "npm:3.0.4"]
           ],
           "linkType": "HARD",
         }]

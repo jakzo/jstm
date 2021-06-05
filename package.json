@@ -64,6 +64,7 @@
     "fs-extra": "^9.1.0",
     "golden-fleece": "^1.0.9",
     "inquirer": "^8.0.0",
+    "multimatch": "^5.0.0",
     "tslib": "^2.1.0",
     "yaml": "^2.0.0-5"
   },

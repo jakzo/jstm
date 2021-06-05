@@ -3,6 +3,7 @@ import path from "path";
 import { Package, getPackages } from "@manypkg/get-packages";
 import * as fse from "fs-extra";
 import * as goldenFleece from "golden-fleece";
+import multimatch from "multimatch";
 import { PackageJson, TsConfigJson } from "type-fest";
 
 import { Config } from "../config";
@@ -118,6 +119,10 @@ export const getMonorepoTsconfigs = async (
             .map((dep) => packageMap.get(dep))
             .filter((pkg): pkg is Package => pkg !== undefined)
         );
+        const workspacePatterns = Array.isArray(packageJson.workspaces)
+          ? packageJson.workspaces
+          : packageJson.workspaces?.packages || [];
+        // TODO: Create tsconfig.base.json and tsconfig.build.json files
         return {
           path: [
             ...path.relative(rootDir, pkg.dir).split(path.sep),
@@ -128,23 +133,29 @@ export const getMonorepoTsconfigs = async (
             ...tsconfig,
             compilerOptions: {
               ...tsconfig?.compilerOptions,
-              paths: {
-                ...tsconfig?.compilerOptions?.paths,
-                ...(Object.fromEntries(
-                  workspaceDeps.map((dep) => [
-                    (dep.packageJson as PackageJson).name!,
-                    [
-                      path.relative(
-                        path.resolve(
-                          pkg.dir,
-                          tsconfig?.compilerOptions?.baseUrl || rootDir
-                        ),
-                        path.join(dep.dir, srcDir)
+              paths: Object.fromEntries([
+                ...Object.entries(
+                  tsconfig?.compilerOptions?.paths || {}
+                ).filter(
+                  ([, dirs]) =>
+                    multimatch(
+                      dirs.map((dir) => path.resolve(rootDir, dir)),
+                      workspacePatterns
+                    ).length > 0
+                ),
+                ...workspaceDeps.map((dep) => [
+                  (dep.packageJson as PackageJson).name!,
+                  [
+                    path.relative(
+                      path.resolve(
+                        pkg.dir,
+                        tsconfig?.compilerOptions?.baseUrl || rootDir
                       ),
-                    ],
-                  ])
-                ) as Record<string, string[]>),
-              },
+                      path.join(dep.dir, srcDir)
+                    ),
+                  ],
+                ]),
+              ]) as Record<string, string[]>,
             },
             references: workspaceDeps.map((dep) => ({
               path: path.relative(pkg.dir, dep.dir),

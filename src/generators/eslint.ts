@@ -113,6 +113,15 @@ module.exports = {
       "error",
       { allowExpressions: true },
     ],
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        types: {
+          // Justification: most of the type this is the type I want
+          "{}": false,
+        },
+      },
+    ],
 
     // Enabled rules
     "import/no-cycle": "error",
