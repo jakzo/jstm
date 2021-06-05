@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.31
+
+### Patch Changes
+
+- 97c3211: fix publish
+
 ## 0.3.30
 
 ### Patch Changes
