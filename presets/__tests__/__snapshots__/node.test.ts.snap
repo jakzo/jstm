@@ -165,6 +165,15 @@ module.exports = {
       \\"error\\",
       { allowExpressions: true },
     ],
+    \\"@typescript-eslint/ban-types\\": [
+      \\"error\\",
+      {
+        types: {
+          // Justification: most of the type this is the type I want
+          \\"{}\\": false,
+        },
+      },
+    ],
 
     // Enabled rules
     \\"import/no-cycle\\": \\"error\\",
@@ -332,6 +341,7 @@ CVS
 .*.swp
 ._*
 .npmrc
+.yarnrc
 config.gypi
 /package-lock.json
 
@@ -966,6 +976,15 @@ module.exports = {
       \\"error\\",
       { allowExpressions: true },
     ],
+    \\"@typescript-eslint/ban-types\\": [
+      \\"error\\",
+      {
+        types: {
+          // Justification: most of the type this is the type I want
+          \\"{}\\": false,
+        },
+      },
+    ],
 
     // Enabled rules
     \\"import/no-cycle\\": \\"error\\",
@@ -1087,7 +1106,6 @@ jobs:
         id: publish
         run: |
           set -e
-          echo '\\"_authToken\\" \${NODE_AUTH_TOKEN}' > ~/.yarnrc
           yarn run-if-script-exists release:ci:before
           yarn release
           echo \\"::set-output name=version_tag::$(git describe --tags --abbrev=0)\\"
@@ -1096,15 +1114,7 @@ jobs:
         env:
           GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: \${{ secrets.NPM_TOKEN }}
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: \${{ steps.publish.outputs.version_tag }}
-          release_name: \${{ steps.publish.outputs.version_tag }}
-          body: \${{ steps.publish.outputs.release_changelog }}
+          YARN_NPM_AUTH_TOKEN: \${{ secrets.NPM_TOKEN }}
 ",
     },
   },
@@ -1127,6 +1137,7 @@ CVS
 .*.swp
 ._*
 .npmrc
+.yarnrc
 config.gypi
 /package-lock.json
 
