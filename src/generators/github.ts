@@ -69,7 +69,8 @@ jobs:
               ? `
             const path = require('path');
             const fs = require('fs');
-            const versionFiles = fs.readdirSync(path.join(process.env.GITHUB_WORKSPACE, '.yarn', 'versions'));
+            const versionsPath = path.join(process.env.GITHUB_WORKSPACE, '.yarn', 'versions');
+            const versionFiles = fs.existsSync(versionsPath) ? fs.readdirSync(versionsPath) : [];
             return versionFiles.length > 0;`
               : `
             const path = require('path');
