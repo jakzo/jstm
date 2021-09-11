@@ -8,11 +8,17 @@ Before starting, install dependencies with:
 yarn
 ```
 
-Common commands are:
+Typical flow for making a change to a template is:
 
 ```sh
-yarn test:watch
+yarn test:watch # optional while making changes
+# after making change to template file in src/generators
 yarn lint:fix
+yarn test # verify that snapshot changes match what you'd expect
+git add -A
+git commit -m "description of change"
+git push # answer prompts to create changeset
+git push
 ```
 
-See [package.json](./package.json) for more.
+See [package.json](./package.json) for more commands.

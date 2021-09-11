@@ -117,7 +117,7 @@ module.exports = {
       "error",
       {
         types: {
-          // Justification: most of the type this is the type I want
+          // Justification: most of the time this is the type I want
           "{}": false,
         },
       },
@@ -137,6 +137,14 @@ module.exports = {
           "internal",
           ["index", "sibling", "parent"],
         ],
+        pathGroups: [
+          {
+            pattern: "react",
+            group: "builtin",
+            position: "before",
+          },
+        ],
+        pathGroupsExcludedImportTypes: ["react"],
         alphabetize: { order: "asc" },
       },
     ],

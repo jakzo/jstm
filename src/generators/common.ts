@@ -99,10 +99,16 @@ See [package.json](./package.json) for more.
 
 ## Releasing changes
 
-When you run \`git push\` you should be prompted to add a changeset if one doesn't already exist. \
+${
+  isMonorepo
+    ? `Run \`yarn workspace [PACKAGE_NAME] version [BUMP_TYPE]\` where \`[PACKAGE_NAME]\` is the name \
+of the package you want to release when merging the PR and \`[BUMP_TYPE]\` is either \`patch\`, \`minor\` \
+or \`major\` depending on the severity of the change. Commit the file which is created as a result of this command.`
+    : `When you run \`git push\` you should be prompted to add a changeset if one doesn't already exist. \
 This will ask for a description for the change to appear in the changelog as well as the type of \
 bump (major, minor or patch) to make to the package. A PR without a changelog will not perform a \
-release or bump the package version.
+release or bump the package version.`
+}
 `,
       },
       {
