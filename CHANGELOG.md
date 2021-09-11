@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.33
+
+### Patch Changes
+
+- 141c6e8: Added React to ESLint import rule.
+
 ## 0.3.32
 
 ### Patch Changes
