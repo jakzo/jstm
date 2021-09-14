@@ -119,6 +119,47 @@ const testPreset = async (
         )}`,
         "@jstm/core": `file:${path.join(REPO_ROOT, "stub-packages", "core")}`,
       },
+      // Add stub package peer dependencies because stub packages will fail otherwise
+      dependencies: {
+        ...packageJson.dependencies,
+        ...Object.fromEntries(
+          (
+            await Promise.all(
+              (
+                await fse.readdir(path.join(REPO_ROOT, "stub-packages"), {
+                  withFileTypes: true,
+                })
+              ).flatMap((stubDir) =>
+                stubDir.isDirectory()
+                  ? [
+                      fse.readJson(
+                        path.join(
+                          REPO_ROOT,
+                          "stub-packages",
+                          stubDir.name,
+                          "package.json"
+                        )
+                      ) as Promise<PackageJson>,
+                    ]
+                  : []
+              )
+            )
+          ).flatMap((stubPackageJson) =>
+            Object.keys(stubPackageJson.peerDependencies!).map(
+              (name) =>
+                [
+                  name,
+                  (rootPackageJson.dependencies as Record<string, string>)[
+                    name
+                  ] ||
+                    (rootPackageJson.devDependencies as Record<string, string>)[
+                      name
+                    ],
+                ] as const
+            )
+          )
+        ),
+      },
     } as PackageJson,
     { spaces: 2 }
   );

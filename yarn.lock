@@ -1249,33 +1249,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jstm/core@file:../core::locator=%40jstm%2Fpreset-node%40file%3A.%2Fstub-packages%2Fpreset%23.%2Fstub-packages%2Fpreset%3A%3Ahash%3D71cd10%26locator%3D%2540jstm%252Fcore%2540workspace%253A.":
-  version: 1.0.0
-  resolution: "@jstm/core@file:../core#../core::hash=afbfb2&locator=%40jstm%2Fpreset-node%40file%3A.%2Fstub-packages%2Fpreset%23.%2Fstub-packages%2Fpreset%3A%3Ahash%3D71cd10%26locator%3D%2540jstm%252Fcore%2540workspace%253A."
-  dependencies:
-    fs-extra: ^9.1.0
-    ts-node: 9.1.1
-    typescript: 4.2.3
-  bin:
-    ci-github-print-changelog: ci-github-print-changelog.js
-    project-pre-push: project-pre-push.js
-    run-if-script-exists: run-if-script-exists.js
-  checksum: 71fed5d9ccba8164e22456622239f74a014eb4144f1610ae54c68b2dd291c507dd8278d8778ed80c113d87cf6b5ee5155545dcd62f3e23d3d100398a071bacd0
-  languageName: node
-  linkType: hard
-
 "@jstm/core@file:./stub-packages/core::locator=%40jstm%2Fcore%40workspace%3A.":
   version: 1.0.0
-  resolution: "@jstm/core@file:./stub-packages/core#./stub-packages/core::hash=afbfb2&locator=%40jstm%2Fcore%40workspace%3A."
-  dependencies:
-    fs-extra: ^9.1.0
-    ts-node: 9.1.1
-    typescript: 4.2.3
+  resolution: "@jstm/core@file:./stub-packages/core#./stub-packages/core::hash=7818f1&locator=%40jstm%2Fcore%40workspace%3A."
+  peerDependencies:
+    fs-extra: "*"
+    ts-node: "*"
+    typescript: "*"
   bin:
     ci-github-print-changelog: ci-github-print-changelog.js
     project-pre-push: project-pre-push.js
     run-if-script-exists: run-if-script-exists.js
-  checksum: 71fed5d9ccba8164e22456622239f74a014eb4144f1610ae54c68b2dd291c507dd8278d8778ed80c113d87cf6b5ee5155545dcd62f3e23d3d100398a071bacd0
+  checksum: 539d7bcf8ae144ef700b7c016c582bd4bd5edd42f76742b72a8f7a1dad47f16e5bcdbd57d7a8b195c25c940b674450b1d4991ef0e9b5b6dfa3e26c9d3ead810f
   languageName: node
   linkType: hard
 
@@ -1337,17 +1322,17 @@ __metadata:
 
 "@jstm/preset-node@file:./stub-packages/preset::locator=%40jstm%2Fcore%40workspace%3A.":
   version: 1.0.0
-  resolution: "@jstm/preset-node@file:./stub-packages/preset#./stub-packages/preset::hash=71cd10&locator=%40jstm%2Fcore%40workspace%3A."
-  dependencies:
-    "@jstm/core": "file:../core"
-    fs-extra: ^9.1.0
-    tempy: ^1.0.1
-    ts-node: 9.1.1
-    tsconfig-paths: 3.9.0
-    typescript: 4.2.3
+  resolution: "@jstm/preset-node@file:./stub-packages/preset#./stub-packages/preset::hash=b7ef7a&locator=%40jstm%2Fcore%40workspace%3A."
+  peerDependencies:
+    "@jstm/core": "*"
+    fs-extra: "*"
+    tempy: "*"
+    ts-node: "*"
+    tsconfig-paths: "*"
+    typescript: "*"
   bin:
     project: project.js
-  checksum: a9a0e0fb8ee58a7affde1e95f1937717bc5cde97890f144bc19e88846755f31a2e31c49fb0a63bdb3f32e7d6a20b172ff09d2219136d3cf0450cf1da87b45505
+  checksum: c20a2f7513efbb833a2d2b40bbf0f01205b7e915d753824a3f1878609b4d3f9b2dea66dcba941412f2ed5685cfa1346259cc5201ee097ae46e6533fc9411bc30
   languageName: node
   linkType: hard
 
@@ -9494,7 +9479,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:9.1.1, ts-node@npm:^9.0.0":
+"ts-node@npm:^9.0.0":
   version: 9.1.1
   resolution: "ts-node@npm:9.1.1"
   dependencies:
@@ -9527,7 +9512,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsconfig-paths@npm:3.9.0, tsconfig-paths@npm:^3.9.0":
+"tsconfig-paths@npm:^3.9.0":
   version: 3.9.0
   resolution: "tsconfig-paths@npm:3.9.0"
   dependencies:
@@ -9736,16 +9721,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-typescript@4.2.3:
-  version: 4.2.3
-  resolution: "typescript@npm:4.2.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: b4a2020c021211184ac15caf59936b2089c13e79685f340a31aaa839c9de2f73b44a5e3757292de6cdad2ed967aef80d4592161b814cc29c0570f261850c4bca
-  languageName: node
-  linkType: hard
-
 typescript@4.4.3:
   version: 4.4.3
   resolution: "typescript@npm:4.4.3"
@@ -9753,16 +9728,6 @@ typescript@4.4.3:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 05823f21796d450531a7e4ab299715d38fd9ded0e4ce7400876053f4b5166ca3dde7a68cecfe72d9086039f03c0b6edba36516fb10ed83c5837d9600532ea4c2
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@4.2.3#~builtin<compat/typescript>":
-  version: 4.2.3
-  resolution: "typescript@patch:typescript@npm%3A4.2.3#~builtin<compat/typescript>::version=4.2.3&hash=32657b"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: d75725ea2c660b79c399a382cf738e2ff78e271a2d8ae351bc21fc1cd8a1630d34e5cf5a9da8e34871a34d27dee1de0efc1c4ae2ee8ed6127ebd7926521f6c7d
   languageName: node
   linkType: hard
 

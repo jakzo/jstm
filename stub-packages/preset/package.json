@@ -10,12 +10,12 @@
   "scripts": {
     "postinstall": "project"
   },
-  "dependencies": {
-    "@jstm/core": "file:../core",
-    "fs-extra": "^9.1.0",
-    "tempy": "^1.0.1",
-    "tsconfig-paths": "3.9.0",
-    "ts-node": "9.1.1",
-    "typescript": "4.2.3"
+  "peerDependencies": {
+    "@jstm/core": "*",
+    "fs-extra": "*",
+    "tempy": "*",
+    "tsconfig-paths": "*",
+    "ts-node": "*",
+    "typescript": "*"
   }
 }

@@ -38,8 +38,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@changesets/cli", "npm:2.17.0"],
             ["@changesets/get-release-plan", "npm:3.0.1"],
             ["@changesets/release-utils", "npm:0.1.0"],
-            ["@jstm/core", "file:./stub-packages/core#./stub-packages/core::hash=afbfb2&locator=%40jstm%2Fcore%40workspace%3A."],
-            ["@jstm/preset-node", "file:./stub-packages/preset#./stub-packages/preset::hash=71cd10&locator=%40jstm%2Fcore%40workspace%3A."],
+            ["@jstm/core", "virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#file:./stub-packages/core#./stub-packages/core::hash=7818f1&locator=%40jstm%2Fcore%40workspace%3A."],
+            ["@jstm/preset-node", "virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#file:./stub-packages/preset#./stub-packages/preset::hash=b7ef7a&locator=%40jstm%2Fcore%40workspace%3A."],
             ["@manypkg/get-packages", "npm:1.1.1"],
             ["@types/detect-port", "npm:1.3.0"],
             ["@types/fs-extra", "npm:9.0.12"],
@@ -1735,23 +1735,31 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@jstm/core", [
-        ["file:../core#../core::hash=afbfb2&locator=%40jstm%2Fpreset-node%40file%3A.%2Fstub-packages%2Fpreset%23.%2Fstub-packages%2Fpreset%3A%3Ahash%3D71cd10%26locator%3D%2540jstm%252Fcore%2540workspace%253A.", {
-          "packageLocation": "./.yarn/cache/@jstm-core-file-b902dad034-71fed5d9cc.zip/node_modules/@jstm/core/",
+        ["file:./stub-packages/core#./stub-packages/core::hash=7818f1&locator=%40jstm%2Fcore%40workspace%3A.", {
+          "packageLocation": "./.yarn/cache/@jstm-core-file-e30d61c40b-539d7bcf8a.zip/node_modules/@jstm/core/",
           "packageDependencies": [
-            ["@jstm/core", "file:../core#../core::hash=afbfb2&locator=%40jstm%2Fpreset-node%40file%3A.%2Fstub-packages%2Fpreset%23.%2Fstub-packages%2Fpreset%3A%3Ahash%3D71cd10%26locator%3D%2540jstm%252Fcore%2540workspace%253A."],
-            ["fs-extra", "npm:9.1.0"],
-            ["ts-node", "virtual:1a09e79ffd3a307c9980ba63dcac708c616b7666da54a3814b3703aaa72d61a043f45e6f58ed69ce0ad8f26efb8f30807e24fd03ce968baba64e640ad5964576#npm:9.1.1"],
-            ["typescript", "patch:typescript@npm%3A4.2.3#~builtin<compat/typescript>::version=4.2.3&hash=32657b"]
+            ["@jstm/core", "file:./stub-packages/core#./stub-packages/core::hash=7818f1&locator=%40jstm%2Fcore%40workspace%3A."]
           ],
-          "linkType": "HARD",
+          "linkType": "SOFT",
         }],
-        ["file:./stub-packages/core#./stub-packages/core::hash=afbfb2&locator=%40jstm%2Fcore%40workspace%3A.", {
-          "packageLocation": "./.yarn/cache/@jstm-core-file-1a09e79ffd-71fed5d9cc.zip/node_modules/@jstm/core/",
+        ["virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#file:./stub-packages/core#./stub-packages/core::hash=7818f1&locator=%40jstm%2Fcore%40workspace%3A.", {
+          "packageLocation": "./.yarn/__virtual__/@jstm-core-virtual-3b706bea22/0/cache/@jstm-core-file-e30d61c40b-539d7bcf8a.zip/node_modules/@jstm/core/",
           "packageDependencies": [
-            ["@jstm/core", "file:./stub-packages/core#./stub-packages/core::hash=afbfb2&locator=%40jstm%2Fcore%40workspace%3A."],
+            ["@jstm/core", "virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#file:./stub-packages/core#./stub-packages/core::hash=7818f1&locator=%40jstm%2Fcore%40workspace%3A."],
+            ["@types/fs-extra", "npm:9.0.12"],
+            ["@types/ts-node", null],
+            ["@types/typescript", null],
             ["fs-extra", "npm:9.1.0"],
-            ["ts-node", "virtual:1a09e79ffd3a307c9980ba63dcac708c616b7666da54a3814b3703aaa72d61a043f45e6f58ed69ce0ad8f26efb8f30807e24fd03ce968baba64e640ad5964576#npm:9.1.1"],
-            ["typescript", "patch:typescript@npm%3A4.2.3#~builtin<compat/typescript>::version=4.2.3&hash=32657b"]
+            ["ts-node", "virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#npm:10.2.1"],
+            ["typescript", "patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=32657b"]
+          ],
+          "packagePeers": [
+            "@types/fs-extra",
+            "@types/ts-node",
+            "@types/typescript",
+            "fs-extra",
+            "ts-node",
+            "typescript"
           ],
           "linkType": "HARD",
         }],
@@ -1761,8 +1769,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@changesets/cli", "npm:2.17.0"],
             ["@changesets/get-release-plan", "npm:3.0.1"],
             ["@changesets/release-utils", "npm:0.1.0"],
-            ["@jstm/core", "file:./stub-packages/core#./stub-packages/core::hash=afbfb2&locator=%40jstm%2Fcore%40workspace%3A."],
-            ["@jstm/preset-node", "file:./stub-packages/preset#./stub-packages/preset::hash=71cd10&locator=%40jstm%2Fcore%40workspace%3A."],
+            ["@jstm/core", "virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#file:./stub-packages/core#./stub-packages/core::hash=7818f1&locator=%40jstm%2Fcore%40workspace%3A."],
+            ["@jstm/preset-node", "virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#file:./stub-packages/preset#./stub-packages/preset::hash=b7ef7a&locator=%40jstm%2Fcore%40workspace%3A."],
             ["@manypkg/get-packages", "npm:1.1.1"],
             ["@types/detect-port", "npm:1.3.0"],
             ["@types/fs-extra", "npm:9.0.12"],
@@ -1808,16 +1816,43 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@jstm/preset-node", [
-        ["file:./stub-packages/preset#./stub-packages/preset::hash=71cd10&locator=%40jstm%2Fcore%40workspace%3A.", {
-          "packageLocation": "./.yarn/unplugged/@jstm-preset-node-file-62cc165f98/node_modules/@jstm/preset-node/",
+        ["file:./stub-packages/preset#./stub-packages/preset::hash=b7ef7a&locator=%40jstm%2Fcore%40workspace%3A.", {
+          "packageLocation": "./.yarn/unplugged/@jstm-preset-node-virtual-f78b26f9c0/node_modules/@jstm/preset-node/",
           "packageDependencies": [
-            ["@jstm/preset-node", "file:./stub-packages/preset#./stub-packages/preset::hash=71cd10&locator=%40jstm%2Fcore%40workspace%3A."],
-            ["@jstm/core", "file:../core#../core::hash=afbfb2&locator=%40jstm%2Fpreset-node%40file%3A.%2Fstub-packages%2Fpreset%23.%2Fstub-packages%2Fpreset%3A%3Ahash%3D71cd10%26locator%3D%2540jstm%252Fcore%2540workspace%253A."],
+            ["@jstm/preset-node", "file:./stub-packages/preset#./stub-packages/preset::hash=b7ef7a&locator=%40jstm%2Fcore%40workspace%3A."]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#file:./stub-packages/preset#./stub-packages/preset::hash=b7ef7a&locator=%40jstm%2Fcore%40workspace%3A.", {
+          "packageLocation": "./.yarn/unplugged/@jstm-preset-node-virtual-f78b26f9c0/node_modules/@jstm/preset-node/",
+          "packageDependencies": [
+            ["@jstm/preset-node", "virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#file:./stub-packages/preset#./stub-packages/preset::hash=b7ef7a&locator=%40jstm%2Fcore%40workspace%3A."],
+            ["@jstm/core", "virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#file:./stub-packages/core#./stub-packages/core::hash=7818f1&locator=%40jstm%2Fcore%40workspace%3A."],
+            ["@types/fs-extra", "npm:9.0.12"],
+            ["@types/jstm__core", null],
+            ["@types/tempy", null],
+            ["@types/ts-node", null],
+            ["@types/tsconfig-paths", null],
+            ["@types/typescript", null],
             ["fs-extra", "npm:9.1.0"],
             ["tempy", "npm:1.0.1"],
-            ["ts-node", "virtual:1a09e79ffd3a307c9980ba63dcac708c616b7666da54a3814b3703aaa72d61a043f45e6f58ed69ce0ad8f26efb8f30807e24fd03ce968baba64e640ad5964576#npm:9.1.1"],
-            ["tsconfig-paths", "npm:3.9.0"],
-            ["typescript", "patch:typescript@npm%3A4.2.3#~builtin<compat/typescript>::version=4.2.3&hash=32657b"]
+            ["ts-node", "virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#npm:10.2.1"],
+            ["tsconfig-paths", "npm:3.11.0"],
+            ["typescript", "patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=32657b"]
+          ],
+          "packagePeers": [
+            "@jstm/core",
+            "@types/fs-extra",
+            "@types/jstm__core",
+            "@types/tempy",
+            "@types/ts-node",
+            "@types/tsconfig-paths",
+            "@types/typescript",
+            "fs-extra",
+            "tempy",
+            "ts-node",
+            "tsconfig-paths",
+            "typescript"
           ],
           "linkType": "HARD",
         }]
@@ -11110,25 +11145,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:1a09e79ffd3a307c9980ba63dcac708c616b7666da54a3814b3703aaa72d61a043f45e6f58ed69ce0ad8f26efb8f30807e24fd03ce968baba64e640ad5964576#npm:9.1.1", {
-          "packageLocation": "./.yarn/__virtual__/ts-node-virtual-e39304eeba/0/cache/ts-node-npm-9.1.1-4ad31da228-356e2647b8.zip/node_modules/ts-node/",
-          "packageDependencies": [
-            ["ts-node", "virtual:1a09e79ffd3a307c9980ba63dcac708c616b7666da54a3814b3703aaa72d61a043f45e6f58ed69ce0ad8f26efb8f30807e24fd03ce968baba64e640ad5964576#npm:9.1.1"],
-            ["@types/typescript", null],
-            ["arg", "npm:4.1.3"],
-            ["create-require", "npm:1.1.1"],
-            ["diff", "npm:4.0.2"],
-            ["make-error", "npm:1.3.6"],
-            ["source-map-support", "npm:0.5.19"],
-            ["typescript", "patch:typescript@npm%3A4.2.3#~builtin<compat/typescript>::version=4.2.3&hash=32657b"],
-            ["yn", "npm:3.1.1"]
-          ],
-          "packagePeers": [
-            "@types/typescript",
-            "typescript"
-          ],
-          "linkType": "HARD",
-        }],
         ["virtual:202ad6a9ce2f2f3921288cf9cb6e93a48e76233ed0afe70c803de9788638ce741152daed9e1e1fb33fea209cb8e3bf46cd05ad0c4a8a87f907289ded0fa91728#npm:10.2.1", {
           "packageLocation": "./.yarn/__virtual__/ts-node-virtual-6a77aad849/0/cache/ts-node-npm-10.2.1-18dc22b42d-f37d2827a5.zip/node_modules/ts-node/",
           "packageDependencies": [
@@ -11485,13 +11501,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["typescript", [
-        ["patch:typescript@npm%3A4.2.3#~builtin<compat/typescript>::version=4.2.3&hash=32657b", {
-          "packageLocation": "./.yarn/cache/typescript-patch-6a93864bf9-d75725ea2c.zip/node_modules/typescript/",
-          "packageDependencies": [
-            ["typescript", "patch:typescript@npm%3A4.2.3#~builtin<compat/typescript>::version=4.2.3&hash=32657b"]
-          ],
-          "linkType": "HARD",
-        }],
         ["patch:typescript@npm%3A4.4.3#~builtin<compat/typescript>::version=4.4.3&hash=32657b", {
           "packageLocation": "./.yarn/cache/typescript-patch-2d83eeb1af-28ab98313a.zip/node_modules/typescript/",
           "packageDependencies": [
