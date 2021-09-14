@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.35
+
+### Patch Changes
+
+- 3fb9032: Fixed CI.
+
 ## 0.3.34
 
 ### Patch Changes
