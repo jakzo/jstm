@@ -74,7 +74,7 @@ jobs:
             return versionFiles.length > 0;`
               : `
             const path = require('path');
-            const pnpapi = require(path.join(process.env.GITHUB_WORKSPACE, '.pnp'));
+            const pnpapi = require(path.join(process.env.GITHUB_WORKSPACE, '.pnp.cjs'));
             pnpapi.setup();
             const releaseUtilsPath = pnpapi.resolveToUnqualified(
               '@changesets/release-utils',
