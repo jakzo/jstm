@@ -9,15 +9,17 @@ import type {
   ConfigTypeOf,
 } from "../../config";
 
-const createConfigGetter = <T extends ConfigTypeNames, A extends unknown[]>(
-  key: string,
-  type: T,
-  f: (...args: A) => { value?: ConfigTypeOf<T> } & ConfigOpts<T>
-) => async (config: Config, ...args: A) => {
-  const { value, ...opts } = f(...args);
-  if (value !== undefined) return value;
-  return config.get(key, type, opts);
-};
+const createConfigGetter =
+  <T extends ConfigTypeNames, A extends unknown[]>(
+    key: string,
+    type: T,
+    f: (...args: A) => { value?: ConfigTypeOf<T> } & ConfigOpts<T>
+  ) =>
+  async (config: Config, ...args: A) => {
+    const { value, ...opts } = f(...args);
+    if (value !== undefined) return value;
+    return config.get(key, type, opts);
+  };
 
 export const getPackageName = createConfigGetter(
   "packageName",

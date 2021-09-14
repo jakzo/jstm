@@ -95,7 +95,10 @@ const testPreset = async (
     },
     keysPrompted
   );
-  const presetPackageJson = getPackageJson(rootPackageJson, preset);
+  const presetPackageJson = getPackageJson(
+    rootPackageJson as PackageJson,
+    preset
+  );
   await applyPreset(preset, presetPackageJson, config, true);
   expect(keysPrompted).toMatchSnapshot("config prompts");
   expect(await readFileStructure(testDir)).toMatchSnapshot("file structure");

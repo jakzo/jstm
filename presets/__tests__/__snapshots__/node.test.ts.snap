@@ -82,6 +82,13 @@ package-lock.json
 ",
   ".eslintrc.js": "// DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/.eslintrc.js instead)
+const fs = require(\\"fs\\");
+const path = require(\\"path\\");
+
+const customConfigs = fs.readdirSync(path.join(__dirname, \\"config\\"));
+const customEslintrcPaths = [\\".eslintrc.json\\", \\".eslintrc.js\\"]
+  .filter((name) => customConfigs.includes(name))
+  .map((name) => \`./\${path.join(\\"config\\", name)}\`);
 
 module.exports = {
   root: true,
@@ -104,6 +111,7 @@ module.exports = {
     \\"plugin:@typescript-eslint/recommended\\",
     \\"plugin:@typescript-eslint/recommended-requiring-type-checking\\",
     \\"plugin:import/typescript\\",
+    ...customEslintrcPaths,
   ],
   plugins: [
     \\"@typescript-eslint/eslint-plugin\\",
@@ -214,11 +222,6 @@ module.exports = {
     \\"@typescript-eslint/no-floating-promises\\": [\\"error\\", { ignoreVoid: true }],
   },
 };
-
-try {
-  // TODO: Merge these in smartly rather than just overwriting everything
-  Object.assign(module.exports, require(\\"./config/.eslintrc\\"));
-} catch (_err) {}
 ",
   ".github": Object {
     "workflows": Object {
@@ -555,34 +558,35 @@ try {
       },
     },
     "releases": Object {
-      "yarn-berry.cjs": "Hash: 25c2d167fec765bcf5258bb9e55c3b05e6844a2744a6fb302550c2e15f0a7a4b",
+      "yarn-berry.cjs": "Hash: 57ec2d26a54c312a1848599265be6aba0e2e5f734eaba3fcd4c491429fefa21f",
     },
     "sdks": Object {
       "eslint": Object {
         "bin": Object {
-          "eslint.js": "Hash: 5650997c9dc2ed3e725465d323b3408b3bc1957f1d435664b760a9daf17cda9e",
+          "eslint.js": "Hash: de78a19681b83da97f74ea43ae67e354967b775d4d0d9c3b052ee91e4af12f1c",
         },
         "lib": Object {
-          "api.js": "Hash: bedad1e92f8a77d6248852c6935363be8b10402085e80d79aa7bbe3a42ebc785",
+          "api.js": "Hash: d1e3cadf8af3a125e90975f993ad7cbd0aa04752d8ab1157dd916db0378fb90d",
         },
-        "package.json": "Hash: 3f8206ef7cc98bd7ecc65d8514080985b6fd847e1908329a1f498ade7eb786a3",
+        "package.json": "Hash: c9321524936f0a9c82b9fd3d97b83c2cd867ab6780f24176362bd34327d81d18",
       },
-      "integrations.yml": "Hash: fc6eca7de4dbe8dd5f33acefa2f189dd50c3205798ca89c442f3891764638385",
+      "integrations.yml": "Hash: 52147d4a1b257a746ca9469feffd8fa24a46978564f19390f5d8ed554383d145",
       "prettier": Object {
-        "index.js": "Hash: 2fd0586a03648869f65af8661c65f5c78a9bdf836a3369ef685c37113ea82516",
-        "package.json": "Hash: e778f48d7e483228a7fe6d875e0a5de9853c4e25cbd90e1bb3fb2c10dcf2c219",
+        "index.js": "Hash: 224d6125af96a301bf93ff284e4d6053b320d342293533912242cc30ad8b41d6",
+        "package.json": "Hash: 1099c76ce195b4553905334f8ecff47ea63ccb56189dd6e9f86a42103d76650b",
       },
       "typescript": Object {
         "bin": Object {
-          "tsc": "Hash: f4fabda9cd6aac938ce8bf70969e8b3ba6cb8c22e119c40ed5af639a70294441",
-          "tsserver": "Hash: 3cf94254069bdeae240c4102bc1ccdb960a82001e10a1d4a1f5c5d822787b470",
+          "tsc": "Hash: 4b896b9a38f93907101c2f1807693b37a4d183094c08f311859593ab59d16104",
+          "tsserver": "Hash: 9fb4f7af04706aacf71c759d6fcb3bcad1ca474891b22398af7d7cc1e3453bb5",
         },
         "lib": Object {
-          "tsc.js": "Hash: f18fcd2876ccf668f20a97bfda5c10be61ed05532d2e7200380a74cd48b56f82",
-          "tsserver.js": "Hash: ee44a11d3ebf7cdecaa84cc772e0a333e79cd2219197a2f9b7276980dce1da4c",
-          "typescript.js": "Hash: 2e1858d8973cac328421608c644950332a4ca7c257424df15b894982d03583a8",
+          "tsc.js": "Hash: 2b1c4a77be8a001ce1d2a6bc939ffff3435e7c38bdadabef032ca052f5f910bc",
+          "tsserver.js": "Hash: 0cd3711c2e64725b2f98014da0277cd1a80ce9894d76d7664cb98c30a6269d2b",
+          "tsserverlibrary.js": "Hash: b199fba5aab91a7fd630b00b96de035e18e2b392d2b84f6bdbe2dd9f4e2b53d6",
+          "typescript.js": "Hash: 35af84b9ed1b39c2bca4804a402b7c7493de057abd2eb96707c58c26933b323b",
         },
-        "package.json": "Hash: 6cdaff7517ecb4279aca4b8df2c0a67c8da2a125b906bf8b69139765cced9849",
+        "package.json": "Hash: a37637cd5bf128d53d887a9d21e9dbd7a2b620b6212fe9ae695d577ff21581cc",
       },
     },
   },
@@ -719,35 +723,32 @@ try {
     \\"\\": \\"\\"
   },
   \\"devDependencies\\": {
-    \\"jest\\": \\"26.6.3\\",
-    \\"ts-jest\\": \\"26.5.4\\",
-    \\"@types/jest\\": \\"26.0.21\\",
+    \\"jest\\": \\"27.2.0\\",
+    \\"ts-jest\\": \\"27.0.5\\",
+    \\"@types/jest\\": \\"27.0.1\\",
     \\"rimraf\\": \\"3.0.2\\",
-    \\"@changesets/cli\\": \\"2.14.1\\",
-    \\"@changesets/get-release-plan\\": \\"2.0.1\\",
+    \\"@changesets/cli\\": \\"2.17.0\\",
+    \\"@changesets/get-release-plan\\": \\"3.0.1\\",
     \\"@changesets/release-utils\\": \\"0.1.0\\",
-    \\"eslint\\": \\"7.22.0\\",
-    \\"prettier\\": \\"2.2.1\\",
-    \\"@typescript-eslint/eslint-plugin\\": \\"4.18.0\\",
-    \\"@typescript-eslint/parser\\": \\"4.18.0\\",
-    \\"eslint-config-prettier\\": \\"8.1.0\\",
-    \\"eslint-plugin-import\\": \\"2.22.1\\",
-    \\"eslint-import-resolver-node\\": \\"0.3.4\\",
-    \\"eslint-import-resolver-typescript\\": \\"2.4.0\\",
-    \\"eslint-plugin-jest\\": \\"24.3.2\\",
-    \\"eslint-plugin-only-warn\\": \\"1.0.2\\",
-    \\"eslint-plugin-prettier\\": \\"3.3.1\\",
-    \\"husky\\": \\"6.0.0\\",
-    \\"lint-staged\\": \\"10.5.4\\",
-    \\"typescript\\": \\"4.2.3\\",
-    \\"ts-node\\": \\"9.1.1\\",
-    \\"ts-node-dev\\": \\"1.1.6\\",
-    \\"tsconfig-paths\\": \\"3.9.0\\",
-    \\"node-notifier\\": \\"9.0.1\\",
-    \\"@types/node\\": \\"14.14.37\\",
-    \\"canvas\\": \\"2.7.0\\",
-    \\"bufferutil\\": \\"4.0.3\\",
-    \\"utf-8-validate\\": \\"5.0.4\\",
+    \\"eslint\\": \\"7.32.0\\",
+    \\"prettier\\": \\"2.4.0\\",
+    \\"@typescript-eslint/eslint-plugin\\": \\"4.31.1\\",
+    \\"@typescript-eslint/parser\\": \\"4.31.1\\",
+    \\"eslint-config-prettier\\": \\"8.3.0\\",
+    \\"eslint-plugin-import\\": \\"2.24.2\\",
+    \\"eslint-import-resolver-node\\": \\"0.3.6\\",
+    \\"eslint-import-resolver-typescript\\": \\"2.5.0\\",
+    \\"eslint-plugin-jest\\": \\"24.4.0\\",
+    \\"eslint-plugin-only-warn\\": \\"1.0.3\\",
+    \\"eslint-plugin-prettier\\": \\"4.0.0\\",
+    \\"husky\\": \\"7.0.2\\",
+    \\"lint-staged\\": \\"11.1.2\\",
+    \\"typescript\\": \\"4.4.3\\",
+    \\"ts-node\\": \\"10.2.1\\",
+    \\"ts-node-dev\\": \\"1.1.8\\",
+    \\"tsconfig-paths\\": \\"3.11.0\\",
+    \\"node-notifier\\": \\"10.0.0\\",
+    \\"@types/node\\": \\"16.9.1\\",
     \\"@jstm/preset-node\\": \\"1.0.0\\",
     \\"@jstm/core\\": \\"1.0.0\\"
   }
@@ -759,7 +760,7 @@ try {
   "tsconfig.base.json": "// DO NOT MODIFY
 // This file is auto-generated (make changes to ./tsconfig.json instead)
 {
-  \\"include\\": [\\"**/*\\", \\"**/*.json\\"],
+  \\"include\\": [\\"**/*\\", \\"**/.*\\", \\"**/*.json\\", \\"**/.*.json\\"],
   \\"exclude\\": [
     \\"**/dist/**/*\\",
     \\"**/node_modules/**/*\\",
@@ -901,6 +902,13 @@ package-lock.json
 ",
   ".eslintrc.js": "// DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/.eslintrc.js instead)
+const fs = require(\\"fs\\");
+const path = require(\\"path\\");
+
+const customConfigs = fs.readdirSync(path.join(__dirname, \\"config\\"));
+const customEslintrcPaths = [\\".eslintrc.json\\", \\".eslintrc.js\\"]
+  .filter((name) => customConfigs.includes(name))
+  .map((name) => \`./\${path.join(\\"config\\", name)}\`);
 
 module.exports = {
   root: true,
@@ -923,6 +931,7 @@ module.exports = {
     \\"plugin:@typescript-eslint/recommended\\",
     \\"plugin:@typescript-eslint/recommended-requiring-type-checking\\",
     \\"plugin:import/typescript\\",
+    ...customEslintrcPaths,
   ],
   plugins: [
     \\"@typescript-eslint/eslint-plugin\\",
@@ -1033,11 +1042,6 @@ module.exports = {
     \\"@typescript-eslint/no-floating-promises\\": [\\"error\\", { ignoreVoid: true }],
   },
 };
-
-try {
-  // TODO: Merge these in smartly rather than just overwriting everything
-  Object.assign(module.exports, require(\\"./config/.eslintrc\\"));
-} catch (_err) {}
 ",
   ".github": Object {
     "workflows": Object {
@@ -1340,34 +1344,35 @@ try {
       },
     },
     "releases": Object {
-      "yarn-berry.cjs": "Hash: 25c2d167fec765bcf5258bb9e55c3b05e6844a2744a6fb302550c2e15f0a7a4b",
+      "yarn-berry.cjs": "Hash: 57ec2d26a54c312a1848599265be6aba0e2e5f734eaba3fcd4c491429fefa21f",
     },
     "sdks": Object {
       "eslint": Object {
         "bin": Object {
-          "eslint.js": "Hash: 5650997c9dc2ed3e725465d323b3408b3bc1957f1d435664b760a9daf17cda9e",
+          "eslint.js": "Hash: de78a19681b83da97f74ea43ae67e354967b775d4d0d9c3b052ee91e4af12f1c",
         },
         "lib": Object {
-          "api.js": "Hash: bedad1e92f8a77d6248852c6935363be8b10402085e80d79aa7bbe3a42ebc785",
+          "api.js": "Hash: d1e3cadf8af3a125e90975f993ad7cbd0aa04752d8ab1157dd916db0378fb90d",
         },
-        "package.json": "Hash: 3f8206ef7cc98bd7ecc65d8514080985b6fd847e1908329a1f498ade7eb786a3",
+        "package.json": "Hash: c9321524936f0a9c82b9fd3d97b83c2cd867ab6780f24176362bd34327d81d18",
       },
-      "integrations.yml": "Hash: fc6eca7de4dbe8dd5f33acefa2f189dd50c3205798ca89c442f3891764638385",
+      "integrations.yml": "Hash: 52147d4a1b257a746ca9469feffd8fa24a46978564f19390f5d8ed554383d145",
       "prettier": Object {
-        "index.js": "Hash: 2fd0586a03648869f65af8661c65f5c78a9bdf836a3369ef685c37113ea82516",
-        "package.json": "Hash: e778f48d7e483228a7fe6d875e0a5de9853c4e25cbd90e1bb3fb2c10dcf2c219",
+        "index.js": "Hash: 224d6125af96a301bf93ff284e4d6053b320d342293533912242cc30ad8b41d6",
+        "package.json": "Hash: 1099c76ce195b4553905334f8ecff47ea63ccb56189dd6e9f86a42103d76650b",
       },
       "typescript": Object {
         "bin": Object {
-          "tsc": "Hash: f4fabda9cd6aac938ce8bf70969e8b3ba6cb8c22e119c40ed5af639a70294441",
-          "tsserver": "Hash: 3cf94254069bdeae240c4102bc1ccdb960a82001e10a1d4a1f5c5d822787b470",
+          "tsc": "Hash: 4b896b9a38f93907101c2f1807693b37a4d183094c08f311859593ab59d16104",
+          "tsserver": "Hash: 9fb4f7af04706aacf71c759d6fcb3bcad1ca474891b22398af7d7cc1e3453bb5",
         },
         "lib": Object {
-          "tsc.js": "Hash: f18fcd2876ccf668f20a97bfda5c10be61ed05532d2e7200380a74cd48b56f82",
-          "tsserver.js": "Hash: ee44a11d3ebf7cdecaa84cc772e0a333e79cd2219197a2f9b7276980dce1da4c",
-          "typescript.js": "Hash: 2e1858d8973cac328421608c644950332a4ca7c257424df15b894982d03583a8",
+          "tsc.js": "Hash: 2b1c4a77be8a001ce1d2a6bc939ffff3435e7c38bdadabef032ca052f5f910bc",
+          "tsserver.js": "Hash: 0cd3711c2e64725b2f98014da0277cd1a80ce9894d76d7664cb98c30a6269d2b",
+          "tsserverlibrary.js": "Hash: b199fba5aab91a7fd630b00b96de035e18e2b392d2b84f6bdbe2dd9f4e2b53d6",
+          "typescript.js": "Hash: 35af84b9ed1b39c2bca4804a402b7c7493de057abd2eb96707c58c26933b323b",
         },
-        "package.json": "Hash: 6cdaff7517ecb4279aca4b8df2c0a67c8da2a125b906bf8b69139765cced9849",
+        "package.json": "Hash: a37637cd5bf128d53d887a9d21e9dbd7a2b620b6212fe9ae695d577ff21581cc",
       },
     },
   },
@@ -1506,35 +1511,32 @@ try {
     \\"\\": \\"\\"
   },
   \\"devDependencies\\": {
-    \\"jest\\": \\"26.6.3\\",
-    \\"ts-jest\\": \\"26.5.4\\",
-    \\"@types/jest\\": \\"26.0.21\\",
+    \\"jest\\": \\"27.2.0\\",
+    \\"ts-jest\\": \\"27.0.5\\",
+    \\"@types/jest\\": \\"27.0.1\\",
     \\"rimraf\\": \\"3.0.2\\",
-    \\"@changesets/cli\\": \\"2.14.1\\",
-    \\"@changesets/get-release-plan\\": \\"2.0.1\\",
+    \\"@changesets/cli\\": \\"2.17.0\\",
+    \\"@changesets/get-release-plan\\": \\"3.0.1\\",
     \\"@changesets/release-utils\\": \\"0.1.0\\",
-    \\"eslint\\": \\"7.22.0\\",
-    \\"prettier\\": \\"2.2.1\\",
-    \\"@typescript-eslint/eslint-plugin\\": \\"4.18.0\\",
-    \\"@typescript-eslint/parser\\": \\"4.18.0\\",
-    \\"eslint-config-prettier\\": \\"8.1.0\\",
-    \\"eslint-plugin-import\\": \\"2.22.1\\",
-    \\"eslint-import-resolver-node\\": \\"0.3.4\\",
-    \\"eslint-import-resolver-typescript\\": \\"2.4.0\\",
-    \\"eslint-plugin-jest\\": \\"24.3.2\\",
-    \\"eslint-plugin-only-warn\\": \\"1.0.2\\",
-    \\"eslint-plugin-prettier\\": \\"3.3.1\\",
-    \\"husky\\": \\"6.0.0\\",
-    \\"lint-staged\\": \\"10.5.4\\",
-    \\"typescript\\": \\"4.2.3\\",
-    \\"ts-node\\": \\"9.1.1\\",
-    \\"ts-node-dev\\": \\"1.1.6\\",
-    \\"tsconfig-paths\\": \\"3.9.0\\",
-    \\"node-notifier\\": \\"9.0.1\\",
-    \\"@types/node\\": \\"14.14.37\\",
-    \\"canvas\\": \\"2.7.0\\",
-    \\"bufferutil\\": \\"4.0.3\\",
-    \\"utf-8-validate\\": \\"5.0.4\\",
+    \\"eslint\\": \\"7.32.0\\",
+    \\"prettier\\": \\"2.4.0\\",
+    \\"@typescript-eslint/eslint-plugin\\": \\"4.31.1\\",
+    \\"@typescript-eslint/parser\\": \\"4.31.1\\",
+    \\"eslint-config-prettier\\": \\"8.3.0\\",
+    \\"eslint-plugin-import\\": \\"2.24.2\\",
+    \\"eslint-import-resolver-node\\": \\"0.3.6\\",
+    \\"eslint-import-resolver-typescript\\": \\"2.5.0\\",
+    \\"eslint-plugin-jest\\": \\"24.4.0\\",
+    \\"eslint-plugin-only-warn\\": \\"1.0.3\\",
+    \\"eslint-plugin-prettier\\": \\"4.0.0\\",
+    \\"husky\\": \\"7.0.2\\",
+    \\"lint-staged\\": \\"11.1.2\\",
+    \\"typescript\\": \\"4.4.3\\",
+    \\"ts-node\\": \\"10.2.1\\",
+    \\"ts-node-dev\\": \\"1.1.8\\",
+    \\"tsconfig-paths\\": \\"3.11.0\\",
+    \\"node-notifier\\": \\"10.0.0\\",
+    \\"@types/node\\": \\"16.9.1\\",
     \\"@jstm/preset-node\\": \\"1.0.0\\",
     \\"@jstm/core\\": \\"1.0.0\\"
   }
@@ -1568,7 +1570,7 @@ try {
     \\"node\\": \\">=10\\"
   },
   \\"devDependencies\\": {
-    \\"@types/node\\": \\"14.14.37\\"
+    \\"@types/node\\": \\"16.9.1\\"
   }
 }
 ",
@@ -1594,7 +1596,7 @@ try {
   "tsconfig.base.json": "// DO NOT MODIFY
 // This file is auto-generated (make changes to ./tsconfig.json instead)
 {
-  \\"include\\": [\\"**/*\\", \\"**/*.json\\"],
+  \\"include\\": [\\"**/*\\", \\"**/.*\\", \\"**/*.json\\", \\"**/.*.json\\"],
   \\"exclude\\": [
     \\"**/dist/**/*\\",
     \\"**/node_modules/**/*\\",

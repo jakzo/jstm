@@ -90,19 +90,19 @@ exports.redirectPresetImports = (rootDir) => {
     "presets",
     presetDirName.replace(/^preset-/, "")
   );
-  const presetPackageJson = require(`${rootDir}/scripts/generate-preset-packages`).getPackageJson(
-    require(path.join(rootDir, "package.json")),
-    require(presetPath).default
-  );
+  const presetPackageJson =
+    require(`${rootDir}/scripts/generate-preset-packages`).getPackageJson(
+      require(path.join(rootDir, "package.json")),
+      require(presetPath).default
+    );
   const presetPackageJsonTempPath = tempy.writeSync(
     JSON.stringify({ ...presetPackageJson, name: undefined }, null, 2),
     { extension: "json" }
   );
   const moduleMappings = {
     // Empty /presets/template/package.json -> Temporary generated preset package.json
-    [path.join(
-      path.join(rootDir, "presets", "template", "package.json")
-    )]: presetPackageJsonTempPath,
+    [path.join(path.join(rootDir, "presets", "template", "package.json"))]:
+      presetPackageJsonTempPath,
     // Template imports to /presets/node -> /presets/${installedNodeModulePresetName}
     [path.join(rootDir, "presets", "node")]: presetPath,
   };

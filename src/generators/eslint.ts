@@ -30,6 +30,13 @@ export const eslint: TemplateGenerator = {
         contents: `
 // DO NOT MODIFY
 // This file is auto-generated (make changes to ./config/.eslintrc.js instead)
+const fs = require("fs");
+const path = require('path');
+
+const customConfigs = fs.readdirSync(path.join(__dirname, "config"));
+const customEslintrcPaths = [".eslintrc.json", ".eslintrc.js"]
+  .filter(name => customConfigs.includes(name))
+  .map(name => \`./\${path.join("config", name)}\`);
 
 module.exports = {
   root: true,
@@ -52,6 +59,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:import/typescript",
+    ...customEslintrcPaths,
   ],
   plugins: [
     "@typescript-eslint/eslint-plugin",
@@ -162,11 +170,6 @@ module.exports = {
     "@typescript-eslint/no-floating-promises": ["error", { ignoreVoid: true }],
   },
 };
-
-try {
-  // TODO: Merge these in smartly rather than just overwriting everything
-  Object.assign(module.exports, require('./config/.eslintrc'));
-} catch (_err) {}
 `,
       },
       {

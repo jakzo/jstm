@@ -53,9 +53,8 @@ const inquirerPrompt = async <T extends ConfigTypeNames>(
   ).value;
 
 export type ConfigTypeNames = keyof typeof configTypes;
-export type ConfigTypeOf<
-  T extends ConfigTypeNames
-> = typeof configTypes[T]["_T"];
+export type ConfigTypeOf<T extends ConfigTypeNames> =
+  typeof configTypes[T]["_T"];
 
 export type ConfigOpts<T extends ConfigTypeNames> = Partial<{
   /** Message displayed when prompting the user for a value. */

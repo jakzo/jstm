@@ -274,7 +274,7 @@ export const typescript: TemplateGenerator = {
 // DO NOT MODIFY
 // This file is auto-generated (make changes to ./tsconfig.json instead)
 {
-  "include": ["**/*", "**/*.json"],
+  "include": ["**/*", "**/.*", "**/*.json", "**/.*.json"],
   "exclude": [
     "**/${distDir}/**/*",
     "**/node_modules/**/*",

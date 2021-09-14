@@ -46,9 +46,10 @@ export const getSubpackageDirname = async (
   const subpackageName = await getSubpackageName(config, packageName);
   const rootNamePrefix =
     packageName.replace(/\/.+/, "") + (packageName.startsWith("@") ? "/" : "-");
-  return (subpackageName.startsWith(rootNamePrefix)
-    ? subpackageName.substring(rootNamePrefix.length)
-    : subpackageName
+  return (
+    subpackageName.startsWith(rootNamePrefix)
+      ? subpackageName.substring(rootNamePrefix.length)
+      : subpackageName
   )
     .replace(/@/g, "")
     .replace(/\//g, "-");
