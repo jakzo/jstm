@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.3.34
+
+### Patch Changes
+
+- afeb1a2: Upgraded dependencies.
+
 ## 0.3.33
 
 ### Patch Changes
