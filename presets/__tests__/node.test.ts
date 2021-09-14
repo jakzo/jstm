@@ -198,7 +198,7 @@ const testPreset = async (
     execSync(`yarn ${script}`, {
       cwd: testDir,
       stdio: "inherit",
-      env: { ...process.env, JSTM_TEST_ROOT: REPO_ROOT },
+      env: { ...process.env, CI: undefined, JSTM_TEST_ROOT: REPO_ROOT },
     });
   };
 
