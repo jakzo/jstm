@@ -22,3 +22,17 @@ git push
 ```
 
 See [package.json](./package.json) for more commands.
+
+## Updating Dependencies
+
+- `yarn up '*'`
+- `yarn up '@*/*'`
+- Revert changes to `@jstm` dependencies (stub packages which should be `file:` deps)
+- Revert changes to modules where latest is an ES module (`chalk`, `lint-staged`, `tempy`)
+- `yarn set version stable`
+- Update Yarn filename in `common.ts`
+- Rename `.yarn/releases/yarn-VERSION.cjs` to `yarn-berry.cjs`
+- Update Yarn version in `manifest.ts` to match `package.json`
+- For each plugin in `.yarnrc.yml` run `yarn plugin import NAME`
+- `yarn dlx @yarnpkg/sdks`
+- `yarn dlx @yarnpkg/pnpify tsc`

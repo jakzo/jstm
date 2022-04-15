@@ -34,8 +34,9 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   testPathIgnorePatterns: ['/node_modules/', '/.cache/', '/.git/', '/${distDir}/'],
   watchPathIgnorePatterns: ['/node_modules/', '/.cache/', '/.git/', '/${distDir}/'],
-  testRegex: '/__tests__/.+\\.test\\.(?:js|jsx|ts|tsx)$',
+  testRegex: '/__tests__/.+\\\\.test\\\\.(?:js|jsx|ts|tsx)$',
   moduleNameMapper: getModuleNameMap(__dirname),
+  maxWorkers: 1,
 };
 
 try {

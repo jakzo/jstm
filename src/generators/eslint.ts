@@ -62,7 +62,7 @@ module.exports = {
     ...customEslintrcPaths,
   ],
   plugins: [
-    "@typescript-eslint/eslint-plugin",
+    "@typescript-eslint",
     ...(process.env.VSCODE_PID ? ["only-warn"] : []),
   ],
   parserOptions: {
@@ -81,6 +81,7 @@ module.exports = {
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
       },
     },
     {
@@ -90,6 +91,7 @@ module.exports = {
       },
       rules: {
         "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "no-sparse-arrays": "off",
         "no-prototype-builtins": "off",

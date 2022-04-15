@@ -80,149 +80,7 @@ package-lock.json
 # === Custom Ignore Patterns ===
 # Rules from ./config/.eslintignore will appear below
 ",
-  ".eslintrc.js": "// DO NOT MODIFY
-// This file is auto-generated (make changes to ./config/.eslintrc.js instead)
-const fs = require(\\"fs\\");
-const path = require(\\"path\\");
-
-const customConfigs = fs.readdirSync(path.join(__dirname, \\"config\\"));
-const customEslintrcPaths = [\\".eslintrc.json\\", \\".eslintrc.js\\"]
-  .filter((name) => customConfigs.includes(name))
-  .map((name) => \`./\${path.join(\\"config\\", name)}\`);
-
-module.exports = {
-  root: true,
-  env: {
-    node: true,
-    commonjs: true,
-    es2020: true,
-  },
-  settings: {
-    \\"import/resolver\\": {
-      typescript: {},
-    },
-  },
-  parser: \\"@typescript-eslint/parser\\",
-  extends: [
-    \\"eslint:recommended\\",
-    \\"plugin:prettier/recommended\\",
-    \\"plugin:import/errors\\",
-    \\"plugin:@typescript-eslint/eslint-recommended\\",
-    \\"plugin:@typescript-eslint/recommended\\",
-    \\"plugin:@typescript-eslint/recommended-requiring-type-checking\\",
-    \\"plugin:import/typescript\\",
-    ...customEslintrcPaths,
-  ],
-  plugins: [
-    \\"@typescript-eslint/eslint-plugin\\",
-    ...(process.env.VSCODE_PID ? [\\"only-warn\\"] : []),
-  ],
-  parserOptions: {
-    sourceType: \\"module\\",
-    ecmaVersion: 2020,
-    tsconfigRootDir: __dirname,
-    project: [\\"./tsconfig.json\\"],
-  },
-  overrides: [
-    {
-      files: [\\"**/*.{js,jsx}\\"],
-      rules: {
-        \\"@typescript-eslint/no-var-requires\\": \\"off\\",
-        \\"@typescript-eslint/explicit-function-return-type\\": \\"off\\",
-        \\"@typescript-eslint/no-unsafe-return\\": \\"off\\",
-        \\"@typescript-eslint/no-unsafe-member-access\\": \\"off\\",
-        \\"@typescript-eslint/no-unsafe-assignment\\": \\"off\\",
-        \\"@typescript-eslint/no-unsafe-call\\": \\"off\\",
-      },
-    },
-    {
-      files: [\\"**/__*__/**/*.{js,jsx,ts,tsx}\\"],
-      env: {
-        jest: true,
-      },
-      rules: {
-        \\"@typescript-eslint/no-unsafe-assignment\\": \\"off\\",
-        \\"@typescript-eslint/no-unsafe-member-access\\": \\"off\\",
-        \\"no-sparse-arrays\\": \\"off\\",
-        \\"no-prototype-builtins\\": \\"off\\",
-      },
-    },
-  ],
-  rules: {
-    // Disabled rules
-    \\"no-empty\\": \\"off\\",
-    \\"@typescript-eslint/no-empty-function\\": \\"off\\",
-    \\"@typescript-eslint/unbound-method\\": \\"off\\",
-    \\"@typescript-eslint/require-await\\": \\"off\\",
-    \\"@typescript-eslint/no-empty-interface\\": \\"off\\",
-    \\"@typescript-eslint/restrict-template-expressions\\": \\"off\\",
-    \\"@typescript-eslint/no-explicit-any\\": \\"off\\",
-    \\"@typescript-eslint/no-non-null-assertion\\": \\"off\\",
-
-    // Modified rules
-    \\"no-constant-condition\\": [\\"error\\", { checkLoops: false }],
-    \\"@typescript-eslint/no-unused-vars\\": [
-      \\"error\\",
-      { argsIgnorePattern: \\"^_\\", varsIgnorePattern: \\"^_\\" },
-    ],
-    \\"@typescript-eslint/no-misused-promises\\": [
-      \\"error\\",
-      { checksVoidReturn: false },
-    ],
-    \\"@typescript-eslint/explicit-function-return-type\\": [
-      \\"error\\",
-      { allowExpressions: true },
-    ],
-    \\"@typescript-eslint/ban-types\\": [
-      \\"error\\",
-      {
-        types: {
-          // Justification: most of the time this is the type I want
-          \\"{}\\": false,
-        },
-      },
-    ],
-
-    // Enabled rules
-    \\"import/no-cycle\\": \\"error\\",
-    \\"import/no-extraneous-dependencies\\": \\"error\\",
-    \\"import/no-duplicates\\": [\\"error\\", { considerQueryString: true }],
-    \\"import/order\\": [
-      \\"error\\",
-      {
-        \\"newlines-between\\": \\"always\\",
-        groups: [
-          \\"builtin\\",
-          \\"external\\",
-          \\"internal\\",
-          [\\"index\\", \\"sibling\\", \\"parent\\"],
-        ],
-        pathGroups: [
-          {
-            pattern: \\"react\\",
-            group: \\"builtin\\",
-            position: \\"before\\",
-          },
-        ],
-        pathGroupsExcludedImportTypes: [\\"react\\"],
-        alphabetize: { order: \\"asc\\" },
-      },
-    ],
-    \\"sort-imports\\": [
-      \\"error\\",
-      {
-        ignoreDeclarationSort: true,
-        ignoreMemberSort: false,
-      },
-    ],
-    \\"import/first\\": \\"error\\",
-    \\"import/newline-after-import\\": \\"error\\",
-    \\"import/no-useless-path-segments\\": \\"error\\",
-    \\"import/no-self-import\\": \\"error\\",
-    \\"@typescript-eslint/no-floating-promises\\": [\\"error\\", { ignoreVoid: true }],
-  },
-};
-",
+  ".eslintrc.js": "Hash: 5647ab4f69db483b96cd3f235289de403cea4b9f4d558f075c7114545e7f54e8",
   ".github": Object {
     "workflows": Object {
       "ci.yml": "# DO NOT MODIFY
@@ -552,13 +410,13 @@ try {
   ".yarn": Object {
     "plugins": Object {
       "@yarnpkg": Object {
-        "plugin-typescript.cjs": "Hash: 0779a5d254f388f8d86f7f38262e4fb2292979bdc5a0bb34517141ac868476e1",
-        "plugin-version.cjs": "Hash: 319f6c5f50390e867cfa4a073e41a7d1773a8db9c5fd770802338264dca1234d",
-        "plugin-workspace-tools.cjs": "Hash: c53639f3eaf1ac536bb3e333e1e1215c4c5cd8316f3c628e6cb447150d5d30b6",
+        "plugin-typescript.cjs": "Hash: 0d07c9d5f0a3b0fe6994198d8acfc64878d1d0d6553491069a32a418206e49f0",
+        "plugin-version.cjs": "Hash: 257b9c81cdb5ba61b92f5a24ea7bb98b983ab8a3e500a45f977d7c0dabf9eede",
+        "plugin-workspace-tools.cjs": "Hash: 22ff478fce3577e5ca29eed27dd24c1cc5bbfce27374e1c65f26cf011327f41e",
       },
     },
     "releases": Object {
-      "yarn-berry.cjs": "Hash: 57ec2d26a54c312a1848599265be6aba0e2e5f734eaba3fcd4c491429fefa21f",
+      "yarn-3.2.0.cjs": "Hash: 99a7f42f678b8ccd9c8e97a9e65fe7a5043033dd0e074e6d1f13fbe2d5ff2734",
     },
     "sdks": Object {
       "eslint": Object {
@@ -566,14 +424,14 @@ try {
           "eslint.js": "Hash: de78a19681b83da97f74ea43ae67e354967b775d4d0d9c3b052ee91e4af12f1c",
         },
         "lib": Object {
-          "api.js": "Hash: d1e3cadf8af3a125e90975f993ad7cbd0aa04752d8ab1157dd916db0378fb90d",
+          "api.js": "Hash: 925a0bf6221d4522a86b8ef6bb97f57c75ae3a6a61cc04234e3c1c979751cf46",
         },
-        "package.json": "Hash: c9321524936f0a9c82b9fd3d97b83c2cd867ab6780f24176362bd34327d81d18",
+        "package.json": "Hash: 08ebaf13489b36e73bd9580e351484a78520b660172c2bd201f10524d634be3c",
       },
       "integrations.yml": "Hash: 52147d4a1b257a746ca9469feffd8fa24a46978564f19390f5d8ed554383d145",
       "prettier": Object {
         "index.js": "Hash: 224d6125af96a301bf93ff284e4d6053b320d342293533912242cc30ad8b41d6",
-        "package.json": "Hash: 1099c76ce195b4553905334f8ecff47ea63ccb56189dd6e9f86a42103d76650b",
+        "package.json": "Hash: 99b647c8b88d76a6f85464a74a890554fbe109e8ffc74c33a852c5573d176f0b",
       },
       "typescript": Object {
         "bin": Object {
@@ -582,11 +440,11 @@ try {
         },
         "lib": Object {
           "tsc.js": "Hash: 2b1c4a77be8a001ce1d2a6bc939ffff3435e7c38bdadabef032ca052f5f910bc",
-          "tsserver.js": "Hash: 0cd3711c2e64725b2f98014da0277cd1a80ce9894d76d7664cb98c30a6269d2b",
-          "tsserverlibrary.js": "Hash: b199fba5aab91a7fd630b00b96de035e18e2b392d2b84f6bdbe2dd9f4e2b53d6",
+          "tsserver.js": "Hash: 9d327fc9a7ee23a7468070b9fe2971c19e1a0a5caa4186d62a77e22ac52cbc29",
+          "tsserverlibrary.js": "Hash: a24fad68e2b5ff60840ec11fbbde242786f6982d68c1bc88a3431dc2107c0dc1",
           "typescript.js": "Hash: 35af84b9ed1b39c2bca4804a402b7c7493de057abd2eb96707c58c26933b323b",
         },
-        "package.json": "Hash: a37637cd5bf128d53d887a9d21e9dbd7a2b620b6212fe9ae695d577ff21581cc",
+        "package.json": "Hash: e8da6ec9e901a2c23193340d96d9731402b485ecafd6363166faf0b224ed039f",
       },
     },
   },
@@ -608,7 +466,7 @@ plugins:
   - path: .yarn/plugins/@yarnpkg/plugin-workspace-tools.cjs
     spec: \\"@yarnpkg/plugin-workspace-tools\\"
 
-yarnPath: .yarn/releases/yarn-berry.cjs
+yarnPath: .yarn/releases/yarn-3.2.0.cjs
 ",
   ".yvmrc": "^1.22.10
 ",
@@ -670,8 +528,9 @@ module.exports = {
   moduleFileExtensions: [\\"ts\\", \\"tsx\\", \\"js\\", \\"jsx\\"],
   testPathIgnorePatterns: [\\"/node_modules/\\", \\"/.cache/\\", \\"/.git/\\", \\"/dist/\\"],
   watchPathIgnorePatterns: [\\"/node_modules/\\", \\"/.cache/\\", \\"/.git/\\", \\"/dist/\\"],
-  testRegex: \\"/__tests__/.+.test.(?:js|jsx|ts|tsx)$\\",
+  testRegex: \\"/__tests__/.+\\\\\\\\.test\\\\\\\\.(?:js|jsx|ts|tsx)$\\",
   moduleNameMapper: getModuleNameMap(__dirname),
+  maxWorkers: 1,
 };
 
 try {
@@ -699,6 +558,7 @@ try {
     \\"access\\": \\"public\\",
     \\"registry\\": \\"https://registry.npmjs.org\\"
   },
+  \\"packageManager\\": \\"yarn@3.2.0\\",
   \\"engines\\": {
     \\"node\\": \\">=10\\"
   },
@@ -723,32 +583,32 @@ try {
     \\"\\": \\"\\"
   },
   \\"devDependencies\\": {
-    \\"jest\\": \\"27.2.0\\",
-    \\"ts-jest\\": \\"27.0.5\\",
-    \\"@types/jest\\": \\"27.0.1\\",
-    \\"rimraf\\": \\"3.0.2\\",
-    \\"@changesets/cli\\": \\"2.17.0\\",
-    \\"@changesets/get-release-plan\\": \\"3.0.1\\",
-    \\"@changesets/release-utils\\": \\"0.1.0\\",
-    \\"eslint\\": \\"7.32.0\\",
-    \\"prettier\\": \\"2.4.0\\",
-    \\"@typescript-eslint/eslint-plugin\\": \\"4.31.1\\",
-    \\"@typescript-eslint/parser\\": \\"4.31.1\\",
-    \\"eslint-config-prettier\\": \\"8.3.0\\",
-    \\"eslint-plugin-import\\": \\"2.24.2\\",
-    \\"eslint-import-resolver-node\\": \\"0.3.6\\",
-    \\"eslint-import-resolver-typescript\\": \\"2.5.0\\",
-    \\"eslint-plugin-jest\\": \\"24.4.0\\",
-    \\"eslint-plugin-only-warn\\": \\"1.0.3\\",
-    \\"eslint-plugin-prettier\\": \\"4.0.0\\",
-    \\"husky\\": \\"7.0.2\\",
-    \\"lint-staged\\": \\"11.1.2\\",
-    \\"typescript\\": \\"4.4.3\\",
-    \\"ts-node\\": \\"10.2.1\\",
-    \\"ts-node-dev\\": \\"1.1.8\\",
-    \\"tsconfig-paths\\": \\"3.11.0\\",
-    \\"node-notifier\\": \\"10.0.0\\",
-    \\"@types/node\\": \\"16.9.1\\",
+    \\"jest\\": \\"^27.5.1\\",
+    \\"ts-jest\\": \\"^27.1.4\\",
+    \\"@types/jest\\": \\"^27.4.1\\",
+    \\"rimraf\\": \\"^3.0.2\\",
+    \\"@changesets/cli\\": \\"^2.22.0\\",
+    \\"@changesets/get-release-plan\\": \\"^3.0.8\\",
+    \\"@changesets/release-utils\\": \\"^0.1.8\\",
+    \\"eslint\\": \\"^8.13.0\\",
+    \\"prettier\\": \\"^2.6.2\\",
+    \\"@typescript-eslint/eslint-plugin\\": \\"^5.19.0\\",
+    \\"@typescript-eslint/parser\\": \\"^5.19.0\\",
+    \\"eslint-config-prettier\\": \\"^8.5.0\\",
+    \\"eslint-plugin-import\\": \\"^2.26.0\\",
+    \\"eslint-import-resolver-node\\": \\"^0.3.6\\",
+    \\"eslint-import-resolver-typescript\\": \\"^2.7.1\\",
+    \\"eslint-plugin-jest\\": \\"^26.1.4\\",
+    \\"eslint-plugin-only-warn\\": \\"^1.0.3\\",
+    \\"eslint-plugin-prettier\\": \\"^4.0.0\\",
+    \\"husky\\": \\"^7.0.4\\",
+    \\"lint-staged\\": \\"^11.2.6\\",
+    \\"typescript\\": \\"^4.6.3\\",
+    \\"ts-node\\": \\"^10.7.0\\",
+    \\"ts-node-dev\\": \\"^1.1.8\\",
+    \\"tsconfig-paths\\": \\"^3.14.1\\",
+    \\"node-notifier\\": \\"^10.0.1\\",
+    \\"@types/node\\": \\"^17.0.24\\",
     \\"@jstm/preset-node\\": \\"1.0.0\\",
     \\"@jstm/core\\": \\"1.0.0\\"
   }
@@ -900,149 +760,7 @@ package-lock.json
 # === Custom Ignore Patterns ===
 # Rules from ./config/.eslintignore will appear below
 ",
-  ".eslintrc.js": "// DO NOT MODIFY
-// This file is auto-generated (make changes to ./config/.eslintrc.js instead)
-const fs = require(\\"fs\\");
-const path = require(\\"path\\");
-
-const customConfigs = fs.readdirSync(path.join(__dirname, \\"config\\"));
-const customEslintrcPaths = [\\".eslintrc.json\\", \\".eslintrc.js\\"]
-  .filter((name) => customConfigs.includes(name))
-  .map((name) => \`./\${path.join(\\"config\\", name)}\`);
-
-module.exports = {
-  root: true,
-  env: {
-    node: true,
-    commonjs: true,
-    es2020: true,
-  },
-  settings: {
-    \\"import/resolver\\": {
-      typescript: {},
-    },
-  },
-  parser: \\"@typescript-eslint/parser\\",
-  extends: [
-    \\"eslint:recommended\\",
-    \\"plugin:prettier/recommended\\",
-    \\"plugin:import/errors\\",
-    \\"plugin:@typescript-eslint/eslint-recommended\\",
-    \\"plugin:@typescript-eslint/recommended\\",
-    \\"plugin:@typescript-eslint/recommended-requiring-type-checking\\",
-    \\"plugin:import/typescript\\",
-    ...customEslintrcPaths,
-  ],
-  plugins: [
-    \\"@typescript-eslint/eslint-plugin\\",
-    ...(process.env.VSCODE_PID ? [\\"only-warn\\"] : []),
-  ],
-  parserOptions: {
-    sourceType: \\"module\\",
-    ecmaVersion: 2020,
-    tsconfigRootDir: __dirname,
-    project: [\\"./tsconfig.json\\"],
-  },
-  overrides: [
-    {
-      files: [\\"**/*.{js,jsx}\\"],
-      rules: {
-        \\"@typescript-eslint/no-var-requires\\": \\"off\\",
-        \\"@typescript-eslint/explicit-function-return-type\\": \\"off\\",
-        \\"@typescript-eslint/no-unsafe-return\\": \\"off\\",
-        \\"@typescript-eslint/no-unsafe-member-access\\": \\"off\\",
-        \\"@typescript-eslint/no-unsafe-assignment\\": \\"off\\",
-        \\"@typescript-eslint/no-unsafe-call\\": \\"off\\",
-      },
-    },
-    {
-      files: [\\"**/__*__/**/*.{js,jsx,ts,tsx}\\"],
-      env: {
-        jest: true,
-      },
-      rules: {
-        \\"@typescript-eslint/no-unsafe-assignment\\": \\"off\\",
-        \\"@typescript-eslint/no-unsafe-member-access\\": \\"off\\",
-        \\"no-sparse-arrays\\": \\"off\\",
-        \\"no-prototype-builtins\\": \\"off\\",
-      },
-    },
-  ],
-  rules: {
-    // Disabled rules
-    \\"no-empty\\": \\"off\\",
-    \\"@typescript-eslint/no-empty-function\\": \\"off\\",
-    \\"@typescript-eslint/unbound-method\\": \\"off\\",
-    \\"@typescript-eslint/require-await\\": \\"off\\",
-    \\"@typescript-eslint/no-empty-interface\\": \\"off\\",
-    \\"@typescript-eslint/restrict-template-expressions\\": \\"off\\",
-    \\"@typescript-eslint/no-explicit-any\\": \\"off\\",
-    \\"@typescript-eslint/no-non-null-assertion\\": \\"off\\",
-
-    // Modified rules
-    \\"no-constant-condition\\": [\\"error\\", { checkLoops: false }],
-    \\"@typescript-eslint/no-unused-vars\\": [
-      \\"error\\",
-      { argsIgnorePattern: \\"^_\\", varsIgnorePattern: \\"^_\\" },
-    ],
-    \\"@typescript-eslint/no-misused-promises\\": [
-      \\"error\\",
-      { checksVoidReturn: false },
-    ],
-    \\"@typescript-eslint/explicit-function-return-type\\": [
-      \\"error\\",
-      { allowExpressions: true },
-    ],
-    \\"@typescript-eslint/ban-types\\": [
-      \\"error\\",
-      {
-        types: {
-          // Justification: most of the time this is the type I want
-          \\"{}\\": false,
-        },
-      },
-    ],
-
-    // Enabled rules
-    \\"import/no-cycle\\": \\"error\\",
-    \\"import/no-extraneous-dependencies\\": \\"error\\",
-    \\"import/no-duplicates\\": [\\"error\\", { considerQueryString: true }],
-    \\"import/order\\": [
-      \\"error\\",
-      {
-        \\"newlines-between\\": \\"always\\",
-        groups: [
-          \\"builtin\\",
-          \\"external\\",
-          \\"internal\\",
-          [\\"index\\", \\"sibling\\", \\"parent\\"],
-        ],
-        pathGroups: [
-          {
-            pattern: \\"react\\",
-            group: \\"builtin\\",
-            position: \\"before\\",
-          },
-        ],
-        pathGroupsExcludedImportTypes: [\\"react\\"],
-        alphabetize: { order: \\"asc\\" },
-      },
-    ],
-    \\"sort-imports\\": [
-      \\"error\\",
-      {
-        ignoreDeclarationSort: true,
-        ignoreMemberSort: false,
-      },
-    ],
-    \\"import/first\\": \\"error\\",
-    \\"import/newline-after-import\\": \\"error\\",
-    \\"import/no-useless-path-segments\\": \\"error\\",
-    \\"import/no-self-import\\": \\"error\\",
-    \\"@typescript-eslint/no-floating-promises\\": [\\"error\\", { ignoreVoid: true }],
-  },
-};
-",
+  ".eslintrc.js": "Hash: 5647ab4f69db483b96cd3f235289de403cea4b9f4d558f075c7114545e7f54e8",
   ".github": Object {
     "workflows": Object {
       "ci.yml": "# DO NOT MODIFY
@@ -1338,13 +1056,13 @@ try {
   ".yarn": Object {
     "plugins": Object {
       "@yarnpkg": Object {
-        "plugin-typescript.cjs": "Hash: 0779a5d254f388f8d86f7f38262e4fb2292979bdc5a0bb34517141ac868476e1",
-        "plugin-version.cjs": "Hash: 319f6c5f50390e867cfa4a073e41a7d1773a8db9c5fd770802338264dca1234d",
-        "plugin-workspace-tools.cjs": "Hash: c53639f3eaf1ac536bb3e333e1e1215c4c5cd8316f3c628e6cb447150d5d30b6",
+        "plugin-typescript.cjs": "Hash: 0d07c9d5f0a3b0fe6994198d8acfc64878d1d0d6553491069a32a418206e49f0",
+        "plugin-version.cjs": "Hash: 257b9c81cdb5ba61b92f5a24ea7bb98b983ab8a3e500a45f977d7c0dabf9eede",
+        "plugin-workspace-tools.cjs": "Hash: 22ff478fce3577e5ca29eed27dd24c1cc5bbfce27374e1c65f26cf011327f41e",
       },
     },
     "releases": Object {
-      "yarn-berry.cjs": "Hash: 57ec2d26a54c312a1848599265be6aba0e2e5f734eaba3fcd4c491429fefa21f",
+      "yarn-3.2.0.cjs": "Hash: 99a7f42f678b8ccd9c8e97a9e65fe7a5043033dd0e074e6d1f13fbe2d5ff2734",
     },
     "sdks": Object {
       "eslint": Object {
@@ -1352,14 +1070,14 @@ try {
           "eslint.js": "Hash: de78a19681b83da97f74ea43ae67e354967b775d4d0d9c3b052ee91e4af12f1c",
         },
         "lib": Object {
-          "api.js": "Hash: d1e3cadf8af3a125e90975f993ad7cbd0aa04752d8ab1157dd916db0378fb90d",
+          "api.js": "Hash: 925a0bf6221d4522a86b8ef6bb97f57c75ae3a6a61cc04234e3c1c979751cf46",
         },
-        "package.json": "Hash: c9321524936f0a9c82b9fd3d97b83c2cd867ab6780f24176362bd34327d81d18",
+        "package.json": "Hash: 08ebaf13489b36e73bd9580e351484a78520b660172c2bd201f10524d634be3c",
       },
       "integrations.yml": "Hash: 52147d4a1b257a746ca9469feffd8fa24a46978564f19390f5d8ed554383d145",
       "prettier": Object {
         "index.js": "Hash: 224d6125af96a301bf93ff284e4d6053b320d342293533912242cc30ad8b41d6",
-        "package.json": "Hash: 1099c76ce195b4553905334f8ecff47ea63ccb56189dd6e9f86a42103d76650b",
+        "package.json": "Hash: 99b647c8b88d76a6f85464a74a890554fbe109e8ffc74c33a852c5573d176f0b",
       },
       "typescript": Object {
         "bin": Object {
@@ -1368,11 +1086,11 @@ try {
         },
         "lib": Object {
           "tsc.js": "Hash: 2b1c4a77be8a001ce1d2a6bc939ffff3435e7c38bdadabef032ca052f5f910bc",
-          "tsserver.js": "Hash: 0cd3711c2e64725b2f98014da0277cd1a80ce9894d76d7664cb98c30a6269d2b",
-          "tsserverlibrary.js": "Hash: b199fba5aab91a7fd630b00b96de035e18e2b392d2b84f6bdbe2dd9f4e2b53d6",
+          "tsserver.js": "Hash: 9d327fc9a7ee23a7468070b9fe2971c19e1a0a5caa4186d62a77e22ac52cbc29",
+          "tsserverlibrary.js": "Hash: a24fad68e2b5ff60840ec11fbbde242786f6982d68c1bc88a3431dc2107c0dc1",
           "typescript.js": "Hash: 35af84b9ed1b39c2bca4804a402b7c7493de057abd2eb96707c58c26933b323b",
         },
-        "package.json": "Hash: a37637cd5bf128d53d887a9d21e9dbd7a2b620b6212fe9ae695d577ff21581cc",
+        "package.json": "Hash: e8da6ec9e901a2c23193340d96d9731402b485ecafd6363166faf0b224ed039f",
       },
     },
   },
@@ -1394,7 +1112,7 @@ plugins:
   - path: .yarn/plugins/@yarnpkg/plugin-workspace-tools.cjs
     spec: \\"@yarnpkg/plugin-workspace-tools\\"
 
-yarnPath: .yarn/releases/yarn-berry.cjs
+yarnPath: .yarn/releases/yarn-3.2.0.cjs
 ",
   ".yvmrc": "^1.22.10
 ",
@@ -1458,8 +1176,9 @@ module.exports = {
   moduleFileExtensions: [\\"ts\\", \\"tsx\\", \\"js\\", \\"jsx\\"],
   testPathIgnorePatterns: [\\"/node_modules/\\", \\"/.cache/\\", \\"/.git/\\", \\"/dist/\\"],
   watchPathIgnorePatterns: [\\"/node_modules/\\", \\"/.cache/\\", \\"/.git/\\", \\"/dist/\\"],
-  testRegex: \\"/__tests__/.+.test.(?:js|jsx|ts|tsx)$\\",
+  testRegex: \\"/__tests__/.+\\\\\\\\.test\\\\\\\\.(?:js|jsx|ts|tsx)$\\",
   moduleNameMapper: getModuleNameMap(__dirname),
+  maxWorkers: 1,
 };
 
 try {
@@ -1487,6 +1206,7 @@ try {
       \\"./packages/*\\"
     ]
   },
+  \\"packageManager\\": \\"yarn@3.2.0\\",
   \\"engines\\": {
     \\"node\\": \\">=10\\"
   },
@@ -1511,32 +1231,32 @@ try {
     \\"\\": \\"\\"
   },
   \\"devDependencies\\": {
-    \\"jest\\": \\"27.2.0\\",
-    \\"ts-jest\\": \\"27.0.5\\",
-    \\"@types/jest\\": \\"27.0.1\\",
-    \\"rimraf\\": \\"3.0.2\\",
-    \\"@changesets/cli\\": \\"2.17.0\\",
-    \\"@changesets/get-release-plan\\": \\"3.0.1\\",
-    \\"@changesets/release-utils\\": \\"0.1.0\\",
-    \\"eslint\\": \\"7.32.0\\",
-    \\"prettier\\": \\"2.4.0\\",
-    \\"@typescript-eslint/eslint-plugin\\": \\"4.31.1\\",
-    \\"@typescript-eslint/parser\\": \\"4.31.1\\",
-    \\"eslint-config-prettier\\": \\"8.3.0\\",
-    \\"eslint-plugin-import\\": \\"2.24.2\\",
-    \\"eslint-import-resolver-node\\": \\"0.3.6\\",
-    \\"eslint-import-resolver-typescript\\": \\"2.5.0\\",
-    \\"eslint-plugin-jest\\": \\"24.4.0\\",
-    \\"eslint-plugin-only-warn\\": \\"1.0.3\\",
-    \\"eslint-plugin-prettier\\": \\"4.0.0\\",
-    \\"husky\\": \\"7.0.2\\",
-    \\"lint-staged\\": \\"11.1.2\\",
-    \\"typescript\\": \\"4.4.3\\",
-    \\"ts-node\\": \\"10.2.1\\",
-    \\"ts-node-dev\\": \\"1.1.8\\",
-    \\"tsconfig-paths\\": \\"3.11.0\\",
-    \\"node-notifier\\": \\"10.0.0\\",
-    \\"@types/node\\": \\"16.9.1\\",
+    \\"jest\\": \\"^27.5.1\\",
+    \\"ts-jest\\": \\"^27.1.4\\",
+    \\"@types/jest\\": \\"^27.4.1\\",
+    \\"rimraf\\": \\"^3.0.2\\",
+    \\"@changesets/cli\\": \\"^2.22.0\\",
+    \\"@changesets/get-release-plan\\": \\"^3.0.8\\",
+    \\"@changesets/release-utils\\": \\"^0.1.8\\",
+    \\"eslint\\": \\"^8.13.0\\",
+    \\"prettier\\": \\"^2.6.2\\",
+    \\"@typescript-eslint/eslint-plugin\\": \\"^5.19.0\\",
+    \\"@typescript-eslint/parser\\": \\"^5.19.0\\",
+    \\"eslint-config-prettier\\": \\"^8.5.0\\",
+    \\"eslint-plugin-import\\": \\"^2.26.0\\",
+    \\"eslint-import-resolver-node\\": \\"^0.3.6\\",
+    \\"eslint-import-resolver-typescript\\": \\"^2.7.1\\",
+    \\"eslint-plugin-jest\\": \\"^26.1.4\\",
+    \\"eslint-plugin-only-warn\\": \\"^1.0.3\\",
+    \\"eslint-plugin-prettier\\": \\"^4.0.0\\",
+    \\"husky\\": \\"^7.0.4\\",
+    \\"lint-staged\\": \\"^11.2.6\\",
+    \\"typescript\\": \\"^4.6.3\\",
+    \\"ts-node\\": \\"^10.7.0\\",
+    \\"ts-node-dev\\": \\"^1.1.8\\",
+    \\"tsconfig-paths\\": \\"^3.14.1\\",
+    \\"node-notifier\\": \\"^10.0.1\\",
+    \\"@types/node\\": \\"^17.0.24\\",
     \\"@jstm/preset-node\\": \\"1.0.0\\",
     \\"@jstm/core\\": \\"1.0.0\\"
   }
@@ -1566,11 +1286,12 @@ try {
     \\"access\\": \\"public\\",
     \\"registry\\": \\"https://registry.npmjs.org\\"
   },
+  \\"packageManager\\": \\"yarn@3.2.0\\",
   \\"engines\\": {
     \\"node\\": \\">=10\\"
   },
   \\"devDependencies\\": {
-    \\"@types/node\\": \\"16.9.1\\"
+    \\"@types/node\\": \\"^17.0.24\\"
   }
 }
 ",

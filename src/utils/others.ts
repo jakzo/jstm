@@ -50,7 +50,11 @@ export const mergeJson = (
 ): string =>
   fleece.patch(
     contentsA,
-    merge(fleece.evaluate(contentsA), properties, overwrite)
+    merge(
+      fleece.evaluate(contentsA) as Record<string, unknown>,
+      properties,
+      overwrite
+    )
   );
 
 export const mergeJsonFile = async (

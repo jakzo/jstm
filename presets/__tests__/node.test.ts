@@ -202,7 +202,7 @@ const testPreset = async (
     });
   };
 
-  runYarnCommand("install");
+  runYarnCommand("install --no-immutable");
   runYarnCommand("test:all");
   // Disable testing release until Yarn 2 works with Verdaccio
   // https://github.com/yarnpkg/berry/issues/1044
