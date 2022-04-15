@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.4.0
+
+### Minor Changes
+
+- d956efb: Updated dependency versions.
+
 ## 0.3.35
 
 ### Patch Changes
