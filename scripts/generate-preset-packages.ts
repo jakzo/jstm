@@ -28,6 +28,7 @@ export const getPackageJson = (
     bin: {
       project: "project.js",
     },
+    scripts: {},
     dependencies: {
       [mainPackageJson.name as string]: mainPackageJson.version as string,
       tslib: (mainPackageJson.dependencies as PackageJson.Dependency).tslib,
