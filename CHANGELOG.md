@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.4.1
+
+### Patch Changes
+
+- 34bc5c6: Removed postinstall script.
+
 ## 0.4.0
 
 ### Minor Changes
