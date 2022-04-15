@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.4.2
+
+### Patch Changes
+
+- 3e28b5e: Fixed TSConfig bugs.
+
 ## 0.4.1
 
 ### Patch Changes
