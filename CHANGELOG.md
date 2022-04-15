@@ -1,5 +1,11 @@
 # @jstm/core
 
+## 0.4.3
+
+### Patch Changes
+
+- 67d6b3e: Keeps TSConfig paths added manually.
+
 ## 0.4.2
 
 ### Patch Changes
