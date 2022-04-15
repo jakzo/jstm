@@ -141,7 +141,7 @@ export const getMonorepoTsconfigs = async (
                     multimatch(
                       dirs.map((dir) => path.resolve(pkg.dir, dir)),
                       workspacePatterns
-                    ).length > 0
+                    ).length === 0
                 ),
                 ...workspaceDeps.map((dep) => [
                   (dep.packageJson as PackageJson).name!,
