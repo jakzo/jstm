@@ -139,7 +139,7 @@ export const getMonorepoTsconfigs = async (
                 ).filter(
                   ([, dirs]) =>
                     multimatch(
-                      dirs.map((dir) => path.resolve(rootDir, dir)),
+                      dirs.map((dir) => path.resolve(pkg.dir, dir)),
                       workspacePatterns
                     ).length > 0
                 ),
