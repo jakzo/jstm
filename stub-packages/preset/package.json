@@ -7,9 +7,6 @@
   "bin": {
     "project": "project.js"
   },
-  "scripts": {
-    "postinstall": "project"
-  },
   "peerDependencies": {
     "@jstm/core": "*",
     "fs-extra": "*",

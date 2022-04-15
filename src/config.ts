@@ -18,7 +18,7 @@ interface ConfigType<T> {
   guard: (value: unknown) => value is T;
 }
 
-const createConfigType = <T extends unknown>(
+const createConfigType = <T>(
   jsType: string,
   inquirerType: keyof QuestionMap,
   isSensitive = false

@@ -356,6 +356,7 @@ export const modifyPackageJson = async ({
                 (isMonorepo ? { packages: ["./packages/*"] } : undefined),
             ],
           ]),
+      ["packageManager", "yarn@3.2.0"],
       ["engines", packageJson.engines || { node: `>=${nodeMinVersion}` }],
       ...Object.entries(packageJson).filter(
         ([key]) => !entriesAfter.some(([keyAfter]) => keyAfter === key)
@@ -364,7 +365,7 @@ export const modifyPackageJson = async ({
     ].filter(
       ([key, value]) =>
         value != null &&
-        (key !== "dependencies" || Object.keys(value).length !== 0)
+        (key !== "dependencies" || Object.keys(value as object).length !== 0)
     )
   ) as PackageJson;
 };

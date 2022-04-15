@@ -223,7 +223,7 @@ plugins:
   - path: .yarn/plugins/@yarnpkg/plugin-workspace-tools.cjs
     spec: "@yarnpkg/plugin-workspace-tools"
 
-yarnPath: .yarn/releases/yarn-berry.cjs
+yarnPath: .yarn/releases/yarn-3.2.0.cjs
 `,
       },
       ...((await fse.pathExists(path.join(rootDir, ".yarnrc.yml")))
@@ -234,11 +234,11 @@ yarnPath: .yarn/releases/yarn-berry.cjs
             ...(await addFilesFromDir([".yarn", "sdks"])),
           ]),
       {
-        path: [".yarn", "releases", "yarn-berry.cjs"],
+        path: [".yarn", "releases", "yarn-3.2.0.cjs"],
         isCheckedIn: true,
         contents: async () =>
           fse.readFile(
-            path.join(JSTM_DIR, ".yarn", "releases", "yarn-berry.cjs"),
+            path.join(JSTM_DIR, ".yarn", "releases", "yarn-3.2.0.cjs"),
             "utf8"
           ),
       },
